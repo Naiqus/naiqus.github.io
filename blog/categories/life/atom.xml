@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Wake up, Naiqus!]]></title>
-  <link href="http://Naiqus.github.io/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Life | Wake up, Naiqus!]]></title>
+  <link href="http://Naiqus.github.io/blog/categories/life/atom.xml" rel="self"/>
   <link href="http://Naiqus.github.io/"/>
   <updated>2014-05-18T02:48:13+02:00</updated>
   <id>http://Naiqus.github.io/</id>
