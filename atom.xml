@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
+  <title><![CDATA[Wake up, Naiqus!]]></title>
   <link href="http://Naiqus.github.io/atom.xml" rel="self"/>
   <link href="http://Naiqus.github.io/"/>
-  <updated>2014-05-18T01:30:48+02:00</updated>
+  <updated>2014-05-18T02:06:45+02:00</updated>
   <id>http://Naiqus.github.io/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[Naiqus]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Here Comes Naiqus!]]></title>
+    <link href="http://Naiqus.github.io/blog/2014/05/18/here-comes-naiqus/"/>
+    <updated>2014-05-18T02:02:25+02:00</updated>
+    <id>http://Naiqus.github.io/blog/2014/05/18/here-comes-naiqus</id>
+    <content type="html"><![CDATA[<h1>Here comes Naiqus!</h1>
+
+<p>This is the first post. I will write all my study progress, ideas and some segment of my life.</p>
+
+<p>And start filling myself, seriously! XD</p>
+]]></content>
+  </entry>
   
 </feed>
