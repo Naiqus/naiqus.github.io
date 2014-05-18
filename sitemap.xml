@@ -2,18 +2,22 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://Naiqus.github.io/blog/2014/05/18/here-comes-naiqus/</loc>
-        <lastmod>2014-05-18T03:20:46+02:00</lastmod>
+        <lastmod>2014-05-18T03:37:42+02:00</lastmod>
     </url>
     <url>
         <loc>http://Naiqus.github.io/blog/archives/</loc>
-        <lastmod>2014-05-18T03:20:46+02:00</lastmod>
+        <lastmod>2014-05-18T03:37:42+02:00</lastmod>
     </url>
     <url>
         <loc>http://Naiqus.github.io/</loc>
-        <lastmod>2014-05-18T03:20:46+02:00</lastmod>
+        <lastmod>2014-05-18T03:37:42+02:00</lastmod>
     </url>
     <url>
         <loc>http://Naiqus.github.io/robots.txt</loc>
         <lastmod>2014-05-18T03:20:46+02:00</lastmod>
+    </url>
+    <url>
+        <loc>http://Naiqus.github.io/search.html</loc>
+        <lastmod>2014-05-18T03:37:42+02:00</lastmod>
     </url>
 </urlset>
