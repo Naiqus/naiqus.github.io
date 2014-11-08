@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+
+Sitemap: http://naiqus.github.io/sitemap.xml 
