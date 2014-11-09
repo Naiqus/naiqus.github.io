@@ -4,9 +4,8 @@ title: "Hello World, again!"
 modified:
 categories: 
 excerpt: "The first post."
-tags: []
-image:
-  feature:
+tags: [first]
+comments: true
 date: 2014-11-08T15:50:00+01:00
 ---
 Yes, I just deployed a brand new blog. All the previous stuff is gone, although there was basically nothing over there.
