@@ -2,13 +2,13 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
 <title type="text">Wake up, Naiqus!</title>
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
-<link rel="self" type="application/atom+xml" href="http://localhost:4000/feed.xml" />
-<link rel="alternate" type="text/html" href="http://localhost:4000" />
-<updated>2014-11-09T00:07:02+01:00</updated>
-<id>http://localhost:4000/</id>
+<link rel="self" type="application/atom+xml" href="http://naiqus.github.io/feed.xml" />
+<link rel="alternate" type="text/html" href="http://naiqus.github.io" />
+<updated>2014-11-09T12:04:54+01:00</updated>
+<id>http://naiqus.github.io/</id>
 <author>
   <name>Naiqus</name>
-  <uri>http://localhost:4000/</uri>
+  <uri>http://naiqus.github.io/</uri>
   
 </author>
 
@@ -17,20 +17,20 @@
 
 <entry>
   <title type="html"><![CDATA[Hello World, again!]]></title>
-  <link rel="alternate" type="text/html" href="http://localhost:4000/hello-world-again/" />
-  <id>http://localhost:4000/hello-world-again</id>
+  <link rel="alternate" type="text/html" href="http://naiqus.github.io/hello-world-again/" />
+  <id>http://naiqus.github.io/hello-world-again</id>
   <published>2014-11-08T15:50:00+01:00</published>
   <updated>2014-11-08T15:50:00+01:00</updated>
   <author>
     <name>Naiqus</name>
-    <uri>http://localhost:4000</uri>
+    <uri>http://naiqus.github.io</uri>
     
   </author>
   <content type="html">&lt;p&gt;Yes, I just deployed a brand new blog. All the previous stuff is gone with the wind, although it was basically nothing there.&lt;/p&gt;
 
 &lt;p&gt;Learning to program by oneself is not quite a easy job for a lazzzzzy man. This blog is a good evidence.&lt;/p&gt;
 
-  &lt;p&gt;&lt;a href=&quot;http://localhost:4000/hello-world-again/&quot;&gt;Hello World, again!&lt;/a&gt; was originally published by Naiqus at &lt;a href=&quot;http://localhost:4000&quot;&gt;Wake up, Naiqus!&lt;/a&gt; on November 08, 2014.&lt;/p&gt;</content>
+  &lt;p&gt;&lt;a href=&quot;http://naiqus.github.io/hello-world-again/&quot;&gt;Hello World, again!&lt;/a&gt; was originally published by Naiqus at &lt;a href=&quot;http://naiqus.github.io&quot;&gt;Wake up, Naiqus!&lt;/a&gt; on November 08, 2014.&lt;/p&gt;</content>
 </entry>
 
 
@@ -38,14 +38,14 @@
 
 <entry>
   <title type="html"><![CDATA[Sample Post]]></title>
-  <link rel="alternate" type="text/html" href="http://localhost:4000/sample-post/" />
-  <id>http://localhost:4000/sample-post</id>
+  <link rel="alternate" type="text/html" href="http://naiqus.github.io/sample-post/" />
+  <id>http://naiqus.github.io/sample-post</id>
   <updated>2013-05-31T00:00:00-00:00</updated>
   <published>2011-03-10T00:00:00+01:00</published>
   
   <author>
     <name>Naiqus</name>
-    <uri>http://localhost:4000</uri>
+    <uri>http://naiqus.github.io</uri>
     
   </author>
   <content type="html">&lt;section id=&quot;table-of-contents&quot; class=&quot;toc&quot;&gt;
@@ -108,7 +108,7 @@
 
 &lt;p&gt;Lorem ipsum dolor sit amet, test link adipiscing elit. &lt;strong&gt;This is strong&lt;/strong&gt;. Nullam dignissim convallis est. Quisque aliquam.&lt;/p&gt;
 
-&lt;p class=&quot;image-pull-right&quot;&gt;&lt;img src=&quot;http://localhost:4000/images/3953273590_704e3899d5_m.jpg&quot; alt=&quot;Smithsonian Image&quot; /&gt;&lt;/p&gt;
+&lt;p class=&quot;image-pull-right&quot;&gt;&lt;img src=&quot;http://naiqus.github.io/images/3953273590_704e3899d5_m.jpg&quot; alt=&quot;Smithsonian Image&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;This is emphasized&lt;/em&gt;. Donec faucibus. Nunc iaculis suscipit dui. 53 = 125. Water is H2O. Nam sit amet sem. Aliquam libero nisi, imperdiet at, tincidunt nec, gravida vehicula, nisl. The New York Times (That’s a citation). Underline.Maecenas ornare tortor. Donec sed tellus eget sapien fringilla nonummy. Mauris a ante. Suspendisse quam sem, consequat at, commodo vitae, feugiat in, nunc. Morbi imperdiet augue quis tellus.&lt;/p&gt;
 
@@ -210,7 +210,7 @@
 
 &lt;p class=&quot;notice&quot;&gt;&lt;strong&gt;Watch out!&lt;/strong&gt; You can also add notices by appending &lt;code&gt;{: .notice}&lt;/code&gt; to a paragraph.&lt;/p&gt;
 
-  &lt;p&gt;&lt;a href=&quot;http://localhost:4000/sample-post/&quot;&gt;Sample Post&lt;/a&gt; was originally published by Naiqus at &lt;a href=&quot;http://localhost:4000&quot;&gt;Wake up, Naiqus!&lt;/a&gt; on March 10, 2011.&lt;/p&gt;</content>
+  &lt;p&gt;&lt;a href=&quot;http://naiqus.github.io/sample-post/&quot;&gt;Sample Post&lt;/a&gt; was originally published by Naiqus at &lt;a href=&quot;http://naiqus.github.io&quot;&gt;Wake up, Naiqus!&lt;/a&gt; on March 10, 2011.&lt;/p&gt;</content>
 </entry>
 
 </feed>
