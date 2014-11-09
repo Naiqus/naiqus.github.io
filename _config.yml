@@ -3,6 +3,8 @@
 title:            Wake up, Naiqus!
 locale:           en_US
 url:              http://blog.naiqus.com
+url:              http://localhost:4000
+url:              http://naiqus.github.io
 
 
 # Jekyll configuration
