@@ -3,7 +3,7 @@ layout: post
 title: "Eclipse Grafiti Learning Notes"
 modified:
 categories: 
-excerpt:
+excerpt: "Trying to develop a GUI in form of an Eclipse plugin at my HiWi job. At last I chose a more recent tool, "Graphiti". This are the notes taken from the tutorials as well as the procedure of development."
 tags: []
 image:
   feature: lamp.jpg
