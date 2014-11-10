@@ -5,15 +5,15 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>Hello World, again! &#8211; Wake up, Naiqus!</title>
-<meta name="description" content="The first post.">
-<meta name="keywords" content="first">
+<title>Eclipse Grafiti Learning Notes &#8211; Wake up, Naiqus!</title>
+
+<meta name="keywords" content="">
 
 
 
 <!-- Twitter Cards -->
-<meta name="twitter:title" content="Hello World, again!">
-<meta name="twitter:description" content="The first post.">
+<meta name="twitter:title" content="Eclipse Grafiti Learning Notes">
+
 <meta name="twitter:site" content="@naiqus">
 <meta name="twitter:creator" content="@naiqus">
 
@@ -23,16 +23,16 @@
 <!-- Open Graph -->
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World, again!">
-<meta property="og:description" content="The first post.">
-<meta property="og:url" content="http://naiqus.github.io/hello-world-again/">
+<meta property="og:title" content="Eclipse Grafiti Learning Notes">
+
+<meta property="og:url" content="http://naiqus.github.io/eclipse-grafiti-notes/">
 <meta property="og:site_name" content="Wake up, Naiqus!">
 
 
 
 
 
-<link rel="canonical" href="http://naiqus.github.io/hello-world-again/">
+<link rel="canonical" href="http://naiqus.github.io/eclipse-grafiti-notes/">
 <link href="http://naiqus.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Wake up, Naiqus! Feed">
 <link rel="author" href="http://plus.google.com/+sootsan?rel=author">
 
@@ -106,7 +106,7 @@
     
       "http://naiqus.github.io/images/lamp.jpg"
     
-  alt="Hello World, again! feature image">
+  alt="Eclipse Grafiti Learning Notes feature image">
   
   </div><!-- /.image-wrap -->
 
@@ -141,13 +141,57 @@
   <article class="post">
     <div class="headline-wrap">
       
-        <h1><a href="http://naiqus.github.io/hello-world-again/" rel="bookmark" title="Hello World, again!">Hello World, again!</a></h1>
+        <h1><a href="http://naiqus.github.io/eclipse-grafiti-notes/" rel="bookmark" title="Eclipse Grafiti Learning Notes">Eclipse Grafiti Learning Notes</a></h1>
       
     </div><!--/ .headline-wrap -->
     <div class="article-wrap">
-      <p>Yes, I just deployed a brand new blog. All the previous stuff is gone, although there was basically nothing over there.</p>
+      <section id="table-of-contents" class="toc">
+  <header>
+    <h3>Overview</h3>
+  </header>
+<div id="drawer">
+<ul id="markdown-toc">
+  <li><a href="#introduction">1. Introduction</a></li>
+  <li><a href="#installation">2. Installation</a></li>
+  <li><a href="#need-to-kown">3. Need to kown</a></li>
+</ul>
 
-<p>Learning to program by oneself is not quite a easy job for a lazzzzzy man. This blog is a good evidence.</p>
+  </div>
+</section>
+<!-- /#table-of-contents -->
+
+<h2 id="introduction">1. Introduction</h2>
+<blockquote>
+  <p>It is immediately noticeable, that GEF is fairly complex and it needs a notable amount of work to get used to the framework. Therefore, and also to homogenize their tooling, SAP built a framework that hides GEF’s complexities from the developer and bridges EMF and GEF to ease and speed up the development of graphical editors. </p>
+</blockquote>
+
+<h2 id="installation">2. Installation</h2>
+<p>The installation source of the updatest release is included in the official release update channel. Install the “Graphiti SDK Plus” which includes a tutorial in the help document.</p>
+
+<h2 id="need-to-kown">3. Need to kown</h2>
+<p>### Architecture:
+  <img src="./architecture.png" alt="Basic Architecture" />
+  1. <strong>Interaction Component</strong>: deal with the requests of input (from mouse, keyboard), like click, drag-and-drop, etc. Passing them to Diagram Type Agent. 
+  2. <strong>Rendering Engine</strong>: to display the current data on the screen. Based on GEF in conjuction with Draw2d.
+  3. <strong>Diagram Type Agent</strong>: has to be implemented by developer and could make use of a lot of services as well as standard implementations. With these implementations (Actions like <em>move, resize, delete, remove and print</em>), one can build a functional editor very quickly. It could also be incrementally implemented in the further development. The major task of Diagram Type Agent is to modify the model data. Servaral models are applied there as follows:
+    1. <strong>Domain Model</strong>: contains the model which needs to be graphically displayed. A <em>.ecore</em> model for example could be used here. In Graphiti, the data of Domain model is called <strong>Business Objects</strong>.
+    2. <strong>Protogram Model</strong>: ? contains all the information for displaying a diagram. Needs some redundant storage of data. Not quite clear. complish this part late.
+    3. <strong>Link Model</strong>: the relation between Domain Model and Protogram Model. Connecting data from Domain Model to the graphical representation from Protogram Model. This is necessory for some actions on the editor, like moving and deleting objects, which changes data of Domain Model as well.</p>
+
+<p>Example: User clicks on a kind of “Create” tool on the tools palette and draws a rectangle in the editor which indicates a rectangle object with the specified size and position should be created. Then the Diagram Type Agent act as following:
+        - Create a new object in the Domain Model,
+        - Create the graphical visualization in the Pictogram Model. E.g. create Graphics Algorithms like a Rounded Rectangle. Initial them with colors and fonts and the layout.
+        - Create link between the Pictogram Model and Domain Model.</p>
+
+<p><img src="./diagram-type-agent-new.png" alt="Inside Diagram Type Agent" />
+  <strong>Features</strong> are needed from developers like operations. <strong>Feature Provider</strong> supplies the needed features. Processing the features leads to modifing the datas in the models. <em>*Diagram Type Provider</em> handels the requests from interactive components. It also decides when to synchronise the Domain and Pictogram Models.</p>
+
+<p>The <strong>Diagram Type Agent</strong> is implemented in 4 steps:
+    1. Implement a <em>Diagram Type Provider</em>
+    2. Register it for a new <em>Diagram Type</em>.
+    3. Create a <em>Feature Provider</em>.
+    4. Create Feature, for example: <em>Add Feature</em>.</p>
+
 
       <hr />
       <footer role="contentinfo">
@@ -177,11 +221,9 @@
 
 
         </div>
-        <p class="byline"><strong>Hello World, again!</strong> was published on <time datetime="2014-11-08T15:50:00+01:00">November 08, 2014</time>.</p>
+        <p class="byline"><strong>Eclipse Grafiti Learning Notes</strong> was published on <time datetime="2014-11-10T01:39:07+01:00">November 10, 2014</time>.</p>
       </footer>
     </div><!-- /.article-wrap -->
-  
-    <section id="disqus_thread"></section><!-- /#disqus_thread -->
   
   </article>
 </div><!-- /#main -->
@@ -191,7 +233,7 @@
   <h4>You might also enjoy <small class="pull-right">(<a href="http://naiqus.github.io/posts/">View all posts</a>)</small></h4>
     <ul>
     
-      <li><a href="http://naiqus.github.io/eclipse-grafiti-notes/" title="Eclipse Grafiti Learning Notes">Eclipse Grafiti Learning Notes</a></li>
+      <li><a href="http://naiqus.github.io/hello-world-again/" title="Hello World, again!">Hello World, again!</a></li>
     
       <li><a href="http://naiqus.github.io/sample-post/" title="Sample Post">Sample Post</a></li>
     
@@ -209,30 +251,6 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="http://naiqus.github.io/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
 <script src="http://naiqus.github.io/assets/js/scripts.min.js"></script>
-
-
-  
-<script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'naiqus'; // required: replace example with your forum shortname
-
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-    }());
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 	        
 
