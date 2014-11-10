@@ -243,7 +243,6 @@ $button-size: 1.5rem;
 		@include grid(12,6);
 		@include prefix(12,0);
 		@include suffix(12,0);
-		box-shadow: none;
 		padding: none;
 	}
 	@media #{$x-large} {
