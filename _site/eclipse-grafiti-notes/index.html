@@ -180,20 +180,24 @@
 <ol>
   <li><strong>Interaction Component</strong>: deal with the requests of input (from mouse, keyboard), like click, drag-and-drop, etc. Passing them to Diagram Type Agent. </li>
   <li><strong>Rendering Engine</strong>: to display the current data on the screen. Based on GEF in conjuction with Draw2d.</li>
-  <li><strong>Diagram Type Agent</strong>: has to be implemented by developer and could make use of a lot of services as well as standard implementations. With these implementations (Actions like <em>move, resize, delete, remove and print</em>), one can build a functional editor very quickly. It could also be incrementally implemented in the further development. The major task of Diagram Type Agent is to modify the model data. Servaral models are applied there as follows:</li>
-</ol>
+  <li>
+    <p><strong>Diagram Type Agent</strong>: has to be implemented by developer and could make use of a lot of services as well as standard implementations. With these implementations (Actions like <em>move, resize, delete, remove and print</em>), one can build a functional editor very quickly. It could also be incrementally implemented in the further development. The major task of Diagram Type Agent is to modify the model data. Servaral models are applied there as follows:</p>
 
-<pre><code>1. **Domain Model**: contains the model which needs to be graphically displayed. A _.ecore_ model for example could be used here. In Graphiti, the data of Domain model is called **Business Objects**.
-2. **Protogram Model**: ? contains all the information for displaying a diagram. Needs some redundant storage of data. Not quite clear. complish this part late.
-3. **Link Model**: the relation between Domain Model and Protogram Model. Connecting data from Domain Model to the graphical representation from Protogram Model. This is necessory for some actions on the editor, like moving and deleting objects, which changes data of Domain Model as well.
-</code></pre>
+    <ol>
+      <li><strong>Domain Model</strong>: contains the model which needs to be graphically displayed. A <em>.ecore</em> model for example could be used here. In Graphiti, the data of Domain model is called <strong>Business Objects</strong>.</li>
+      <li><strong>Protogram Model</strong>: ? contains all the information for displaying a diagram. Needs some redundant storage of data. Not quite clear. complish this part late.</li>
+      <li><strong>Link Model</strong>: the relation between Domain Model and Protogram Model. Connecting data from Domain Model to the graphical representation from Protogram Model. This is necessory for some actions on the editor, like moving and deleting objects, which changes data of Domain Model as well.</li>
+    </ol>
+  </li>
+</ol>
 
 <p>Example: User clicks on a kind of “Create” tool on the tools palette and draws a rectangle in the editor which indicates a rectangle object with the specified size and position should be created. Then the Diagram Type Agent act as following:</p>
 
-<pre><code>    * Create a new object in the Domain Model,
-    * Create the graphical visualization in the Pictogram Model. E.g. create Graphics Algorithms like a Rounded Rectangle. Initial them with colors and fonts and the layout.
-    * Create link between the Pictogram Model and Domain Model.
-</code></pre>
+<ul>
+  <li>Create a new object in the Domain Model,</li>
+  <li>Create the graphical visualization in the Pictogram Model. E.g. create Graphics Algorithms like a Rounded Rectangle. Initial them with colors and fonts and the layout.</li>
+  <li>Create link between the Pictogram Model and Domain Model.</li>
+</ul>
 
 <p><img src="/images/diagram-type-agent-new.png" alt="Inside Diagram Type Agent" /></p>
 
@@ -201,11 +205,12 @@
 
 <p>The <strong>Diagram Type Agent</strong> is implemented in 4 steps:</p>
 
-<pre><code>1. Implement a _Diagram Type Provider_
-2. Register it for a new _Diagram Type_.
-3. Create a _Feature Provider_.
-4. Create Feature, for example: _Add Feature_.
-</code></pre>
+<ol>
+  <li>Implement a <em>Diagram Type Provider</em></li>
+  <li>Register it for a new <em>Diagram Type</em>.</li>
+  <li>Create a <em>Feature Provider</em>.</li>
+  <li>Create Feature, for example: <em>Add Feature</em>.</li>
+</ol>
 
 
       <hr />
