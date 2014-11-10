@@ -4,7 +4,8 @@ title: "Eclipse Grafiti Learning Notes"
 modified:
 categories: 
 excerpt: "Trying to develop a GUI in form of an Eclipse plugin at my HiWi job. At last I chose a more recent tool, \"Graphiti\". This are the notes taken from the tutorials as well as the procedure of development."
-tags: []
+tags: [eclipse, graphiti, notes]
+comments: true
 image:
   feature: lamp.jpg
 date: 2014-11-10T01:39:07+01:00
