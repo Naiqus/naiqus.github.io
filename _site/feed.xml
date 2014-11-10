@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://naiqus.github.io/feed.xml" />
 <link rel="alternate" type="text/html" href="http://naiqus.github.io" />
-<updated>2014-11-10T23:32:04+01:00</updated>
+<updated>2014-11-10T23:33:55+01:00</updated>
 <id>http://naiqus.github.io/</id>
 <author>
   <name>Naiqus</name>
@@ -67,29 +67,20 @@
     3. &lt;strong&gt;Link Model&lt;/strong&gt;: the relation between Domain Model and Protogram Model. Connecting data from Domain Model to the graphical representation from Protogram Model. This is necessory for some actions on the editor, like moving and deleting objects, which changes data of Domain Model as well.&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;Example: User clicks on a kind of “Create” tool on the tools palette and draws a rectangle in the editor which indicates a rectangle object with the specified size and position should be created. Then the Diagram Type Agent act as following:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;    * Create a new object in the Domain Model,
-
-    * Create the graphical visualization in the Pictogram Model. E.g. create Graphics Algorithms like a Rounded Rectangle. Initial them with colors and fonts and the layout.
-
-    * Create link between the Pictogram Model and Domain Model.
-&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Example: User clicks on a kind of “Create” tool on the tools palette and draws a rectangle in the editor which indicates a rectangle object with the specified size and position should be created. Then the Diagram Type Agent act as following:
+        * Create a new object in the Domain Model,
+        * Create the graphical visualization in the Pictogram Model. E.g. create Graphics Algorithms like a Rounded Rectangle. Initial them with colors and fonts and the layout.
+        * Create link between the Pictogram Model and Domain Model.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/diagram-type-agent-new.png&quot; alt=&quot;Inside Diagram Type Agent&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Features&lt;/strong&gt; are needed from developers like operations. &lt;strong&gt;Feature Provider&lt;/strong&gt; supplies the needed features. Processing the features leads to modifing the datas in the models. &lt;em&gt;*Diagram Type Provider&lt;/em&gt; handels the requests from interactive components. It also decides when to synchronise the Domain and Pictogram Models.&lt;/p&gt;
 
-&lt;p&gt;The &lt;strong&gt;Diagram Type Agent&lt;/strong&gt; is implemented in 4 steps:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;1. Implement a _Diagram Type Provider_
-
-2. Register it for a new _Diagram Type_.
-
-3. Create a _Feature Provider_.
-
-4. Create Feature, for example: _Add Feature_.
-&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The &lt;strong&gt;Diagram Type Agent&lt;/strong&gt; is implemented in 4 steps:
+    1. Implement a &lt;em&gt;Diagram Type Provider&lt;/em&gt;
+    2. Register it for a new &lt;em&gt;Diagram Type&lt;/em&gt;.
+    3. Create a &lt;em&gt;Feature Provider&lt;/em&gt;.
+    4. Create Feature, for example: &lt;em&gt;Add Feature&lt;/em&gt;.&lt;/p&gt;
 
 
   &lt;p&gt;&lt;a href=&quot;http://naiqus.github.io/eclipse-grafiti-notes/&quot;&gt;Eclipse Grafiti Learning Notes&lt;/a&gt; was originally published by Naiqus at &lt;a href=&quot;http://naiqus.github.io&quot;&gt;Wake up, Naiqus!&lt;/a&gt; on November 10, 2014.&lt;/p&gt;</content>

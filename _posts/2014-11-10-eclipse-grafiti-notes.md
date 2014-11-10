@@ -39,11 +39,8 @@ The installation source of the updatest release is included in the official rele
     3. **Link Model**: the relation between Domain Model and Protogram Model. Connecting data from Domain Model to the graphical representation from Protogram Model. This is necessory for some actions on the editor, like moving and deleting objects, which changes data of Domain Model as well.
 
   Example: User clicks on a kind of "Create" tool on the tools palette and draws a rectangle in the editor which indicates a rectangle object with the specified size and position should be created. Then the Diagram Type Agent act as following:
-
         * Create a new object in the Domain Model,
-
         * Create the graphical visualization in the Pictogram Model. E.g. create Graphics Algorithms like a Rounded Rectangle. Initial them with colors and fonts and the layout.
-
         * Create link between the Pictogram Model and Domain Model.
         
   ![Inside Diagram Type Agent](/images/diagram-type-agent-new.png)
@@ -51,13 +48,9 @@ The installation source of the updatest release is included in the official rele
   **Features** are needed from developers like operations. **Feature Provider** supplies the needed features. Processing the features leads to modifing the datas in the models. **Diagram Type Provider* handels the requests from interactive components. It also decides when to synchronise the Domain and Pictogram Models.
   
   The **Diagram Type Agent** is implemented in 4 steps:
-
     1. Implement a _Diagram Type Provider_
-
     2. Register it for a new _Diagram Type_.
-
     3. Create a _Feature Provider_.
-
     4. Create Feature, for example: _Add Feature_.
 
     
