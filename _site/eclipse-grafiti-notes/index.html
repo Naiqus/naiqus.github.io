@@ -1,4 +1,151 @@
-<section id="table-of-contents" class="toc">
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Eclipse Grafiti Learning Notes &#8211; Wake up, Naiqus!</title>
+<meta name="description" content="Trying to develop a GUI in form of an Eclipse plugin at my HiWi job. At last I chose a more recent tool, "Graphiti". This are the notes taken from the tutorials as well as the procedure of development.">
+<meta name="keywords" content="">
+
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="Eclipse Grafiti Learning Notes">
+<meta name="twitter:description" content="Trying to develop a GUI in form of an Eclipse plugin at my HiWi job. At last I chose a more recent tool, "Graphiti". This are the notes taken from the tutorials as well as the procedure of development.">
+<meta name="twitter:site" content="@naiqus">
+<meta name="twitter:creator" content="@naiqus">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://naiqus.github.io/images/lamp.jpg">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Eclipse Grafiti Learning Notes">
+<meta property="og:description" content="Trying to develop a GUI in form of an Eclipse plugin at my HiWi job. At last I chose a more recent tool, "Graphiti". This are the notes taken from the tutorials as well as the procedure of development.">
+<meta property="og:url" content="http://naiqus.github.io/eclipse-grafiti-notes/">
+<meta property="og:site_name" content="Wake up, Naiqus!">
+
+
+
+
+
+<link rel="canonical" href="http://naiqus.github.io/eclipse-grafiti-notes/">
+<link href="http://naiqus.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Wake up, Naiqus! Feed">
+<link rel="author" href="http://plus.google.com/+sootsan?rel=author">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://naiqus.github.io/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+	<script src="http://naiqus.github.io/assets/js/vendor/html5shiv.min.js"></script>
+	<script src="http://naiqus.github.io/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="http://naiqus.github.io/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+<link href='//fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700%7CPT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://naiqus.github.io/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://naiqus.github.io/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://naiqus.github.io/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://naiqus.github.io/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://naiqus.github.io/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://naiqus.github.io/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body class="post">
+
+<!--[if lt IE 9]><div class="browser-upgrade alert alert-info">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div><![endif]-->
+
+<div class="navigation-wrapper">
+	<div class="site-name">
+		<a href="http://naiqus.github.io">Wake up, Naiqus!</a>
+	</div><!-- /.site-name -->
+	<div class="top-navigation">
+		<nav role="navigation" id="site-nav" class="nav">
+		    <ul>
+		        
+					    
+					        
+					    
+					    <li><a href="http://naiqus.github.io/about/" >About</a></li>
+					  
+					    
+					        
+					    
+					    <li><a href="http://naiqus.github.io/posts/" >All Posts</a></li>
+					  
+		    </ul>
+		</nav>
+	</div><!-- /.top-navigation -->
+</div><!-- /.navigation-wrapper -->
+
+
+  <div class="image-wrap">
+  <img src=
+    
+      "http://naiqus.github.io/images/lamp.jpg"
+    
+  alt="Eclipse Grafiti Learning Notes feature image">
+  
+  </div><!-- /.image-wrap -->
+
+
+<div id="main" role="main">
+  <div class="article-author-side">
+    
+
+
+
+	<img src="http://naiqus.github.io/images/mao.jpg" class="bio-photo" alt="Naiqus bio photo">
+
+<h3>Naiqus</h3>
+<p>Wake up man, wake up!!!</p>
+
+<a href="http://twitter.com/naiqus" class="author-social" target="_blank"><i class="fa fa-fw fa-twitter-square"></i> Twitter</a>
+<a href="http://facebook.com/suqian.zhang" class="author-social" target="_blank"><i class="fa fa-fw fa-facebook-square"></i> Facebook</a>
+<a href="http://plus.google.com/+sootsan" class="author-social" target="_blank"><i class="fa fa-fw fa-google-plus-square"></i> Google+</a>
+
+
+
+<a href="http://github.com/naiqus" class="author-social" target="_blank"><i class="fa fa-fw fa-github"></i> Github</a>
+
+
+
+
+
+
+
+
+  </div>
+  <article class="post">
+    <div class="headline-wrap">
+      
+        <h1><a href="http://naiqus.github.io/eclipse-grafiti-notes/" rel="bookmark" title="Eclipse Grafiti Learning Notes">Eclipse Grafiti Learning Notes</a></h1>
+      
+    </div><!--/ .headline-wrap -->
+    <div class="article-wrap">
+      <section id="table-of-contents" class="toc">
   <header>
     <h3>Overview</h3>
   </header>
@@ -65,3 +212,67 @@
   <li>Create Feature, for example: <em>Add Feature</em>.</li>
 </ol>
 
+
+      <hr />
+      <footer role="contentinfo">
+        <div class="article-author-bottom">
+          
+
+
+
+	<img src="http://naiqus.github.io/images/mao.jpg" class="bio-photo" alt="Naiqus bio photo">
+
+<h3>Naiqus</h3>
+<p>Wake up man, wake up!!!</p>
+
+<a href="http://twitter.com/naiqus" class="author-social" target="_blank"><i class="fa fa-fw fa-twitter-square"></i> Twitter</a>
+<a href="http://facebook.com/suqian.zhang" class="author-social" target="_blank"><i class="fa fa-fw fa-facebook-square"></i> Facebook</a>
+<a href="http://plus.google.com/+sootsan" class="author-social" target="_blank"><i class="fa fa-fw fa-google-plus-square"></i> Google+</a>
+
+
+
+<a href="http://github.com/naiqus" class="author-social" target="_blank"><i class="fa fa-fw fa-github"></i> Github</a>
+
+
+
+
+
+
+
+
+        </div>
+        <p class="byline"><strong>Eclipse Grafiti Learning Notes</strong> was published on <time datetime="2014-11-10T01:39:07+01:00">November 10, 2014</time>.</p>
+      </footer>
+    </div><!-- /.article-wrap -->
+  
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrap">
+  <div class="related-articles">
+  <h4>You might also enjoy <small class="pull-right">(<a href="http://naiqus.github.io/posts/">View all posts</a>)</small></h4>
+    <ul>
+    
+      <li><a href="http://naiqus.github.io/hello-world-again/" title="Hello World, again!">Hello World, again!</a></li>
+    
+      <li><a href="http://naiqus.github.io/sample-post/" title="Sample Post">Sample Post</a></li>
+    
+    </ul>
+    <hr />
+  </div><!-- /.related-articles -->
+  <footer>
+    
+
+<span>&copy; 2014 Naiqus.</span>
+
+  </footer>
+</div><!-- /.footer-wrap -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://naiqus.github.io/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://naiqus.github.io/assets/js/scripts.min.js"></script>
+
+	        
+
+</body>
+</html>
