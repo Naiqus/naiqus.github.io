@@ -170,7 +170,7 @@
 
 <h2 id="need-to-kown">3. Need to kown</h2>
 <p>### Architecture:
-  <img src="./architecture.png" alt="Basic Architecture" />
+  <img src="./images/grafiti-architecture.png" alt="Basic Architecture" />
   1. <strong>Interaction Component</strong>: deal with the requests of input (from mouse, keyboard), like click, drag-and-drop, etc. Passing them to Diagram Type Agent. 
   2. <strong>Rendering Engine</strong>: to display the current data on the screen. Based on GEF in conjuction with Draw2d.
   3. <strong>Diagram Type Agent</strong>: has to be implemented by developer and could make use of a lot of services as well as standard implementations. With these implementations (Actions like <em>move, resize, delete, remove and print</em>), one can build a functional editor very quickly. It could also be incrementally implemented in the further development. The major task of Diagram Type Agent is to modify the model data. Servaral models are applied there as follows:
@@ -183,7 +183,7 @@
         - Create the graphical visualization in the Pictogram Model. E.g. create Graphics Algorithms like a Rounded Rectangle. Initial them with colors and fonts and the layout.
         - Create link between the Pictogram Model and Domain Model.</p>
 
-<p><img src="./diagram-type-agent-new.png" alt="Inside Diagram Type Agent" />
+<p><img src="./images/diagram-type-agent-new.png" alt="Inside Diagram Type Agent" />
   <strong>Features</strong> are needed from developers like operations. <strong>Feature Provider</strong> supplies the needed features. Processing the features leads to modifing the datas in the models. <em>*Diagram Type Provider</em> handels the requests from interactive components. It also decides when to synchronise the Domain and Pictogram Models.</p>
 
 <p>The <strong>Diagram Type Agent</strong> is implemented in 4 steps:
