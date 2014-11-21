@@ -151,9 +151,9 @@
   </header>
 <div id="drawer">
 <ul id="markdown-toc">
-  <li><a href="#introduction">1. Introduction</a></li>
-  <li><a href="#installation">2. Installation</a></li>
-  <li><a href="#need-to-kown">3. Need to kown</a>    <ul>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#installation">Installation</a></li>
+  <li><a href="#need-to-kown">Need to kown</a>    <ul>
       <li><a href="#architecture">Architecture:</a></li>
     </ul>
   </li>
@@ -174,19 +174,21 @@
 </section>
 <!-- /#table-of-contents -->
 
-<h2 id="introduction">1. Introduction</h2>
+<hr />
+
+<h2 id="introduction">Introduction</h2>
 <blockquote>
   <p>It is immediately noticeable, that GEF is fairly complex and it needs a notable amount of work to get used to the framework. Therefore, and also to homogenize their tooling, SAP built a framework that hides GEF’s complexities from the developer and bridges EMF and GEF to ease and speed up the development of graphical editors. </p>
 </blockquote>
 
 <hr />
 
-<h2 id="installation">2. Installation</h2>
+<h2 id="installation">Installation</h2>
 <p>The installation source of the updatest release is included in the official release update channel. Install the “Graphiti SDK Plus” which includes a tutorial in the help document.</p>
 
 <hr />
 
-<h2 id="need-to-kown">3. Need to kown</h2>
+<h2 id="need-to-kown">Need to kown</h2>
 
 <h3 id="architecture">Architecture:</h3>
 
@@ -198,11 +200,11 @@
   <li>
     <p><strong>Diagram Type Agent</strong>: has to be implemented by developer and could make use of a lot of services as well as standard implementations. With these implementations (Actions like <em>move, resize, delete, remove and print</em>), one can build a functional editor very quickly. It could also be incrementally implemented in the further development. The major task of Diagram Type Agent is to modify the model data. Servaral models are applied there as follows:</p>
 
-    <ol>
+    <ul>
       <li><strong>Domain Model</strong>: contains the model which needs to be graphically displayed. A <em>.ecore</em> model for example could be used here. In Graphiti, the data of Domain model is called <strong>Business Objects</strong>.</li>
       <li><strong>Protogram Model</strong>: ? contains all the information for displaying a diagram. Needs some redundant storage of data. Not quite clear. complish this part late.</li>
       <li><strong>Link Model</strong>: the relation between Domain Model and Protogram Model. Connecting data from Domain Model to the graphical representation from Protogram Model. This is necessory for some actions on the editor, like moving and deleting objects, which changes data of Domain Model as well.</li>
-    </ol>
+    </ul>
   </li>
 </ol>
 

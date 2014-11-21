@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://naiqus.github.io/feed.xml" />
 <link rel="alternate" type="text/html" href="http://naiqus.github.io" />
-<updated>2014-11-21T23:55:39+01:00</updated>
+<updated>2014-11-22T00:01:21+01:00</updated>
 <id>http://naiqus.github.io/</id>
 <author>
   <name>Naiqus</name>
@@ -32,9 +32,9 @@
   &lt;/header&gt;
 &lt;div id=&quot;drawer&quot;&gt;
 &lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#introduction&quot;&gt;1. Introduction&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#installation&quot;&gt;2. Installation&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#need-to-kown&quot;&gt;3. Need to kown&lt;/a&gt;    &lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;#introduction&quot;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#installation&quot;&gt;Installation&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#need-to-kown&quot;&gt;Need to kown&lt;/a&gt;    &lt;ul&gt;
       &lt;li&gt;&lt;a href=&quot;#architecture&quot;&gt;Architecture:&lt;/a&gt;&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
@@ -55,19 +55,21 @@
 &lt;/section&gt;
 &lt;!-- /#table-of-contents --&gt;
 
-&lt;h2 id=&quot;introduction&quot;&gt;1. Introduction&lt;/h2&gt;
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
 &lt;blockquote&gt;
   &lt;p&gt;It is immediately noticeable, that GEF is fairly complex and it needs a notable amount of work to get used to the framework. Therefore, and also to homogenize their tooling, SAP built a framework that hides GEF’s complexities from the developer and bridges EMF and GEF to ease and speed up the development of graphical editors. &lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;hr /&gt;
 
-&lt;h2 id=&quot;installation&quot;&gt;2. Installation&lt;/h2&gt;
+&lt;h2 id=&quot;installation&quot;&gt;Installation&lt;/h2&gt;
 &lt;p&gt;The installation source of the updatest release is included in the official release update channel. Install the “Graphiti SDK Plus” which includes a tutorial in the help document.&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;h2 id=&quot;need-to-kown&quot;&gt;3. Need to kown&lt;/h2&gt;
+&lt;h2 id=&quot;need-to-kown&quot;&gt;Need to kown&lt;/h2&gt;
 
 &lt;h3 id=&quot;architecture&quot;&gt;Architecture:&lt;/h3&gt;
 
@@ -79,11 +81,11 @@
   &lt;li&gt;
     &lt;p&gt;&lt;strong&gt;Diagram Type Agent&lt;/strong&gt;: has to be implemented by developer and could make use of a lot of services as well as standard implementations. With these implementations (Actions like &lt;em&gt;move, resize, delete, remove and print&lt;/em&gt;), one can build a functional editor very quickly. It could also be incrementally implemented in the further development. The major task of Diagram Type Agent is to modify the model data. Servaral models are applied there as follows:&lt;/p&gt;
 
-    &lt;ol&gt;
+    &lt;ul&gt;
       &lt;li&gt;&lt;strong&gt;Domain Model&lt;/strong&gt;: contains the model which needs to be graphically displayed. A &lt;em&gt;.ecore&lt;/em&gt; model for example could be used here. In Graphiti, the data of Domain model is called &lt;strong&gt;Business Objects&lt;/strong&gt;.&lt;/li&gt;
       &lt;li&gt;&lt;strong&gt;Protogram Model&lt;/strong&gt;: ? contains all the information for displaying a diagram. Needs some redundant storage of data. Not quite clear. complish this part late.&lt;/li&gt;
       &lt;li&gt;&lt;strong&gt;Link Model&lt;/strong&gt;: the relation between Domain Model and Protogram Model. Connecting data from Domain Model to the graphical representation from Protogram Model. This is necessory for some actions on the editor, like moving and deleting objects, which changes data of Domain Model as well.&lt;/li&gt;
-    &lt;/ol&gt;
+    &lt;/ul&gt;
   &lt;/li&gt;
 &lt;/ol&gt;
 
