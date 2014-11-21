@@ -157,6 +157,17 @@
       <li><a href="#architecture">Architecture:</a></li>
     </ul>
   </li>
+  <li><a href="#hands-on-a-simple-example">Hands-on: A simple example</a>    <ul>
+      <li><a href="#plug-in-structure">Plug-In structure:</a></li>
+      <li><a href="#create-plug-in">1. Create Plug-in</a></li>
+      <li><a href="#diagram-type-agent">2. Diagram Type Agent</a>        <ul>
+          <li><a href="#create-a-diagram-type-provider">Create a Diagram Type Provider</a></li>
+          <li><a href="#create-a-new-diagram-type-of-the-provider">Create a new Diagram Type of the Provider</a></li>
+          <li><a href="#create-a-feature-provider">Create a Feature Provider</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
 </ul>
 
   </div>
@@ -168,8 +179,12 @@
   <p>It is immediately noticeable, that GEF is fairly complex and it needs a notable amount of work to get used to the framework. Therefore, and also to homogenize their tooling, SAP built a framework that hides GEF’s complexities from the developer and bridges EMF and GEF to ease and speed up the development of graphical editors. </p>
 </blockquote>
 
+<hr />
+
 <h2 id="installation">2. Installation</h2>
 <p>The installation source of the updatest release is included in the official release update channel. Install the “Graphiti SDK Plus” which includes a tutorial in the help document.</p>
+
+<hr />
 
 <h2 id="need-to-kown">3. Need to kown</h2>
 
@@ -211,6 +226,126 @@
   <li>Create a <em>Feature Provider</em>.</li>
   <li>Create Feature, for example: <em>Add Feature</em>.</li>
 </ol>
+
+<hr />
+
+<h2 id="hands-on-a-simple-example">Hands-on: A simple example</h2>
+
+<p>Get familier with the Graphiti plugin development procedure with help of the official tutorial, step by step.</p>
+
+<blockquote>
+  <h3 id="plug-in-structure">Plug-In structure:</h3>
+  <ul>
+    <li><strong>org.eclipse.graphiti</strong>
+<em>The UI platform independent part of the framework</em></li>
+    <li><strong>org.eclipse.graphiti.ui</strong>
+<em>The UI platform dependent part of the framework</em></li>
+    <li><strong>org.eclipse.graphiti.mm</strong>
+<em>The Graphiti EMF model</em></li>
+    <li><strong>org.eclipse.graphiti.pattern</strong>
+<em>Additional Graphiti framework for an alternative approach to combine all implementation aspects in one pattern instead of spreading accross several features.</em></li>
+    <li><strong>org.eclipse.graphiti.export.batik</strong>
+<em>The framework export functionality, e.g. save as SVG (using Batik functionality)</em></li>
+    <li><strong>org.eclipse.graphiti.doc</strong>
+<em>The Eclipse help content, e.g. the Graphiti tutorial</em></li>
+    <li><strong>org.eclipse.graphiti.examples.common</strong>
+<em>General parts of samples and test tools for Graphiti; helper UIs, e.g. repository explorer and wizard (contains exemplary coding that cannot be re-used from within tools build on top of Graphiti)</em></li>
+    <li><strong>org.eclipse.graphiti.examples.tutorial</strong>
+<em>The final implementation of the Graphiti tutorial</em></li>
+    <li><strong>org.eclipse.graphiti.ui.capabilities</strong>
+<em>A small example showing how the Eclipse capabilities mechanism can be used with Graphiti</em></li>
+    <li><strong>org.eclipse.graphiti.feature</strong>
+<em>The feature containing purely the Graphiti framework without any additional functionality like SVG export. This feature needs to be included into Eclipse installations containing tools build on top of Graphiti</em></li>
+  </ul>
+</blockquote>
+
+<h3 id="create-plug-in">1. Create Plug-in</h3>
+
+<p>Create a blank plug-in project using new project wizard. Add following dependencies :</p>
+
+<ul>
+  <li><em>org.eclipse.graphiti</em></li>
+  <li><em>org.eclipse.graphiti.ui</em></li>
+  <li><em>org.eclipse.graphiti.examples.common</em></li>
+  <li><em>org.eclipse.core.resources</em></li>
+  <li><em>org.eclipse.core.runtime</em></li>
+  <li><em>org.eclipse.ui.views.properties.tabbed</em></li>
+</ul>
+
+<h3 id="diagram-type-agent">2. Diagram Type Agent</h3>
+
+<p>A <strong>diagram type agent</strong> should be implemented for creation of an editor of a viewer. As mentioned before, it consists of a <strong>diagram type provider</strong> and a <strong>feature provider</strong></p>
+
+<h4 id="create-a-diagram-type-provider">Create a Diagram Type Provider</h4>
+
+<p>Add a new package according to the project, create a new class extend the base class <em>AbstractDiagramTypeProvider</em> in oder to implement the interface <em>iDiagramTypeProvider</em>.</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">rwth</span><span class="o">.</span><span class="na">ice</span><span class="o">.</span><span class="na">graphiti</span><span class="o">.</span><span class="na">helloworld</span><span class="o">.</span><span class="na">diagram</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.eclipse.graphiti.dt.AbstractDiagramTypeProvider</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloDiagramTypeProvider</span> <span class="kd">extends</span> <span class="n">AbstractDiagramTypeProvider</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="nf">HelloDiagramTypeProvider</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">super</span><span class="o">();</span>
+  <span class="o">}</span>
+  
+<span class="o">}</span></code></pre></div>
+
+<p>Add a new extension using the extension tab within MANIFEST.MF editor with the extension point <strong><em>org.eclipse.graphiti.ui.diagramTypeProviders</em></strong>. Set the corresponding ID, name, and set the class to the just created one.</p>
+
+<h4 id="create-a-new-diagram-type-of-the-provider">Create a new Diagram Type of the Provider</h4>
+
+<p>Add a new Diagram Type with extension point <strong><em>org.eclipse.graphiti.ui.diagramTypes</em></strong>, set its ID, name and save it. Right click on the <strong><em>Diagram Type Provider</em></strong> extension in the list and add a Diagram Type, choose the Diagram type just created.</p>
+
+<p>After these steps, the plugin.xml file should looks like this:</p>
+
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="cp">&lt;?eclipse version=&quot;3.4&quot;?&gt;</span>
+<span class="nt">&lt;plugin&gt;</span>
+   <span class="nt">&lt;extension</span>
+         <span class="na">point=</span><span class="s">&quot;org.eclipse.graphiti.ui.diagramTypes&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;diagramType</span>
+            <span class="na">id=</span><span class="s">&quot;de.rwth-aachen.ice.graphiti.helloworld.hellodiagramtype&quot;</span>
+            <span class="na">name=</span><span class="s">&quot;hello diagramtype&quot;</span>
+            <span class="na">type=</span><span class="s">&quot;Helloworld&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;/diagramType&gt;</span>
+   <span class="nt">&lt;/extension&gt;</span>
+   <span class="nt">&lt;extension</span>
+         <span class="na">point=</span><span class="s">&quot;org.eclipse.graphiti.ui.diagramTypeProviders&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;diagramTypeProvider</span>
+            <span class="na">class=</span><span class="s">&quot;rwth.ice.graphiti.helloworld.diagram.HelloDiagramTypeProvider&quot;</span>
+            <span class="na">context=</span><span class="s">&quot;org.eclipse.graphiti.ui.diagramEditor&quot;</span>
+            <span class="na">id=</span><span class="s">&quot;de.rwth-aachen.ice.graphiti.helloworld.HelloDiagramTypeProvider&quot;</span>
+            <span class="na">name=</span><span class="s">&quot;My first Diagram Type Provider&quot;</span><span class="nt">&gt;</span>
+         <span class="nt">&lt;diagramType</span>
+               <span class="na">id=</span><span class="s">&quot;de.rwth-aachen.ice.graphiti.helloworld.hellodiagramtype&quot;</span><span class="nt">&gt;</span>
+         <span class="nt">&lt;/diagramType&gt;</span>
+      <span class="nt">&lt;/diagramTypeProvider&gt;</span>
+   <span class="nt">&lt;/extension&gt;</span>
+
+<span class="nt">&lt;/plugin&gt;</span></code></pre></div>
+
+<h4 id="create-a-feature-provider">Create a Feature Provider</h4>
+
+<p>Create a now class extends <strong><em>DefaultFeatureProvider</em></strong> in oder to implement the <em>IFeatureProvider</em> interface. Initially, we don’t need to overwrite any methods.</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">rwth</span><span class="o">.</span><span class="na">ice</span><span class="o">.</span><span class="na">graphiti</span><span class="o">.</span><span class="na">helloworld</span><span class="o">.</span><span class="na">diagram</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.eclipse.graphiti.dt.IDiagramTypeProvider</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.eclipse.graphiti.ui.features.DefaultFeatureProvider</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloFeatureProvider</span> <span class="kd">extends</span> <span class="n">DefaultFeatureProvider</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="nf">HelloFeatureProvider</span><span class="o">(</span><span class="n">IDiagramTypeProvider</span> <span class="n">dtp</span><span class="o">){</span>
+    <span class="kd">super</span><span class="o">(</span><span class="n">dtp</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+
+<p>We need to create and set it in the construction of Diagram Type Provider as well. Add one line in the construction of DiagramTypeProvider:</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="nf">HelloDiagramTypeProvider</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">super</span><span class="o">();</span>
+    <span class="n">setFeatureProvider</span><span class="o">(</span><span class="k">new</span> <span class="nf">HelloFeatureProvider</span><span class="o">(</span><span class="k">this</span><span class="o">));</span>
+  <span class="o">}</span></code></pre></div>
 
 
       <hr />

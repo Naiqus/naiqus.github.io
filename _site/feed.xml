@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://naiqus.github.io/feed.xml" />
 <link rel="alternate" type="text/html" href="http://naiqus.github.io" />
-<updated>2014-11-14T01:44:42+01:00</updated>
+<updated>2014-11-21T23:55:39+01:00</updated>
 <id>http://naiqus.github.io/</id>
 <author>
   <name>Naiqus</name>
@@ -38,6 +38,17 @@
       &lt;li&gt;&lt;a href=&quot;#architecture&quot;&gt;Architecture:&lt;/a&gt;&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#hands-on-a-simple-example&quot;&gt;Hands-on: A simple example&lt;/a&gt;    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#plug-in-structure&quot;&gt;Plug-In structure:&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#create-plug-in&quot;&gt;1. Create Plug-in&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#diagram-type-agent&quot;&gt;2. Diagram Type Agent&lt;/a&gt;        &lt;ul&gt;
+          &lt;li&gt;&lt;a href=&quot;#create-a-diagram-type-provider&quot;&gt;Create a Diagram Type Provider&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;#create-a-new-diagram-type-of-the-provider&quot;&gt;Create a new Diagram Type of the Provider&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;#create-a-feature-provider&quot;&gt;Create a Feature Provider&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;
 
   &lt;/div&gt;
@@ -49,8 +60,12 @@
   &lt;p&gt;It is immediately noticeable, that GEF is fairly complex and it needs a notable amount of work to get used to the framework. Therefore, and also to homogenize their tooling, SAP built a framework that hides GEF’s complexities from the developer and bridges EMF and GEF to ease and speed up the development of graphical editors. &lt;/p&gt;
 &lt;/blockquote&gt;
 
+&lt;hr /&gt;
+
 &lt;h2 id=&quot;installation&quot;&gt;2. Installation&lt;/h2&gt;
 &lt;p&gt;The installation source of the updatest release is included in the official release update channel. Install the “Graphiti SDK Plus” which includes a tutorial in the help document.&lt;/p&gt;
+
+&lt;hr /&gt;
 
 &lt;h2 id=&quot;need-to-kown&quot;&gt;3. Need to kown&lt;/h2&gt;
 
@@ -92,6 +107,126 @@
   &lt;li&gt;Create a &lt;em&gt;Feature Provider&lt;/em&gt;.&lt;/li&gt;
   &lt;li&gt;Create Feature, for example: &lt;em&gt;Add Feature&lt;/em&gt;.&lt;/li&gt;
 &lt;/ol&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;hands-on-a-simple-example&quot;&gt;Hands-on: A simple example&lt;/h2&gt;
+
+&lt;p&gt;Get familier with the Graphiti plugin development procedure with help of the official tutorial, step by step.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;h3 id=&quot;plug-in-structure&quot;&gt;Plug-In structure:&lt;/h3&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;strong&gt;org.eclipse.graphiti&lt;/strong&gt;
+&lt;em&gt;The UI platform independent part of the framework&lt;/em&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;org.eclipse.graphiti.ui&lt;/strong&gt;
+&lt;em&gt;The UI platform dependent part of the framework&lt;/em&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;org.eclipse.graphiti.mm&lt;/strong&gt;
+&lt;em&gt;The Graphiti EMF model&lt;/em&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;org.eclipse.graphiti.pattern&lt;/strong&gt;
+&lt;em&gt;Additional Graphiti framework for an alternative approach to combine all implementation aspects in one pattern instead of spreading accross several features.&lt;/em&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;org.eclipse.graphiti.export.batik&lt;/strong&gt;
+&lt;em&gt;The framework export functionality, e.g. save as SVG (using Batik functionality)&lt;/em&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;org.eclipse.graphiti.doc&lt;/strong&gt;
+&lt;em&gt;The Eclipse help content, e.g. the Graphiti tutorial&lt;/em&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;org.eclipse.graphiti.examples.common&lt;/strong&gt;
+&lt;em&gt;General parts of samples and test tools for Graphiti; helper UIs, e.g. repository explorer and wizard (contains exemplary coding that cannot be re-used from within tools build on top of Graphiti)&lt;/em&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;org.eclipse.graphiti.examples.tutorial&lt;/strong&gt;
+&lt;em&gt;The final implementation of the Graphiti tutorial&lt;/em&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;org.eclipse.graphiti.ui.capabilities&lt;/strong&gt;
+&lt;em&gt;A small example showing how the Eclipse capabilities mechanism can be used with Graphiti&lt;/em&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;org.eclipse.graphiti.feature&lt;/strong&gt;
+&lt;em&gt;The feature containing purely the Graphiti framework without any additional functionality like SVG export. This feature needs to be included into Eclipse installations containing tools build on top of Graphiti&lt;/em&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;create-plug-in&quot;&gt;1. Create Plug-in&lt;/h3&gt;
+
+&lt;p&gt;Create a blank plug-in project using new project wizard. Add following dependencies :&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;em&gt;org.eclipse.graphiti&lt;/em&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;org.eclipse.graphiti.ui&lt;/em&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;org.eclipse.graphiti.examples.common&lt;/em&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;org.eclipse.core.resources&lt;/em&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;org.eclipse.core.runtime&lt;/em&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;org.eclipse.ui.views.properties.tabbed&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;diagram-type-agent&quot;&gt;2. Diagram Type Agent&lt;/h3&gt;
+
+&lt;p&gt;A &lt;strong&gt;diagram type agent&lt;/strong&gt; should be implemented for creation of an editor of a viewer. As mentioned before, it consists of a &lt;strong&gt;diagram type provider&lt;/strong&gt; and a &lt;strong&gt;feature provider&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;create-a-diagram-type-provider&quot;&gt;Create a Diagram Type Provider&lt;/h4&gt;
+
+&lt;p&gt;Add a new package according to the project, create a new class extend the base class &lt;em&gt;AbstractDiagramTypeProvider&lt;/em&gt; in oder to implement the interface &lt;em&gt;iDiagramTypeProvider&lt;/em&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rwth&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;ice&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;graphiti&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;helloworld&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;diagram&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.eclipse.graphiti.dt.AbstractDiagramTypeProvider&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HelloDiagramTypeProvider&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AbstractDiagramTypeProvider&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;HelloDiagramTypeProvider&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+  
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Add a new extension using the extension tab within MANIFEST.MF editor with the extension point &lt;strong&gt;&lt;em&gt;org.eclipse.graphiti.ui.diagramTypeProviders&lt;/em&gt;&lt;/strong&gt;. Set the corresponding ID, name, and set the class to the just created one.&lt;/p&gt;
+
+&lt;h4 id=&quot;create-a-new-diagram-type-of-the-provider&quot;&gt;Create a new Diagram Type of the Provider&lt;/h4&gt;
+
+&lt;p&gt;Add a new Diagram Type with extension point &lt;strong&gt;&lt;em&gt;org.eclipse.graphiti.ui.diagramTypes&lt;/em&gt;&lt;/strong&gt;, set its ID, name and save it. Right click on the &lt;strong&gt;&lt;em&gt;Diagram Type Provider&lt;/em&gt;&lt;/strong&gt; extension in the list and add a Diagram Type, choose the Diagram type just created.&lt;/p&gt;
+
+&lt;p&gt;After these steps, the plugin.xml file should looks like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-xml&quot; data-lang=&quot;xml&quot;&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;&amp;lt;?eclipse version=&amp;quot;3.4&amp;quot;?&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;plugin&amp;gt;&lt;/span&gt;
+   &lt;span class=&quot;nt&quot;&gt;&amp;lt;extension&lt;/span&gt;
+         &lt;span class=&quot;na&quot;&gt;point=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;org.eclipse.graphiti.ui.diagramTypes&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;diagramType&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;de.rwth-aachen.ice.graphiti.helloworld.hellodiagramtype&amp;quot;&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;hello diagramtype&amp;quot;&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Helloworld&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;/diagramType&amp;gt;&lt;/span&gt;
+   &lt;span class=&quot;nt&quot;&gt;&amp;lt;/extension&amp;gt;&lt;/span&gt;
+   &lt;span class=&quot;nt&quot;&gt;&amp;lt;extension&lt;/span&gt;
+         &lt;span class=&quot;na&quot;&gt;point=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;org.eclipse.graphiti.ui.diagramTypeProviders&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;diagramTypeProvider&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;rwth.ice.graphiti.helloworld.diagram.HelloDiagramTypeProvider&amp;quot;&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;context=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;org.eclipse.graphiti.ui.diagramEditor&amp;quot;&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;de.rwth-aachen.ice.graphiti.helloworld.HelloDiagramTypeProvider&amp;quot;&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;My first Diagram Type Provider&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+         &lt;span class=&quot;nt&quot;&gt;&amp;lt;diagramType&lt;/span&gt;
+               &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;de.rwth-aachen.ice.graphiti.helloworld.hellodiagramtype&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+         &lt;span class=&quot;nt&quot;&gt;&amp;lt;/diagramType&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;&amp;lt;/diagramTypeProvider&amp;gt;&lt;/span&gt;
+   &lt;span class=&quot;nt&quot;&gt;&amp;lt;/extension&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/plugin&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;create-a-feature-provider&quot;&gt;Create a Feature Provider&lt;/h4&gt;
+
+&lt;p&gt;Create a now class extends &lt;strong&gt;&lt;em&gt;DefaultFeatureProvider&lt;/em&gt;&lt;/strong&gt; in oder to implement the &lt;em&gt;IFeatureProvider&lt;/em&gt; interface. Initially, we don’t need to overwrite any methods.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rwth&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;ice&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;graphiti&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;helloworld&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;diagram&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.eclipse.graphiti.dt.IDiagramTypeProvider&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.eclipse.graphiti.ui.features.DefaultFeatureProvider&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HelloFeatureProvider&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DefaultFeatureProvider&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;HelloFeatureProvider&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IDiagramTypeProvider&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dtp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dtp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;We need to create and set it in the construction of Diagram Type Provider as well. Add one line in the construction of DiagramTypeProvider:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;HelloDiagramTypeProvider&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;setFeatureProvider&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;HelloFeatureProvider&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
   &lt;p&gt;&lt;a href=&quot;http://naiqus.github.io/eclipse-grafiti-notes/&quot;&gt;Eclipse Grafiti Learning Notes&lt;/a&gt; was originally published by Naiqus at &lt;a href=&quot;http://naiqus.github.io&quot;&gt;Wake up, Naiqus!&lt;/a&gt; on November 10, 2014.&lt;/p&gt;</content>
