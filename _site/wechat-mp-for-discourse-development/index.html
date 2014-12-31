@@ -1,0 +1,448 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Wechat MP for Discourse Forum &#8211; Wake up, Naiqus!</title>
+<meta name="description" content="Recently I registered a Wechat MP for my Discourse forum [E1zone](www.e1zone.de) and developed several server-side functions for it in order to fetch users' own informations from the Discourse forum. This post includes the basic principle of the implementation and some notes of technical details.">
+<meta name="keywords" content="">
+
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="Wechat MP for Discourse Forum">
+<meta name="twitter:description" content="Recently I registered a Wechat MP for my Discourse forum [E1zone](www.e1zone.de) and developed several server-side functions for it in order to fetch users' own informations from the Discourse forum. This post includes the basic principle of the implementation and some notes of technical details.">
+<meta name="twitter:site" content="@naiqus">
+<meta name="twitter:creator" content="@naiqus">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://naiqus.github.io/images/lamp.jpg">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Wechat MP for Discourse Forum">
+<meta property="og:description" content="Recently I registered a Wechat MP for my Discourse forum [E1zone](www.e1zone.de) and developed several server-side functions for it in order to fetch users' own informations from the Discourse forum. This post includes the basic principle of the implementation and some notes of technical details.">
+<meta property="og:url" content="http://naiqus.github.io/wechat-mp-for-discourse-development/">
+<meta property="og:site_name" content="Wake up, Naiqus!">
+
+
+
+
+
+<link rel="canonical" href="http://naiqus.github.io/wechat-mp-for-discourse-development/">
+<link href="http://naiqus.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Wake up, Naiqus! Feed">
+<link rel="author" href="http://plus.google.com/+sootsan?rel=author">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://naiqus.github.io/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+	<script src="http://naiqus.github.io/assets/js/vendor/html5shiv.min.js"></script>
+	<script src="http://naiqus.github.io/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="http://naiqus.github.io/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+<link href='//fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700%7CPT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://naiqus.github.io/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://naiqus.github.io/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://naiqus.github.io/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://naiqus.github.io/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://naiqus.github.io/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://naiqus.github.io/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body class="post">
+
+<!--[if lt IE 9]><div class="browser-upgrade alert alert-info">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div><![endif]-->
+
+<div class="navigation-wrapper">
+	<div class="site-name">
+		<a href="http://naiqus.github.io">Wake up, Naiqus!</a>
+	</div><!-- /.site-name -->
+	<div class="top-navigation">
+		<nav role="navigation" id="site-nav" class="nav">
+		    <ul>
+		        
+					    
+					        
+					    
+					    <li><a href="http://naiqus.github.io/about/" >About</a></li>
+					  
+					    
+					        
+					    
+					    <li><a href="http://naiqus.github.io/posts/" >All Posts</a></li>
+					  
+		    </ul>
+		</nav>
+	</div><!-- /.top-navigation -->
+</div><!-- /.navigation-wrapper -->
+
+
+  <div class="image-wrap">
+  <img src=
+    
+      "http://naiqus.github.io/images/lamp.jpg"
+    
+  alt="Wechat MP for Discourse Forum feature image">
+  
+  </div><!-- /.image-wrap -->
+
+
+<div id="main" role="main">
+  <div class="article-author-side">
+    
+
+
+
+	<img src="http://naiqus.github.io/images/mao.jpg" class="bio-photo" alt="Naiqus bio photo">
+
+<h3>Naiqus</h3>
+<p>Wake up man, wake up!!!</p>
+
+<a href="http://twitter.com/naiqus" class="author-social" target="_blank"><i class="fa fa-fw fa-twitter-square"></i> Twitter</a>
+<a href="http://facebook.com/suqian.zhang" class="author-social" target="_blank"><i class="fa fa-fw fa-facebook-square"></i> Facebook</a>
+<a href="http://plus.google.com/+sootsan" class="author-social" target="_blank"><i class="fa fa-fw fa-google-plus-square"></i> Google+</a>
+
+
+
+<a href="http://github.com/naiqus" class="author-social" target="_blank"><i class="fa fa-fw fa-github"></i> Github</a>
+
+
+
+
+
+
+
+
+  </div>
+  <article class="post">
+    <div class="headline-wrap">
+      
+        <h1><a href="http://naiqus.github.io/wechat-mp-for-discourse-development/" rel="bookmark" title="Wechat MP for Discourse Forum">Wechat MP for Discourse Forum</a></h1>
+      
+    </div><!--/ .headline-wrap -->
+    <div class="article-wrap">
+      <p>Wechat is the most popular IM App nowadays in China. The Wechat MP could deliver various functions to Wechat users with its Developer API. </p>
+
+<p>Recently I registered a Wechat MP for my Discourse forum <a href="www.e1zone.de">E1zone</a> and developed some the server-side functions for it in order to fetch users’ own informations from the Discourse forum. This post includes the basic principle of the implementation and some notes of technical details.</p>
+
+<hr />
+
+<p><strong>The implemented functions of the Wechat MP:</strong></p>
+
+<ul>
+  <li>reply “?” to check usage.</li>
+  <li>reply “最新” to get weekly highlights list </li>
+  <li>reply “绑定” to bind Discourse account to Wechat account</li>
+  <li>reply “解除绑定” to unbind.</li>
+  <li>reply “消息” to check recent forum notifications.</li>
+</ul>
+
+<hr />
+<section id="table-of-contents" class="toc">
+  <header>
+    <h3>Overview</h3>
+  </header>
+<div id="drawer">
+<ul id="markdown-toc">
+  <li><a href="#biding-wechat-openid-to-discourse-user">Biding Wechat OpenID to Discourse User</a></li>
+  <li><a href="#highlights-of-the-implementation">Highlights of The Implementation.</a>    <ul>
+      <li><a href="#discourse-api-called-to-fetch-user-notifications">Discourse API called to fetch user notifications</a></li>
+      <li><a href="#fetching-and-analyse-json-data-with-php">Fetching and Analyse Json Data with PHP</a></li>
+      <li><a href="#function-overloading-in-php">Function Overloading in PHP</a></li>
+      <li><a href="#use-sprintf-get-pre-defined-template">Use sprintf() get Pre-defined Template</a></li>
+      <li><a href="#connect-to-mysql-in-php">Connect to MySQL in PHP</a></li>
+      <li><a href="#verify-strings-format">Verify String’s Format</a></li>
+      <li><a href="#basic-php-form">Basic PHP form</a></li>
+    </ul>
+  </li>
+</ul>
+
+  </div>
+</section>
+
+<h2 id="biding-wechat-openid-to-discourse-user">Biding Wechat OpenID to Discourse User</h2>
+
+<ul>
+  <li>Store Discourse user API key, user binding key and username in a database.</li>
+  <li>discourse user request for the API key<strong>—&gt;</strong> </li>
+  <li>Administrators generate user API key <strong>—&gt;</strong> </li>
+  <li>set a snippet of API key as wechat activation key <strong>—&gt;</strong> </li>
+  <li>Insert the entry which contains information of api_key，Discourse username，and Wechat activation key.<strong>—&gt;</strong> </li>
+  <li>Detect user reply in form of the length of activation key and combination of numbers and characters <strong>—&gt;</strong> </li>
+  <li>when receiving a valid key, update the table with user’s wechat OpenID.</li>
+</ul>
+
+<h2 id="highlights-of-the-implementation">Highlights of The Implementation.</h2>
+
+<h3 id="discourse-api-called-to-fetch-user-notifications">Discourse API called to fetch user notifications</h3>
+
+<p><code>curl http://localhost:3000/notifications.json?api_key=test_d7fd0429940&amp;api_username=test_user</code></p>
+
+<h3 id="fetching-and-analyse-json-data-with-php">Fetching and Analyse Json Data with PHP</h3>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">$json_url = &quot;http://www.e1zone.de/top/weekly.json&quot;; //weekly highlights </span>
+<span class="x">    $json = file_get_contents($json_url);</span>
+<span class="x">    if ($json != null){</span>
+<span class="x">        $weekly = json_decode($json);</span>
+<span class="x">    } else{</span>
+<span class="x">        throw new Exception(&quot;Error Json Request&quot;, 1);</span>
+<span class="x">    }</span></code></pre></div>
+
+<h3 id="function-overloading-in-php">Function Overloading in PHP</h3>
+<p>Define a function :</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">function db_operation(){</span>
+<span class="x">	//--------------------------binding account</span>
+<span class="x">	if (func_get_arg(0) == &quot;bind&quot;) { //check the first param</span>
+<span class="x">	    $apikey = func_get_arg(1);  //second</span>
+<span class="x">		$fromUsername = func_get_arg(2);  //third</span>
+<span class="x">				</span>
+<span class="x">				...</span></code></pre></div>
+
+<h3 id="use-sprintf-get-pre-defined-template">Use sprintf() get Pre-defined Template</h3>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">$textTpl = &quot;&lt;xml&gt;</span>
+<span class="x">            &lt;ToUserName&gt;&lt;![CDATA[%s]]&gt;&lt;/ToUserName&gt;</span>
+<span class="x">            &lt;FromUserName&gt;&lt;![CDATA[%s]]&gt;&lt;/FromUserName&gt;</span>
+<span class="x">            &lt;CreateTime&gt;%s&lt;/CreateTime&gt;</span>
+<span class="x">            &lt;MsgType&gt;&lt;![CDATA[%s]]&gt;&lt;/MsgType&gt;</span>
+<span class="x">            &lt;Content&gt;&lt;![CDATA[%s]]&gt;&lt;/Content&gt;</span>
+<span class="x">            &lt;FuncFlag&gt;0&lt;/FuncFlag&gt;</span>
+<span class="x">            &lt;/xml&gt;&quot;;</span>
+<span class="x">            </span>
+<span class="x">$resultStr .= sprintf($textTpl, $fromUsername, $toUsername, time(), $msgType, $text);</span></code></pre></div>
+
+<h3 id="connect-to-mysql-in-php">Connect to MySQL in PHP</h3>
+<p>This is a not quite up-to-dated way:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">$connecTtion =mysql_connect($db_servername, $db_username, $db_password) OR DIE (&quot;Unable to connect to database! Please try again later.&quot;);</span>
+<span class="x">if (!$connection){</span>
+<span class="x">	$output = &quot;服务器异常，请稍后重试。&quot;;</span>
+<span class="x">}else{</span>
+<span class="x">	mysql_select_db(&quot;discourseUsers&quot;);</span>
+<span class="x">	// select operations</span>
+<span class="x">	//check if this user has already binded to an account</span>
+<span class="x">    $sql = &quot;SELECT `openID`,`username` FROM `account_binding` WHERE `openID` = &#39;&quot;.$fromUsername.&quot;&#39;;&quot;;</span>
+<span class="x">	$result = mysql_query($sql);</span>
+<span class="x">	if (mysql_num_rows($result) &gt; 0) {  </span>
+<span class="x">		$record = mysql_fetch_array($result);</span>
+<span class="x">		$output = $record[&quot;username&quot;];</span>
+<span class="x">		mysql_close($connection);</span>
+<span class="x">		return $output;</span></code></pre></div>
+
+<p>This is recommended way:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">$servername = &quot;localhost&quot;;</span>
+<span class="x">$username = &quot;username&quot;;</span>
+<span class="x">$password = &quot;password&quot;;</span>
+
+<span class="x">// Create connection</span>
+<span class="x">$conn = new mysqli($servername, $username, $password);</span>
+
+<span class="x">// Check connection</span>
+<span class="x">if ($conn-&gt;connect_error) {</span>
+<span class="x">    die(&quot;Connection failed: &quot; . $conn-&gt;connect_error);</span>
+<span class="x">} </span>
+<span class="x">echo &quot;Connected successfully&quot;;</span></code></pre></div>
+
+<blockquote>
+  <p>Note on the object-oriented example above: $connect_error was broken until PHP 5.2.9 and 5.3.0. If you need to ensure compatibility with PHP versions prior to 5.2.9 and 5.3.0, use the following code instead:
+<em>// Check connection
+if (mysqli_connect_error()) {
+    die(“Database connection failed: “ . mysqli_connect_error());
+}</em></p>
+</blockquote>
+
+<h3 id="verify-strings-format">Verify String’s Format</h3>
+<p>Use function “<strong>preg_match(pattern,variable)</strong>”
+` if (preg_match(“/[A-Za-z0-9]+/”, $form_Content) &amp;&amp; strlen($form_Content) == 8) { …} `
+This example here checks whether the $form_Content contains only letters and numbers and the length is exactly 8. 
+It is used to detect the activition key. It is better to have user operation state stored in the server-side. However taken the Chinese input habit into account, it is OK. It is really rare to have regular input exactly like this way when the user write a message in Chinese.</p>
+
+<h3 id="basic-php-form">Basic PHP form</h3>
+
+<ul>
+  <li>check user’s input:</li>
+</ul>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">// define variables and set to empty values</span>
+<span class="x">$username = $api = $userbindingkey = &quot;&quot;;</span>
+<span class="x">$usernameErr = $apiErr = $userbindingkeyErr = &quot;&quot;;</span>
+
+<span class="x">if ($_SERVER[&quot;REQUEST_METHOD&quot;] == &quot;POST&quot;) {</span>
+<span class="x">  if (empty($_POST[&quot;username&quot;])) {</span>
+<span class="x">  $usernameErr = &quot;Username 是必填的&quot;;</span>
+<span class="x">  } else {</span>
+<span class="x">    $username = test_input($_POST[&quot;username&quot;]);</span>
+<span class="x">  }</span>
+<span class="x"> </span>
+<span class="x"> ...</span>
+<span class="x"> </span>
+<span class="x">}</span>
+<span class="x">function test_input($data) {</span>
+<span class="x">    $data = trim($data);   //remove spaces</span>
+<span class="x">    $data = stripslashes($data); //remove slashes</span>
+<span class="x">    $data = htmlspecialchars($data); // translate special characters for security reason</span>
+<span class="x">    return $data;</span>
+<span class="x">}</span></code></pre></div>
+
+<p>The form is written as following:</p>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span> <span class="na">action=</span><span class="s">&quot;&lt;?php echo htmlspecialchars($_SERVER[&quot;</span><span class="na">PHP_SELF</span><span class="err">&quot;]);?</span><span class="nt">&gt;</span>&quot;&gt; 
+        <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">&quot;username&quot;</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">placeholder=</span><span class="s">&quot;输入用户名&quot;</span> <span class="na">class=</span><span class="s">&quot;input-xlarge&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;error&quot;</span><span class="nt">&gt;</span>* <span class="cp">&lt;?php echo $usernameErr;?&gt;</span><span class="nt">&lt;/span&gt;</span>
+        <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">&quot;api&quot;</span> <span class="na">name=</span><span class="s">&quot;api&quot;</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">placeholder=</span><span class="s">&quot;API_key&quot;</span> <span class="na">class=</span><span class="s">&quot;input-xlarge&quot;</span> <span class="na">onkeyup=</span><span class="s">&quot;keyupFunction()&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;error&quot;</span><span class="nt">&gt;</span>* <span class="cp">&lt;?php echo $apiErr;?&gt;</span><span class="nt">&lt;/span&gt;</span>
+        <span class="c">&lt;!-- Button --&gt;</span>
+        <span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">&quot;confirm&quot;</span> <span class="na">name=</span><span class="s">&quot;confirm&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-success&quot;</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span><span class="nt">&gt;</span>确定<span class="nt">&lt;/button&gt;</span>
+<span class="nt">&lt;/form&gt;</span></code></pre></div>
+
+<ul>
+  <li>
+    <p>form submit to the page self, in order to show the info in the same page:
+<code>&lt;form method="post" action="&lt;?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?&gt;"&gt; </code></p>
+  </li>
+  <li>
+    <p>When user release a key while input, call a function
+<code>onkeyup="keyupFunction()"</code>
+Following is the function in JS:</p>
+  </li>
+</ul>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">keyupFunction</span><span class="p">(){</span>
+    <span class="kd">var</span> <span class="nx">api</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;api&quot;</span><span class="p">).</span><span class="nx">value</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">apilast8</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="p">);</span>  <span class="c1">//last 8 letters</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;userbindingkey&quot;</span><span class="p">).</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">apilast8</span><span class="p">;</span>
+    <span class="p">}</span></code></pre></div>
+
+      <hr />
+      <footer role="contentinfo">
+        <div class="article-author-bottom">
+          
+
+
+
+	<img src="http://naiqus.github.io/images/mao.jpg" class="bio-photo" alt="Naiqus bio photo">
+
+<h3>Naiqus</h3>
+<p>Wake up man, wake up!!!</p>
+
+<a href="http://twitter.com/naiqus" class="author-social" target="_blank"><i class="fa fa-fw fa-twitter-square"></i> Twitter</a>
+<a href="http://facebook.com/suqian.zhang" class="author-social" target="_blank"><i class="fa fa-fw fa-facebook-square"></i> Facebook</a>
+<a href="http://plus.google.com/+sootsan" class="author-social" target="_blank"><i class="fa fa-fw fa-google-plus-square"></i> Google+</a>
+
+
+
+<a href="http://github.com/naiqus" class="author-social" target="_blank"><i class="fa fa-fw fa-github"></i> Github</a>
+
+
+
+
+
+
+
+
+        </div>
+        <p class="byline"><strong>Wechat MP for Discourse Forum</strong> was published on <time datetime="2014-12-31T13:35:25+01:00">December 31, 2014</time>.</p>
+      </footer>
+    </div><!-- /.article-wrap -->
+  
+    <section id="disqus_thread"></section><!-- /#disqus_thread -->
+  
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrap">
+  <div class="related-articles">
+  <h4>You might also enjoy <small class="pull-right">(<a href="http://naiqus.github.io/posts/">View all posts</a>)</small></h4>
+    <ul>
+    
+      <li><a href="http://naiqus.github.io/eclipse-grafiti-notes/" title="Eclipse Grafiti Learning Notes">Eclipse Grafiti Learning Notes</a></li>
+    
+      <li><a href="http://naiqus.github.io/hello-world-again/" title="Hello World, again!">Hello World, again!</a></li>
+    
+      <li><a href="http://naiqus.github.io/sample-post/" title="Sample Post">Sample Post</a></li>
+    
+    </ul>
+    <hr />
+  </div><!-- /.related-articles -->
+  <footer>
+    
+
+<span>&copy; 2014 Naiqus.</span>
+
+  </footer>
+</div><!-- /.footer-wrap -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://naiqus.github.io/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://naiqus.github.io/assets/js/scripts.min.js"></script>
+
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+  var _gaq = _gaq || [];
+  var pluginUrl = 
+ '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+  _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+  _gaq.push(['_setAccount', 'UA-24975605-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+  
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'naiqus'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+	        
+
+</body>
+</html>

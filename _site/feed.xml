@@ -4,13 +4,224 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://naiqus.github.io/feed.xml" />
 <link rel="alternate" type="text/html" href="http://naiqus.github.io" />
-<updated>2014-11-22T00:01:21+01:00</updated>
+<updated>2014-12-31T14:32:32+01:00</updated>
 <id>http://naiqus.github.io/</id>
 <author>
   <name>Naiqus</name>
   <uri>http://naiqus.github.io/</uri>
   
 </author>
+
+
+  
+
+<entry>
+  <title type="html"><![CDATA[Wechat MP for Discourse Forum]]></title>
+  <link rel="alternate" type="text/html" href="http://naiqus.github.io/wechat-mp-for-discourse-development/" />
+  <id>http://naiqus.github.io/wechat-mp-for-discourse-development</id>
+  <published>2014-12-31T13:35:25+01:00</published>
+  <updated>2014-12-31T13:35:25+01:00</updated>
+  <author>
+    <name>Naiqus</name>
+    <uri>http://naiqus.github.io</uri>
+    
+  </author>
+  <content type="html">&lt;p&gt;Wechat is the most popular IM App nowadays in China. The Wechat MP could deliver various functions to Wechat users with its Developer API. &lt;/p&gt;
+
+&lt;p&gt;Recently I registered a Wechat MP for my Discourse forum &lt;a href=&quot;www.e1zone.de&quot;&gt;E1zone&lt;/a&gt; and developed some the server-side functions for it in order to fetch users’ own informations from the Discourse forum. This post includes the basic principle of the implementation and some notes of technical details.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;strong&gt;The implemented functions of the Wechat MP:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;reply “?” to check usage.&lt;/li&gt;
+  &lt;li&gt;reply “最新” to get weekly highlights list &lt;/li&gt;
+  &lt;li&gt;reply “绑定” to bind Discourse account to Wechat account&lt;/li&gt;
+  &lt;li&gt;reply “解除绑定” to unbind.&lt;/li&gt;
+  &lt;li&gt;reply “消息” to check recent forum notifications.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+&lt;section id=&quot;table-of-contents&quot; class=&quot;toc&quot;&gt;
+  &lt;header&gt;
+    &lt;h3&gt;Overview&lt;/h3&gt;
+  &lt;/header&gt;
+&lt;div id=&quot;drawer&quot;&gt;
+&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#biding-wechat-openid-to-discourse-user&quot;&gt;Biding Wechat OpenID to Discourse User&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#highlights-of-the-implementation&quot;&gt;Highlights of The Implementation.&lt;/a&gt;    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#discourse-api-called-to-fetch-user-notifications&quot;&gt;Discourse API called to fetch user notifications&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#fetching-and-analyse-json-data-with-php&quot;&gt;Fetching and Analyse Json Data with PHP&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#function-overloading-in-php&quot;&gt;Function Overloading in PHP&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#use-sprintf-get-pre-defined-template&quot;&gt;Use sprintf() get Pre-defined Template&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#connect-to-mysql-in-php&quot;&gt;Connect to MySQL in PHP&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#verify-strings-format&quot;&gt;Verify String’s Format&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#basic-php-form&quot;&gt;Basic PHP form&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;h2 id=&quot;biding-wechat-openid-to-discourse-user&quot;&gt;Biding Wechat OpenID to Discourse User&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Store Discourse user API key, user binding key and username in a database.&lt;/li&gt;
+  &lt;li&gt;discourse user request for the API key&lt;strong&gt;—&amp;gt;&lt;/strong&gt; &lt;/li&gt;
+  &lt;li&gt;Administrators generate user API key &lt;strong&gt;—&amp;gt;&lt;/strong&gt; &lt;/li&gt;
+  &lt;li&gt;set a snippet of API key as wechat activation key &lt;strong&gt;—&amp;gt;&lt;/strong&gt; &lt;/li&gt;
+  &lt;li&gt;Insert the entry which contains information of api_key，Discourse username，and Wechat activation key.&lt;strong&gt;—&amp;gt;&lt;/strong&gt; &lt;/li&gt;
+  &lt;li&gt;Detect user reply in form of the length of activation key and combination of numbers and characters &lt;strong&gt;—&amp;gt;&lt;/strong&gt; &lt;/li&gt;
+  &lt;li&gt;when receiving a valid key, update the table with user’s wechat OpenID.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;highlights-of-the-implementation&quot;&gt;Highlights of The Implementation.&lt;/h2&gt;
+
+&lt;h3 id=&quot;discourse-api-called-to-fetch-user-notifications&quot;&gt;Discourse API called to fetch user notifications&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;curl http://localhost:3000/notifications.json?api_key=test_d7fd0429940&amp;amp;api_username=test_user&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;fetching-and-analyse-json-data-with-php&quot;&gt;Fetching and Analyse Json Data with PHP&lt;/h3&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;x&quot;&gt;$json_url = &amp;quot;http://www.e1zone.de/top/weekly.json&amp;quot;; //weekly highlights &lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    $json = file_get_contents($json_url);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    if ($json != null){&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;        $weekly = json_decode($json);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    } else{&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;        throw new Exception(&amp;quot;Error Json Request&amp;quot;, 1);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    }&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;function-overloading-in-php&quot;&gt;Function Overloading in PHP&lt;/h3&gt;
+&lt;p&gt;Define a function :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;x&quot;&gt;function db_operation(){&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;	//--------------------------binding account&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;	if (func_get_arg(0) == &amp;quot;bind&amp;quot;) { //check the first param&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;	    $apikey = func_get_arg(1);  //second&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;		$fromUsername = func_get_arg(2);  //third&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;				&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;				...&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;use-sprintf-get-pre-defined-template&quot;&gt;Use sprintf() get Pre-defined Template&lt;/h3&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;x&quot;&gt;$textTpl = &amp;quot;&amp;lt;xml&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;            &amp;lt;ToUserName&amp;gt;&amp;lt;![CDATA[%s]]&amp;gt;&amp;lt;/ToUserName&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;            &amp;lt;FromUserName&amp;gt;&amp;lt;![CDATA[%s]]&amp;gt;&amp;lt;/FromUserName&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;            &amp;lt;CreateTime&amp;gt;%s&amp;lt;/CreateTime&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;            &amp;lt;MsgType&amp;gt;&amp;lt;![CDATA[%s]]&amp;gt;&amp;lt;/MsgType&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;            &amp;lt;Content&amp;gt;&amp;lt;![CDATA[%s]]&amp;gt;&amp;lt;/Content&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;            &amp;lt;FuncFlag&amp;gt;0&amp;lt;/FuncFlag&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;            &amp;lt;/xml&amp;gt;&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;            &lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$resultStr .= sprintf($textTpl, $fromUsername, $toUsername, time(), $msgType, $text);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;connect-to-mysql-in-php&quot;&gt;Connect to MySQL in PHP&lt;/h3&gt;
+&lt;p&gt;This is a not quite up-to-dated way:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;x&quot;&gt;$connecTtion =mysql_connect($db_servername, $db_username, $db_password) OR DIE (&amp;quot;Unable to connect to database! Please try again later.&amp;quot;);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;if (!$connection){&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;	$output = &amp;quot;服务器异常，请稍后重试。&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;}else{&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;	mysql_select_db(&amp;quot;discourseUsers&amp;quot;);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;	// select operations&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;	//check if this user has already binded to an account&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    $sql = &amp;quot;SELECT `openID`,`username` FROM `account_binding` WHERE `openID` = &amp;#39;&amp;quot;.$fromUsername.&amp;quot;&amp;#39;;&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;	$result = mysql_query($sql);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;	if (mysql_num_rows($result) &amp;gt; 0) {  &lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;		$record = mysql_fetch_array($result);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;		$output = $record[&amp;quot;username&amp;quot;];&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;		mysql_close($connection);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;		return $output;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This is recommended way:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;x&quot;&gt;$servername = &amp;quot;localhost&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$username = &amp;quot;username&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$password = &amp;quot;password&amp;quot;;&lt;/span&gt;
+
+&lt;span class=&quot;x&quot;&gt;// Create connection&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$conn = new mysqli($servername, $username, $password);&lt;/span&gt;
+
+&lt;span class=&quot;x&quot;&gt;// Check connection&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;if ($conn-&amp;gt;connect_error) {&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    die(&amp;quot;Connection failed: &amp;quot; . $conn-&amp;gt;connect_error);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;} &lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;echo &amp;quot;Connected successfully&amp;quot;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Note on the object-oriented example above: $connect_error was broken until PHP 5.2.9 and 5.3.0. If you need to ensure compatibility with PHP versions prior to 5.2.9 and 5.3.0, use the following code instead:
+&lt;em&gt;// Check connection
+if (mysqli_connect_error()) {
+    die(“Database connection failed: “ . mysqli_connect_error());
+}&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;verify-strings-format&quot;&gt;Verify String’s Format&lt;/h3&gt;
+&lt;p&gt;Use function “&lt;strong&gt;preg_match(pattern,variable)&lt;/strong&gt;”
+` if (preg_match(“/[A-Za-z0-9]+/”, $form_Content) &amp;amp;&amp;amp; strlen($form_Content) == 8) { …} `
+This example here checks whether the $form_Content contains only letters and numbers and the length is exactly 8. 
+It is used to detect the activition key. It is better to have user operation state stored in the server-side. However taken the Chinese input habit into account, it is OK. It is really rare to have regular input exactly like this way when the user write a message in Chinese.&lt;/p&gt;
+
+&lt;h3 id=&quot;basic-php-form&quot;&gt;Basic PHP form&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;check user’s input:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;x&quot;&gt;// define variables and set to empty values&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$username = $api = $userbindingkey = &amp;quot;&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;$usernameErr = $apiErr = $userbindingkeyErr = &amp;quot;&amp;quot;;&lt;/span&gt;
+
+&lt;span class=&quot;x&quot;&gt;if ($_SERVER[&amp;quot;REQUEST_METHOD&amp;quot;] == &amp;quot;POST&amp;quot;) {&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;  if (empty($_POST[&amp;quot;username&amp;quot;])) {&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;  $usernameErr = &amp;quot;Username 是必填的&amp;quot;;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;  } else {&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    $username = test_input($_POST[&amp;quot;username&amp;quot;]);&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;  }&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt; ...&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;function test_input($data) {&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    $data = trim($data);   //remove spaces&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    $data = stripslashes($data); //remove slashes&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    $data = htmlspecialchars($data); // translate special characters for security reason&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    return $data;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The form is written as following:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;form&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;method=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;post&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;action=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;lt;?php echo htmlspecialchars($_SERVER[&amp;quot;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;PHP_SELF&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;quot;]);?&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;&amp;quot;&amp;gt; 
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;username&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;text&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;placeholder=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;输入用户名&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;input-xlarge&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;span&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;error&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;* &lt;span class=&quot;cp&quot;&gt;&amp;lt;?php echo $usernameErr;?&amp;gt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;/span&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;input&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;api&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;api&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;text&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;placeholder=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;API_key&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;input-xlarge&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;onkeyup=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;keyupFunction()&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;span&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;error&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;* &lt;span class=&quot;cp&quot;&gt;&amp;lt;?php echo $apiErr;?&amp;gt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;/span&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- Button --&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;button&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;confirm&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;confirm&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;btn btn-success&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;submit&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;确定&lt;span class=&quot;nt&quot;&gt;&amp;lt;/button&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/form&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;form submit to the page self, in order to show the info in the same page:
+&lt;code&gt;&amp;lt;form method=&quot;post&quot; action=&quot;&amp;lt;?php echo htmlspecialchars($_SERVER[&quot;PHP_SELF&quot;]);?&amp;gt;&quot;&amp;gt; &lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;When user release a key while input, call a function
+&lt;code&gt;onkeyup=&quot;keyupFunction()&quot;&lt;/code&gt;
+Following is the function in JS:&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;keyupFunction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;api&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getElementById&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;api&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;apilast8&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;api&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;slice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;//last 8 letters&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getElementById&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;userbindingkey&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;apilast8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+  &lt;p&gt;&lt;a href=&quot;http://naiqus.github.io/wechat-mp-for-discourse-development/&quot;&gt;Wechat MP for Discourse Forum&lt;/a&gt; was originally published by Naiqus at &lt;a href=&quot;http://naiqus.github.io&quot;&gt;Wake up, Naiqus!&lt;/a&gt; on December 31, 2014.&lt;/p&gt;</content>
+</entry>
 
 
   
