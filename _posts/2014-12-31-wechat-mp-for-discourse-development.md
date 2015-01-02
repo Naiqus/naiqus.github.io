@@ -3,7 +3,7 @@ layout: post
 title: "Wechat MP for Discourse Forum"
 modified:
 categories: 
-excerpt: "Recently I registered a Wechat MP for my Discourse forum [E1zone](www.e1zone.de) and developed several server-side functions for it in order to fetch users' own informations from the Discourse forum. This post includes the basic principle of the implementation and some notes of technical details."
+excerpt: "Recently I registered a Wechat MP for my Discourse forum [E1zone](www.e1zone.de) and developed some server-side functions to fetch users' information from the Discourse forum. This post includes the procedure of the implementation and some notes of technical details."
 tags: []
 comments: true
 image:
@@ -13,7 +13,7 @@ date: 2014-12-31T13:35:25+01:00
 
 Wechat is the most popular IM App nowadays in China. The Wechat MP could deliver various functions to Wechat users with its Developer API. 
 
-Recently I registered a Wechat MP for my Discourse forum [E1zone](www.e1zone.de) and developed some the server-side functions for it in order to fetch users' own informations from the Discourse forum. This post includes the basic principle of the implementation and some notes of technical details.
+Recently I registered a Wechat MP for my Discourse forum [E1zone](www.e1zone.de) and developed some server-side functions to fetch users' information from the Discourse forum. This post includes the procedure of the implementation and some notes of technical details.
 
 ---
 
@@ -39,15 +39,15 @@ Recently I registered a Wechat MP for my Discourse forum [E1zone](www.e1zone.de)
 </section>
 
 
-## Biding Wechat OpenID to Discourse User
+## Binding Wechat OpenID to Discourse User Account
 
-* Store Discourse user API key, user binding key and username in a database.
+* Store Discourse user API key, identification code and username in a database.
 * discourse user request for the API key**--->** 
 * Administrators generate user API key **--->** 
-* set a snippet of API key as wechat activation key **--->** 
-* Insert the entry which contains information of api_key，Discourse username，and Wechat activation key.**--->** 
-* Detect user reply in form of the length of activation key and combination of numbers and characters **--->** 
-* when receiving a valid key, update the table with user's wechat OpenID.
+* set a snippet of API key as wechat identification code **--->** 
+* Insert the entry which contains information of api_key，Discourse username，and identification code.**--->** 
+* Detect identification code from user reply **--->** 
+* validate the code, update database, add user's wechat OpenID.
 
 ## Highlights of The Implementation.
 
@@ -68,7 +68,7 @@ $json_url = "http://www.e1zone.de/top/weekly.json"; //weekly highlights
 {% endhighlight %}
 
 ### Function Overloading in PHP
-Define a function :
+Define a function with no parameter:
 {% highlight PHP %}
 function db_operation(){
 	//--------------------------binding account
@@ -79,7 +79,7 @@ function db_operation(){
 				...
 {% endhighlight %}
 
-### Use sprintf() get Pre-defined Template
+### Use sprintf() to get pre-defined string from template
 {% highlight PHP %}
 $textTpl = "<xml>
             <ToUserName><![CDATA[%s]]></ToUserName>
@@ -94,7 +94,7 @@ $resultStr .= sprintf($textTpl, $fromUsername, $toUsername, time(), $msgType, $t
 {% endhighlight %}
 
 ### Connect to MySQL in PHP
-This is a not quite up-to-dated way:
+This is not a quite up-to-dated way:
 {% highlight PHP %}
 $connecTtion =mysql_connect($db_servername, $db_username, $db_password) OR DIE ("Unable to connect to database! Please try again later.");
 if (!$connection){
@@ -112,7 +112,7 @@ if (!$connection){
 		return $output;
 					
 {% endhighlight %}
-This is recommended way:
+It is better to use mysqli() instead:
 {% highlight php %}
 $servername = "localhost";
 $username = "username";
@@ -137,12 +137,12 @@ if (mysqli_connect_error()) {
 ### Verify String's Format
 Use function "**preg_match(pattern,variable)**"
 ` if (preg_match("/[A-Za-z0-9]+/", $form_Content) && strlen($form_Content) == 8) { ...} `
-This example here checks whether the $form_Content contains only letters and numbers and the length is exactly 8. 
-It is used to detect the activition key. It is better to have user operation state stored in the server-side. However taken the Chinese input habit into account, it is OK. It is really rare to have regular input exactly like this way when the user write a message in Chinese.
+The example here checks whether the $form_Content contains only letters and numbers and the length of the string is exactly 8. 
+It is used to detect the identification code. It is better to have user operation state stored in the server-side. However, taken the Chinese's input habit into account, it is feasible. It is really rare to have a reply which contains only letters and numbers from a Chinese user.
 
 ### Basic PHP form 
 
-* check user's input:
+* Check user's input:
 
 {% highlight PHP %}
 // define variables and set to empty values

@@ -6,14 +6,14 @@
 <head>
 <meta charset="utf-8">
 <title>Wechat MP for Discourse Forum &#8211; Wake up, Naiqus!</title>
-<meta name="description" content="Recently I registered a Wechat MP for my Discourse forum [E1zone](www.e1zone.de) and developed several server-side functions for it in order to fetch users' own informations from the Discourse forum. This post includes the basic principle of the implementation and some notes of technical details.">
+<meta name="description" content="Recently I registered a Wechat MP for my Discourse forum [E1zone](www.e1zone.de) and developed some server-side functions to fetch users' information from the Discourse forum. This post includes the procedure of the implementation and some notes of technical details.">
 <meta name="keywords" content="">
 
 
 
 <!-- Twitter Cards -->
 <meta name="twitter:title" content="Wechat MP for Discourse Forum">
-<meta name="twitter:description" content="Recently I registered a Wechat MP for my Discourse forum [E1zone](www.e1zone.de) and developed several server-side functions for it in order to fetch users' own informations from the Discourse forum. This post includes the basic principle of the implementation and some notes of technical details.">
+<meta name="twitter:description" content="Recently I registered a Wechat MP for my Discourse forum [E1zone](www.e1zone.de) and developed some server-side functions to fetch users' information from the Discourse forum. This post includes the procedure of the implementation and some notes of technical details.">
 <meta name="twitter:site" content="@naiqus">
 <meta name="twitter:creator" content="@naiqus">
 
@@ -24,7 +24,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Wechat MP for Discourse Forum">
-<meta property="og:description" content="Recently I registered a Wechat MP for my Discourse forum [E1zone](www.e1zone.de) and developed several server-side functions for it in order to fetch users' own informations from the Discourse forum. This post includes the basic principle of the implementation and some notes of technical details.">
+<meta property="og:description" content="Recently I registered a Wechat MP for my Discourse forum [E1zone](www.e1zone.de) and developed some server-side functions to fetch users' information from the Discourse forum. This post includes the procedure of the implementation and some notes of technical details.">
 <meta property="og:url" content="http://naiqus.github.io/wechat-mp-for-discourse-development/">
 <meta property="og:site_name" content="Wake up, Naiqus!">
 
@@ -147,7 +147,7 @@
     <div class="article-wrap">
       <p>Wechat is the most popular IM App nowadays in China. The Wechat MP could deliver various functions to Wechat users with its Developer API. </p>
 
-<p>Recently I registered a Wechat MP for my Discourse forum <a href="www.e1zone.de">E1zone</a> and developed some the server-side functions for it in order to fetch users’ own informations from the Discourse forum. This post includes the basic principle of the implementation and some notes of technical details.</p>
+<p>Recently I registered a Wechat MP for my Discourse forum <a href="www.e1zone.de">E1zone</a> and developed some server-side functions to fetch users’ information from the Discourse forum. This post includes the procedure of the implementation and some notes of technical details.</p>
 
 <hr />
 
@@ -168,12 +168,12 @@
   </header>
 <div id="drawer">
 <ul id="markdown-toc">
-  <li><a href="#biding-wechat-openid-to-discourse-user">Biding Wechat OpenID to Discourse User</a></li>
+  <li><a href="#binding-wechat-openid-to-discourse-user-account">Binding Wechat OpenID to Discourse User Account</a></li>
   <li><a href="#highlights-of-the-implementation">Highlights of The Implementation.</a>    <ul>
       <li><a href="#discourse-api-called-to-fetch-user-notifications">Discourse API called to fetch user notifications</a></li>
       <li><a href="#fetching-and-analyse-json-data-with-php">Fetching and Analyse Json Data with PHP</a></li>
       <li><a href="#function-overloading-in-php">Function Overloading in PHP</a></li>
-      <li><a href="#use-sprintf-get-pre-defined-template">Use sprintf() get Pre-defined Template</a></li>
+      <li><a href="#use-sprintf-to-get-pre-defined-string-from-template">Use sprintf() to get pre-defined string from template</a></li>
       <li><a href="#connect-to-mysql-in-php">Connect to MySQL in PHP</a></li>
       <li><a href="#verify-strings-format">Verify String’s Format</a></li>
       <li><a href="#basic-php-form">Basic PHP form</a></li>
@@ -184,16 +184,16 @@
   </div>
 </section>
 
-<h2 id="biding-wechat-openid-to-discourse-user">Biding Wechat OpenID to Discourse User</h2>
+<h2 id="binding-wechat-openid-to-discourse-user-account">Binding Wechat OpenID to Discourse User Account</h2>
 
 <ul>
-  <li>Store Discourse user API key, user binding key and username in a database.</li>
+  <li>Store Discourse user API key, identification code and username in a database.</li>
   <li>discourse user request for the API key<strong>—&gt;</strong> </li>
   <li>Administrators generate user API key <strong>—&gt;</strong> </li>
-  <li>set a snippet of API key as wechat activation key <strong>—&gt;</strong> </li>
-  <li>Insert the entry which contains information of api_key，Discourse username，and Wechat activation key.<strong>—&gt;</strong> </li>
-  <li>Detect user reply in form of the length of activation key and combination of numbers and characters <strong>—&gt;</strong> </li>
-  <li>when receiving a valid key, update the table with user’s wechat OpenID.</li>
+  <li>set a snippet of API key as wechat identification code <strong>—&gt;</strong> </li>
+  <li>Insert the entry which contains information of api_key，Discourse username，and identification code.<strong>—&gt;</strong> </li>
+  <li>Detect identification code from user reply <strong>—&gt;</strong> </li>
+  <li>validate the code, update database, add user’s wechat OpenID.</li>
 </ul>
 
 <h2 id="highlights-of-the-implementation">Highlights of The Implementation.</h2>
@@ -213,7 +213,7 @@
 <span class="x">    }</span></code></pre></div>
 
 <h3 id="function-overloading-in-php">Function Overloading in PHP</h3>
-<p>Define a function :</p>
+<p>Define a function with no parameter:</p>
 
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">function db_operation(){</span>
 <span class="x">	//--------------------------binding account</span>
@@ -223,7 +223,7 @@
 <span class="x">				</span>
 <span class="x">				...</span></code></pre></div>
 
-<h3 id="use-sprintf-get-pre-defined-template">Use sprintf() get Pre-defined Template</h3>
+<h3 id="use-sprintf-to-get-pre-defined-string-from-template">Use sprintf() to get pre-defined string from template</h3>
 
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">$textTpl = &quot;&lt;xml&gt;</span>
 <span class="x">            &lt;ToUserName&gt;&lt;![CDATA[%s]]&gt;&lt;/ToUserName&gt;</span>
@@ -237,7 +237,7 @@
 <span class="x">$resultStr .= sprintf($textTpl, $fromUsername, $toUsername, time(), $msgType, $text);</span></code></pre></div>
 
 <h3 id="connect-to-mysql-in-php">Connect to MySQL in PHP</h3>
-<p>This is a not quite up-to-dated way:</p>
+<p>This is not a quite up-to-dated way:</p>
 
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">$connecTtion =mysql_connect($db_servername, $db_username, $db_password) OR DIE (&quot;Unable to connect to database! Please try again later.&quot;);</span>
 <span class="x">if (!$connection){</span>
@@ -254,7 +254,7 @@
 <span class="x">		mysql_close($connection);</span>
 <span class="x">		return $output;</span></code></pre></div>
 
-<p>This is recommended way:</p>
+<p>It is better to use mysqli() instead:</p>
 
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">$servername = &quot;localhost&quot;;</span>
 <span class="x">$username = &quot;username&quot;;</span>
@@ -280,13 +280,13 @@ if (mysqli_connect_error()) {
 <h3 id="verify-strings-format">Verify String’s Format</h3>
 <p>Use function “<strong>preg_match(pattern,variable)</strong>”
 ` if (preg_match(“/[A-Za-z0-9]+/”, $form_Content) &amp;&amp; strlen($form_Content) == 8) { …} `
-This example here checks whether the $form_Content contains only letters and numbers and the length is exactly 8. 
-It is used to detect the activition key. It is better to have user operation state stored in the server-side. However taken the Chinese input habit into account, it is OK. It is really rare to have regular input exactly like this way when the user write a message in Chinese.</p>
+The example here checks whether the $form_Content contains only letters and numbers and the length of the string is exactly 8. 
+It is used to detect the identification code. It is better to have user operation state stored in the server-side. However, taken the Chinese’s input habit into account, it is feasible. It is really rare to have a reply which contains only letters and numbers from a Chinese user.</p>
 
 <h3 id="basic-php-form">Basic PHP form</h3>
 
 <ul>
-  <li>check user’s input:</li>
+  <li>Check user’s input:</li>
 </ul>
 
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">// define variables and set to empty values</span>
@@ -393,7 +393,7 @@ Following is the function in JS:</p>
   <footer>
     
 
-<span>&copy; 2014 Naiqus.</span>
+<span>&copy; 2015 Naiqus.</span>
 
   </footer>
 </div><!-- /.footer-wrap -->

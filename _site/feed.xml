@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://naiqus.github.io/feed.xml" />
 <link rel="alternate" type="text/html" href="http://naiqus.github.io" />
-<updated>2014-12-31T14:32:32+01:00</updated>
+<updated>2015-01-02T21:26:28+01:00</updated>
 <id>http://naiqus.github.io/</id>
 <author>
   <name>Naiqus</name>
@@ -28,7 +28,7 @@
   </author>
   <content type="html">&lt;p&gt;Wechat is the most popular IM App nowadays in China. The Wechat MP could deliver various functions to Wechat users with its Developer API. &lt;/p&gt;
 
-&lt;p&gt;Recently I registered a Wechat MP for my Discourse forum &lt;a href=&quot;www.e1zone.de&quot;&gt;E1zone&lt;/a&gt; and developed some the server-side functions for it in order to fetch users’ own informations from the Discourse forum. This post includes the basic principle of the implementation and some notes of technical details.&lt;/p&gt;
+&lt;p&gt;Recently I registered a Wechat MP for my Discourse forum &lt;a href=&quot;www.e1zone.de&quot;&gt;E1zone&lt;/a&gt; and developed some server-side functions to fetch users’ information from the Discourse forum. This post includes the procedure of the implementation and some notes of technical details.&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -49,12 +49,12 @@
   &lt;/header&gt;
 &lt;div id=&quot;drawer&quot;&gt;
 &lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#biding-wechat-openid-to-discourse-user&quot;&gt;Biding Wechat OpenID to Discourse User&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#binding-wechat-openid-to-discourse-user-account&quot;&gt;Binding Wechat OpenID to Discourse User Account&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#highlights-of-the-implementation&quot;&gt;Highlights of The Implementation.&lt;/a&gt;    &lt;ul&gt;
       &lt;li&gt;&lt;a href=&quot;#discourse-api-called-to-fetch-user-notifications&quot;&gt;Discourse API called to fetch user notifications&lt;/a&gt;&lt;/li&gt;
       &lt;li&gt;&lt;a href=&quot;#fetching-and-analyse-json-data-with-php&quot;&gt;Fetching and Analyse Json Data with PHP&lt;/a&gt;&lt;/li&gt;
       &lt;li&gt;&lt;a href=&quot;#function-overloading-in-php&quot;&gt;Function Overloading in PHP&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#use-sprintf-get-pre-defined-template&quot;&gt;Use sprintf() get Pre-defined Template&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#use-sprintf-to-get-pre-defined-string-from-template&quot;&gt;Use sprintf() to get pre-defined string from template&lt;/a&gt;&lt;/li&gt;
       &lt;li&gt;&lt;a href=&quot;#connect-to-mysql-in-php&quot;&gt;Connect to MySQL in PHP&lt;/a&gt;&lt;/li&gt;
       &lt;li&gt;&lt;a href=&quot;#verify-strings-format&quot;&gt;Verify String’s Format&lt;/a&gt;&lt;/li&gt;
       &lt;li&gt;&lt;a href=&quot;#basic-php-form&quot;&gt;Basic PHP form&lt;/a&gt;&lt;/li&gt;
@@ -65,16 +65,16 @@
   &lt;/div&gt;
 &lt;/section&gt;
 
-&lt;h2 id=&quot;biding-wechat-openid-to-discourse-user&quot;&gt;Biding Wechat OpenID to Discourse User&lt;/h2&gt;
+&lt;h2 id=&quot;binding-wechat-openid-to-discourse-user-account&quot;&gt;Binding Wechat OpenID to Discourse User Account&lt;/h2&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;Store Discourse user API key, user binding key and username in a database.&lt;/li&gt;
+  &lt;li&gt;Store Discourse user API key, identification code and username in a database.&lt;/li&gt;
   &lt;li&gt;discourse user request for the API key&lt;strong&gt;—&amp;gt;&lt;/strong&gt; &lt;/li&gt;
   &lt;li&gt;Administrators generate user API key &lt;strong&gt;—&amp;gt;&lt;/strong&gt; &lt;/li&gt;
-  &lt;li&gt;set a snippet of API key as wechat activation key &lt;strong&gt;—&amp;gt;&lt;/strong&gt; &lt;/li&gt;
-  &lt;li&gt;Insert the entry which contains information of api_key，Discourse username，and Wechat activation key.&lt;strong&gt;—&amp;gt;&lt;/strong&gt; &lt;/li&gt;
-  &lt;li&gt;Detect user reply in form of the length of activation key and combination of numbers and characters &lt;strong&gt;—&amp;gt;&lt;/strong&gt; &lt;/li&gt;
-  &lt;li&gt;when receiving a valid key, update the table with user’s wechat OpenID.&lt;/li&gt;
+  &lt;li&gt;set a snippet of API key as wechat identification code &lt;strong&gt;—&amp;gt;&lt;/strong&gt; &lt;/li&gt;
+  &lt;li&gt;Insert the entry which contains information of api_key，Discourse username，and identification code.&lt;strong&gt;—&amp;gt;&lt;/strong&gt; &lt;/li&gt;
+  &lt;li&gt;Detect identification code from user reply &lt;strong&gt;—&amp;gt;&lt;/strong&gt; &lt;/li&gt;
+  &lt;li&gt;validate the code, update database, add user’s wechat OpenID.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;highlights-of-the-implementation&quot;&gt;Highlights of The Implementation.&lt;/h2&gt;
@@ -94,7 +94,7 @@
 &lt;span class=&quot;x&quot;&gt;    }&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;function-overloading-in-php&quot;&gt;Function Overloading in PHP&lt;/h3&gt;
-&lt;p&gt;Define a function :&lt;/p&gt;
+&lt;p&gt;Define a function with no parameter:&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;x&quot;&gt;function db_operation(){&lt;/span&gt;
 &lt;span class=&quot;x&quot;&gt;	//--------------------------binding account&lt;/span&gt;
@@ -104,7 +104,7 @@
 &lt;span class=&quot;x&quot;&gt;				&lt;/span&gt;
 &lt;span class=&quot;x&quot;&gt;				...&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id=&quot;use-sprintf-get-pre-defined-template&quot;&gt;Use sprintf() get Pre-defined Template&lt;/h3&gt;
+&lt;h3 id=&quot;use-sprintf-to-get-pre-defined-string-from-template&quot;&gt;Use sprintf() to get pre-defined string from template&lt;/h3&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;x&quot;&gt;$textTpl = &amp;quot;&amp;lt;xml&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;x&quot;&gt;            &amp;lt;ToUserName&amp;gt;&amp;lt;![CDATA[%s]]&amp;gt;&amp;lt;/ToUserName&amp;gt;&lt;/span&gt;
@@ -118,7 +118,7 @@
 &lt;span class=&quot;x&quot;&gt;$resultStr .= sprintf($textTpl, $fromUsername, $toUsername, time(), $msgType, $text);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;connect-to-mysql-in-php&quot;&gt;Connect to MySQL in PHP&lt;/h3&gt;
-&lt;p&gt;This is a not quite up-to-dated way:&lt;/p&gt;
+&lt;p&gt;This is not a quite up-to-dated way:&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;x&quot;&gt;$connecTtion =mysql_connect($db_servername, $db_username, $db_password) OR DIE (&amp;quot;Unable to connect to database! Please try again later.&amp;quot;);&lt;/span&gt;
 &lt;span class=&quot;x&quot;&gt;if (!$connection){&lt;/span&gt;
@@ -135,7 +135,7 @@
 &lt;span class=&quot;x&quot;&gt;		mysql_close($connection);&lt;/span&gt;
 &lt;span class=&quot;x&quot;&gt;		return $output;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;This is recommended way:&lt;/p&gt;
+&lt;p&gt;It is better to use mysqli() instead:&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;x&quot;&gt;$servername = &amp;quot;localhost&amp;quot;;&lt;/span&gt;
 &lt;span class=&quot;x&quot;&gt;$username = &amp;quot;username&amp;quot;;&lt;/span&gt;
@@ -161,13 +161,13 @@ if (mysqli_connect_error()) {
 &lt;h3 id=&quot;verify-strings-format&quot;&gt;Verify String’s Format&lt;/h3&gt;
 &lt;p&gt;Use function “&lt;strong&gt;preg_match(pattern,variable)&lt;/strong&gt;”
 ` if (preg_match(“/[A-Za-z0-9]+/”, $form_Content) &amp;amp;&amp;amp; strlen($form_Content) == 8) { …} `
-This example here checks whether the $form_Content contains only letters and numbers and the length is exactly 8. 
-It is used to detect the activition key. It is better to have user operation state stored in the server-side. However taken the Chinese input habit into account, it is OK. It is really rare to have regular input exactly like this way when the user write a message in Chinese.&lt;/p&gt;
+The example here checks whether the $form_Content contains only letters and numbers and the length of the string is exactly 8. 
+It is used to detect the identification code. It is better to have user operation state stored in the server-side. However, taken the Chinese’s input habit into account, it is feasible. It is really rare to have a reply which contains only letters and numbers from a Chinese user.&lt;/p&gt;
 
 &lt;h3 id=&quot;basic-php-form&quot;&gt;Basic PHP form&lt;/h3&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;check user’s input:&lt;/li&gt;
+  &lt;li&gt;Check user’s input:&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;x&quot;&gt;// define variables and set to empty values&lt;/span&gt;
