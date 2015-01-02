@@ -15,6 +15,8 @@ Wechat is the most popular IM App nowadays in China. The Wechat MP could deliver
 
 Recently I registered a Wechat MP for my Discourse forum [E1zone](www.e1zone.de) and developed some server-side functions to fetch users' information from the Discourse forum. This post includes the procedure of the implementation and some notes of technical details.
 
+The code is now hosted in Github: [discourse-wechat-mp](https://github.com/Naiqus/discourse-wechat-mp).
+
 ---
 
 **The implemented functions:**
