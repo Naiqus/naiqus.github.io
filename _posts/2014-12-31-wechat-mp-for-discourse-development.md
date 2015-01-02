@@ -17,7 +17,7 @@ Recently I registered a Wechat MP for my Discourse forum [E1zone](www.e1zone.de)
 
 ---
 
-**The implemented functions of the Wechat MP:**
+**The implemented functions:**
 
 - reply "?" to check usage.
 - reply "最新" to get weekly highlights list 
@@ -44,8 +44,8 @@ Recently I registered a Wechat MP for my Discourse forum [E1zone](www.e1zone.de)
 * Store Discourse user API key, identification code and username in a database.
 * discourse user request for the API key**--->** 
 * Administrators generate user API key **--->** 
-* set a snippet of API key as wechat identification code **--->** 
 * Insert the entry which contains information of api_key，Discourse username，and identification code.**--->** 
+* send Wechat identification code to user**--->** 
 * Detect identification code from user reply **--->** 
 * validate the code, update database, add user's wechat OpenID.
 
