@@ -1,0 +1,702 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+
+body, html { 
+    overflow: hidden; 
+}
+
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/*
+    Now here is when interesting things start to appear.
+
+    We set up <body> styles with default font and nice gradient in the background.
+    And yes, there is a lot of repetition there because of -prefixes but we don't
+    want to leave anybody behind.
+*/
+body {
+    font-family: 'PT Sans', sans-serif;
+    min-height: 740px;
+    background: #020202;
+}
+
+/*
+    Now let's bring some text styles back ...
+*/
+b, strong { font-weight: bold }
+i, em { font-style: italic }
+
+/*
+    ... and give links a nice look.
+*/
+a {
+    color: inherit;
+    text-decoration: none;
+    padding: 0 0.1em;
+    background: rgba(255,255,255,0.5);
+    text-shadow: -1px -1px 2px rgba(100,100,100,0.9);
+    border-radius: 0.2em;
+
+    -webkit-transition: 0.5s;
+    -moz-transition:    0.5s;
+    -ms-transition:     0.5s;
+    -o-transition:      0.5s;
+    transition:         0.5s;
+}
+
+a:hover,
+a:focus {
+    background: rgba(255,255,255,1);
+    text-shadow: -1px -1px 2px rgba(100,100,100,0.5);
+}
+
+/*
+    Because the main point behind the impress.js demo is to demo impress.js
+    we display a fallback message for users with browsers that don't support
+    all the features required by it.
+
+    All of the content will be still fully accessible for them, but I want
+    them to know that they are missing something - that's what the demo is
+    about, isn't it?
+
+    And then we hide the message, when support is detected in the browser.
+*/
+
+.fallback-message {
+    font-family: sans-serif;
+    line-height: 1.3;
+
+    width: 780px;
+    padding: 10px 10px 0;
+    margin: 20px auto;
+
+    border: 1px solid #E4C652;
+    border-radius: 10px;
+    background: #EEDC94;
+}
+
+.fallback-message p {
+    margin-bottom: 10px;
+}
+
+.impress-supported .fallback-message {
+    display: none;
+}
+
+
+/*// step */
+.step {
+    position: relative;
+    width: 1024px;
+    padding: 20px 40px 20px 40px;
+    margin: 20px auto;
+
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing:    border-box;
+    -ms-box-sizing:     border-box;
+    -o-box-sizing:      border-box;
+    box-sizing:         border-box;
+
+    font-family: 'PT Serif', georgia, serif;
+    font-size: 1.1em;
+    line-height: 1.5;
+    overflow: hidden;
+}
+
+#welcome {
+    font-family: 'Cutive', serif;
+    font-size: 40px;
+    color: #ededed;
+    transition: background-color 200ms ease-out;
+}
+
+#welcome span {
+    font-size: 70px;
+    font-style: italic;
+}
+
+
+#welcome .welcome-msg{
+    display: block;
+    width: auto;
+    height: auto;
+    text-align: let;
+    padding-bottom: 50px;
+
+}
+
+@-webkit-keyframes 'caret'{
+    0%, 100%{opacity:1}
+    50%{opacity:0}
+}
+
+@-moz-keyframes 'caret'{
+    0%, 100%{opacity:1}
+    50%{opacity:0}
+}
+
+@keyframes 'caret'{
+    0%, 100%{opacity:1}
+    50%{opacity:0}
+}
+
+.saying:after {
+    content: "|";
+    font-family: Arial, sans-serif;
+    font-size: 1.2em;
+    line-height: 1;
+    display: inline-block;
+    vertical-align: baseline;
+    opacity: 1;
+    -webkit-animation-direction: normal;
+    -webkit-animation-duration: 500ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-name: caret;
+    -webkit-animation-timing-function: ease; 
+}
+
+#welcome.past {
+    margin: 0;
+    opacity: 0.0;
+    -webkit-transition: opacity 1s;
+    -moz-transition:    opacity 1s;
+    -ms-transition:     opacity 1s;
+    -o-transition:      opacity 1s;
+    transition:         opacity 1s;
+}
+
+#welcome.active {
+    margin: 0;
+    opacity: 1.0;
+    -webkit-transition: opacity 1s;
+    -moz-transition:    opacity 1s;
+    -ms-transition:     opacity 1s;
+    -o-transition:      opacity 1s;
+    transition:         opacity 1s;
+}
+
+.resume {
+    background-color: #ffffff;
+    border-color: none;
+}
+
+/*first segment*/
+.information.past {
+    margin: 0;
+    opacity: 1.0;
+    -webkit-transition: opacity 1s;
+    -moz-transition:    opacity 1s;
+    -ms-transition:     opacity 1s;
+    -o-transition:      opacity 1s;
+    transition:         opacity 1s;
+}
+/*
+    ... and we enhance the styles for impress.js.
+
+    Basically we remove the margin and make inactive steps a little bit transparent.
+*/
+.resume.past {
+    margin: 0;
+    opacity: 1.0;
+    -webkit-transition: opacity 1s;
+    -moz-transition:    opacity 1s;
+    -ms-transition:     opacity 1s;
+    -o-transition:      opacity 1s;
+    transition:         opacity 1s;
+}
+
+.resume.future {
+    margin: 0;
+    opacity: 0.0;
+
+    -webkit-transition: opacity 1s;
+    -moz-transition:    opacity 1s;
+    -ms-transition:     opacity 1s;
+    -o-transition:      opacity 1s;
+    transition:         opacity 1s;
+}
+
+.impress-enabled .resume.active { 
+    opacity: 1;
+    margin: 0;
+}
+
+/*--- inside a fragment ----*/
+
+.title{
+    display: block;
+    margin-bottom: 10px;
+    text-align: center;
+
+}
+
+.title span{
+    display: inline-block;
+    padding: 8px 50px 15px 50px;
+    border-color: #000000;
+    border-style: solid;
+    border-width: 2px;
+    border-top: none;
+    border-bottom: none;
+    width: 20%;
+}
+
+.column1{
+    width: 33.3333%;
+/*    no background color for inner padding*/
+}
+
+.column2{
+    width: 50%;
+}
+
+.column3{
+    width: 66.6666%;
+}
+
+.column4{
+    width: 100%;
+}
+
+
+.tile {
+    display: inline-block;
+    float: left;
+    margin: 0;
+    padding: 5px 4px;
+/*    padding here doesn't affect tile width*/
+    -moz-box-sizing: border-box; 
+    -webkit-box-sizing: border-box; 
+    box-sizing: border-box; 
+    background-clip:content-box;
+    background-color: #FFFFFF;
+}
+.tile-content {
+    padding: 20px 30px;
+}
+
+/*--- each page ----*/
+
+
+/*--- Information ----*/
+
+.info-entry {
+    display: inline-block;
+    width:100%;
+    padding: 3px 40px;
+    /*    padding here doesn't affect tile width*/
+    -moz-box-sizing: border-box; 
+    -webkit-box-sizing: border-box; 
+    box-sizing: border-box; 
+}
+
+.info-attr{
+    width:23%;
+    float: left;
+}
+.info-data{
+    float: left;
+    padding-left: 20px;
+}
+
+.avatar {
+        /*    padding here doesn't affect tile width*/
+    -moz-box-sizing: border-box; 
+    -webkit-box-sizing: border-box; 
+    box-sizing: border-box; 
+    float: left;
+    padding: 40px 40px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    
+}
+
+.timeline {
+	width:80%;
+	margin:0 auto;
+	overflow:auto;
+	padding:2%;
+}
+
+.right-content {
+	float:left;
+	display:block;
+	width:40%;
+	padding:1% 2%;
+    border-left:5px dotted #666;
+}
+
+.right-content p {
+	margin:80px 0 150px;
+}
+
+.timeline p {
+-webkit-transition: all 0.7s ease-in-out;
+-moz-transition: all 0.7 ease-in-out;
+-ms-transition: all 0.7s ease-in-out;
+-o-transition: all 0.7s ease-in-out;
+transition: all 0.7s ease-in-out;	
+}
+
+.right-content .more-padding {
+  padding-left:100px;
+}
+
+/*Timeline*/
+
+.hexa{
+  border: 0px;
+  float: left;
+  text-align: center;
+  height: 35px;
+  width: 60px;
+  font-size: 22px;
+  background: #f0f0f0;
+  color: #3c3c3c;
+  position: relative;
+  margin-top: 15px;
+}
+
+.hexa:before{
+  content: ""; 
+  position: absolute; 
+  left: 0; 
+  width: 0; 
+  height: 0;
+  border-bottom: 15px solid #f0f0f0;
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+  top: -15px;
+}
+
+.hexa:after{
+  content: ""; 
+  position: absolute; 
+  left: 0; 
+  width: 0; 
+  height: 0;
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+  border-top: 15px solid #f0f0f0;
+  bottom: -15px;
+}
+
+.timeline {
+  position: relative;
+  padding: 0;
+  width: 100%;
+  margin-top: 20px;
+  list-style-type: none;
+}
+
+.timeline:before {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  content: ' ';
+  display: block;
+  width: 2px;
+  height: 100%;
+  margin-left: -1px;
+  background: rgb(213,213,213);
+  background: -moz-linear-gradient(top, rgba(213,213,213,0) 0%, rgb(213,213,213) 8%, rgb(213,213,213) 92%, rgba(213,213,213,0) 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(30,87,153,1)), color-stop(100%,rgba(125,185,232,1)));
+  background: -webkit-linear-gradient(top, rgba(213,213,213,0) 0%, rgb(213,213,213) 8%, rgb(213,213,213) 92%, rgba(213,213,213,0) 100%);
+  background: -o-linear-gradient(top, rgba(213,213,213,0) 0%, rgb(213,213,213) 8%, rgb(213,213,213) 92%, rgba(213,213,213,0) 100%);
+  background: -ms-linear-gradient(top, rgba(213,213,213,0) 0%, rgb(213,213,213) 8%, rgb(213,213,213) 92%, rgba(213,213,213,0) 100%);
+  background: linear-gradient(to bottom, rgba(213,213,213,0) 0%, rgb(213,213,213) 8%, rgb(213,213,213) 92%, rgba(213,213,213,0) 100%);
+  z-index: 5;
+}
+
+.timeline li {
+  padding: 1em 0;
+}
+
+.timeline .hexa{
+  width: 16px;
+  height: 10px;
+  position: absolute;
+  background: #00c4f3;
+  z-index: 5;
+  left: 0;
+  right: 0;
+  margin-left:auto;
+  margin-right:auto;
+  top: -30px;
+  margin-top: 0;
+}
+
+.timeline .hexa:before {
+  border-bottom: 4px solid #00c4f3;
+  border-left-width: 8px;
+  border-right-width: 8px;
+  top: -4px;
+}
+
+.timeline .hexa:after {
+  border-left-width: 8px;
+  border-right-width: 8px;
+  border-top: 4px solid #00c4f3;
+  bottom: -4px;
+}
+
+.direction-l,
+.direction-r {
+  float: none;
+  width: 100%;
+  text-align: center;
+}
+
+.flag-wrapper {
+  text-align: center;
+  position: relative;
+}
+
+.flag {
+  position: relative;
+  display: inline;
+  background: rgb(255,255,255);
+  font-weight: 600;
+  z-index: 15;
+  padding: 6px 10px;
+  text-align: left;
+  border-radius: 5px;
+}
+
+.direction-l .flag:after,
+.direction-r .flag:after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -15px;
+  height: 0;
+  width: 0;
+  margin-left: -8px;
+  border: solid transparent;
+  border-bottom-color: rgb(255,255,255);
+  border-width: 8px;
+  pointer-events: none;
+}
+
+.direction-l .flag {
+  -webkit-box-shadow: -1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
+  -moz-box-shadow: -1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
+  box-shadow: -1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
+}
+
+.direction-r .flag {
+  -webkit-box-shadow: 1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
+  -moz-box-shadow: 1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
+  box-shadow: 1px 1px 1px rgba(0,0,0,0.15), 0 0 1px rgba(0,0,0,0.15);
+}
+
+.time-wrapper {
+  display: block;
+  position: relative;
+  margin: 4px 0 0 0;
+  z-index: 14;
+  line-height: 1em;
+  vertical-align: middle;
+  color: #fff;
+}
+
+.direction-l .time-wrapper {
+  float: none;
+}
+
+.direction-r .time-wrapper {
+  float: none;
+}
+
+.time-blue {
+  background: #00c4f3;
+  display: inline-block;
+  padding: 8px;
+}
+
+.time-red {
+  background: #00c4f3;
+  display: inline-block;
+  padding: 8px;
+}
+
+.desc {
+  position: relative;
+  margin: 1em 0 0 0;
+  padding: 1em;
+  background: rgb(254,254,254);
+  -webkit-box-shadow: 0 0 1px rgba(0,0,0,0.20);
+  -moz-box-shadow: 0 0 1px rgba(0,0,0,0.20);
+  box-shadow: 0 0 1px rgba(0,0,0,0.20);
+  z-index: 15;
+}
+
+.direction-l .desc,
+.direction-r .desc {
+  position: relative;
+  margin: 1em 1em 0 1em;
+  padding: 1em;
+  z-index: 15;
+}
+
+@media(min-width: 768px){
+  .timeline {
+    width: 660px;
+    margin: 0 auto;
+    margin-top: 20px;
+  }
+
+  .timeline li:after {
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+  }
+  
+  .timeline .hexa {
+    left: -28px;
+    right: auto;
+    top: 8px;
+  }
+
+  .timeline .direction-l .hexa {
+    left: auto;
+    right: -28px;
+  }
+
+  .direction-l {
+    position: relative;
+    width: 310px;
+    float: left;
+    text-align: right;
+  }
+
+  .direction-r {
+    position: relative;
+    width: 310px;
+    float: right;
+    text-align: left;
+  }
+
+  .flag-wrapper {
+    display: inline-block;
+  }
+  
+  .flag {
+    font-size: 18px;
+  }
+
+  .direction-l .flag:after {
+    left: auto;
+    right: -16px;
+    top: 50%;
+    margin-top: -8px;
+    border: solid transparent;
+    border-left-color: rgb(254,254,254);
+    border-width: 8px;
+  }
+
+  .direction-r .flag:after {
+    top: 50%;
+    margin-top: -8px;
+    border: solid transparent;
+    border-right-color: rgb(254,254,254);
+    border-width: 8px;
+    left: -8px;
+  }
+
+  .time-wrapper {
+    display: inline;
+    vertical-align: middle;
+    margin: 0;
+  }
+
+  .direction-l .time-wrapper {
+    float: left;
+  }
+
+  .direction-r .time-wrapper {
+    float: right;
+  }
+
+  .time {
+    padding: 5px 10px;
+  }
+
+  .direction-r .desc {
+    margin: 1em 0 0 0.75em;
+  }
+}
+
+@media(min-width: 992px){
+  .timeline {
+    width: 800px;
+    margin: 0 auto;
+    margin-top: 20px;
+  }
+
+  .direction-l {
+    position: relative;
+    width: 380px;
+    float: left;
+    text-align: right;
+  }
+
+  .direction-r {
+    position: relative;
+    width: 380px;
+    float: right;
+    text-align: left;
+  }
+}
+
+
+
+
+
+
+
