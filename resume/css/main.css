@@ -268,19 +268,15 @@ a:focus {
 .title{
     display: block;
     margin-bottom: 10px;
-    text-align: center;
+    padding-left: 30px;
 
 }
 
 .title span{
     display: inline-block;
-    padding: 8px 50px 15px 50px;
-    border-color: #000000;
-    border-style: solid;
-    border-width: 2px;
-    border-top: none;
-    border-bottom: none;
     width: 20%;
+    color: #418bca;
+    font-weight: 700;
 }
 
 .column1{
@@ -317,28 +313,52 @@ a:focus {
     padding: 20px 30px;
 }
 
+
 /*--- each page ----*/
 
 
 /*--- Information ----*/
 
 .info-entry {
-    display: inline-block;
+    display: inline;
     width:100%;
-    padding: 3px 40px;
+    padding: 3px 10px;
     /*    padding here doesn't affect tile width*/
     -moz-box-sizing: border-box; 
     -webkit-box-sizing: border-box; 
     box-sizing: border-box; 
 }
 
+.info-entry h2{
+    display: inline-block;
+    font-family: "Minion W01",Georgia,Times,"Times New Roman","Microsoft YaHei New","Microsoft Yahei","微软雅黑",宋体,SimSun,华文细黑,STXihei,黑体,SimHei,serif;
+    font-size: 350%;
+    letter-spacing: -1px;
+    padding-top: 40px;
+    font-weight: 600;
+}
+
+.description{
+    display: inline-block;
+    font-family: "Minion W01",Georgia,Times,"Times New Roman","Microsoft YaHei New","Microsoft Yahei","微软雅黑",宋体,SimSun,华文细黑,STXihei,黑体,SimHei,serif;
+    font-size: 150%;
+    padding-top: 0px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    color: #418bca;
+}
+
 .info-attr{
-    width:23%;
     float: left;
+    padding-left: 10px;
+    font-size: 90%;
 }
 .info-data{
     float: left;
-    padding-left: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-right: 1px solid grey;
+    font-size: 90%;
 }
 
 .avatar {
@@ -354,13 +374,6 @@ a:focus {
     
 }
 
-.timeline {
-	width:80%;
-	margin:0 auto;
-	overflow:auto;
-	padding:2%;
-}
-
 .right-content {
 	float:left;
 	display:block;
@@ -374,7 +387,7 @@ a:focus {
 }
 
 .timeline p {
--webkit-transition: all 0.7s ease-in-out;
+-webkit-transition: Fall 0.7s ease-in-out;
 -moz-transition: all 0.7 ease-in-out;
 -ms-transition: all 0.7s ease-in-out;
 -o-transition: all 0.7s ease-in-out;
@@ -386,6 +399,14 @@ transition: all 0.7s ease-in-out;
 }
 
 /*Timeline*/
+
+#work .tile {
+    padding: 0px 0px !important;
+}
+
+#education .tile {
+    padding: 0px 0px !important;
+}
 
 .hexa{
   border: 0px;
@@ -428,8 +449,10 @@ transition: all 0.7s ease-in-out;
   position: relative;
   padding: 0;
   width: 100%;
-  margin-top: 20px;
+  margin-top: 0px;
   list-style-type: none;
+  overflow:hidden;
+  height: auto;
 }
 
 .timeline:before {
@@ -451,15 +474,56 @@ transition: all 0.7s ease-in-out;
   z-index: 5;
 }
 
+
 .timeline li {
-  padding: 1em 0;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    display: block;
+    width: 100%;
+    position: relative;
+    display: block;
+    float: right;
+    clear: right;
+width: 40%;
+    position: relative;
+    display: block;
+    float: right;
+    clear: right;
+
+    -webkit-transition: background .15s linear;
+    -moz-transition: background .15s linear;
+    -ms-transition: background .15s linear;
+    -o-transition: background .15s linear;
+    transition: background .15s linear;
+    -webkit-transition: background .15s linear;
+    -moz-transition: background .15s linear;
+    -ms-transition: background .15s linear;
+    -o-transition: background .15s linear;
+    transition: background .15s linear;
+
+}
+
+.li-left{
+        float:left !important;
+        clear:left !important;
+        margin-top: 15%;
+    
+}
+
+.time {
+  background: #ffb74d;
+  display: inline-block;
+  padding: 8px; 
+  font-size: 80%;
+
 }
 
 .timeline .hexa{
   width: 16px;
   height: 10px;
   position: absolute;
-  background: #00c4f3;
+  background: #ffb74d;
+	float:left;
   z-index: 5;
   left: 0;
   right: 0;
@@ -470,7 +534,7 @@ transition: all 0.7s ease-in-out;
 }
 
 .timeline .hexa:before {
-  border-bottom: 4px solid #00c4f3;
+  border-bottom: 4px solid #ffb74d;
   border-left-width: 8px;
   border-right-width: 8px;
   top: -4px;
@@ -479,16 +543,28 @@ transition: all 0.7s ease-in-out;
 .timeline .hexa:after {
   border-left-width: 8px;
   border-right-width: 8px;
-  border-top: 4px solid #00c4f3;
+  border-top: 4px solid #ffb74d;
   bottom: -4px;
 }
 
-.direction-l,
+
 .direction-r {
   float: none;
   width: 100%;
   text-align: center;
+  padding-top: 20px;
 }
+
+.timeline-first{
+  top: 0px;
+}
+
+.direction-l{
+  float: none;
+  width: 100%;
+  text-align: center;
+}
+
 
 .flag-wrapper {
   text-align: center;
@@ -504,21 +580,6 @@ transition: all 0.7s ease-in-out;
   padding: 6px 10px;
   text-align: left;
   border-radius: 5px;
-}
-
-.direction-l .flag:after,
-.direction-r .flag:after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: -15px;
-  height: 0;
-  width: 0;
-  margin-left: -8px;
-  border: solid transparent;
-  border-bottom-color: rgb(255,255,255);
-  border-width: 8px;
-  pointer-events: none;
 }
 
 .direction-l .flag {
@@ -538,7 +599,7 @@ transition: all 0.7s ease-in-out;
   position: relative;
   margin: 4px 0 0 0;
   z-index: 14;
-  line-height: 1em;
+  line-height: 1em    ;
   vertical-align: middle;
   color: #fff;
 }
@@ -551,26 +612,15 @@ transition: all 0.7s ease-in-out;
   float: none;
 }
 
-.time-blue {
-  background: #00c4f3;
-  display: inline-block;
-  padding: 8px;
-}
-
-.time-red {
-  background: #00c4f3;
-  display: inline-block;
-  padding: 8px;
-}
 
 .desc {
   position: relative;
   margin: 1em 0 0 0;
   padding: 1em;
-  background: rgb(254,254,254);
-  -webkit-box-shadow: 0 0 1px rgba(0,0,0,0.20);
-  -moz-box-shadow: 0 0 1px rgba(0,0,0,0.20);
-  box-shadow: 0 0 1px rgba(0,0,0,0.20);
+  background: #fafafa;
+  -webkit-box-shadow: 1 0 1px rgba(0,0,0,0.20);
+  -moz-box-shadow: 0 1 1px rgba(0,0,0,0.20);
+  box-shadow: 0 1 1px rgba(0,0,0,0.20);
   z-index: 15;
 }
 
@@ -580,7 +630,42 @@ transition: all 0.7s ease-in-out;
   margin: 1em 1em 0 1em;
   padding: 1em;
   z-index: 15;
+  font-size: 85%;
 }
+
+.sub-content {
+    font-style: italic;
+}
+
+#work .time{
+    background: #78909c;
+}
+
+#work .timeline .hexa{
+  background: #78909c;
+
+}
+
+#work .timeline .hexa:before {
+  border-bottom: 4px solid #78909c;
+}
+
+#work .timeline .hexa:after {
+  border-top: 4px solid #78909c;
+}
+
+#abilities .sub-title{
+    display: block;
+    text-align: center;
+    padding-top: 8px;
+    font-size: 90%;
+    font-weight: 600;
+}
+
+#interest .sub-title{
+    margin-left: 100px;
+}
+
 
 @media(min-width: 768px){
   .timeline {
@@ -589,6 +674,10 @@ transition: all 0.7s ease-in-out;
     margin-top: 20px;
   }
 
+  .timeline li {
+    padding: 1em 0;
+    
+  }
   .timeline li:after {
     content: "";
     display: block;
@@ -596,6 +685,7 @@ transition: all 0.7s ease-in-out;
     clear: both;
     visibility: hidden;
   }
+    
   
   .timeline .hexa {
     left: -28px;

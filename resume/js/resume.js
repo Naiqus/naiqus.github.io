@@ -47,3 +47,43 @@ for (i = 1; i < resumeSnippets.length; i = i + 1) {
 //    debugger;
     thisElement.setAttribute("data-y", newY);
 }
+
+//Config Chart.js
+var radarOptions = {
+	scaleFontSize : 13,
+	pointLabelFontStyle : "normal",	
+	pointLabelFontSize : 13,
+	pointLabelFontColor : "#444444",
+	animation : true
+}
+//skill chart
+
+// Radar Data
+var skillData = {
+	labels : ["Java","Linux","JavaScript","English","German","Chinese","C/C++"],
+	datasets : [
+		{
+			fillColor : "rgba(79,195,247,.5)",
+			strokeColor : "rgba(220,220,220,1)",
+			data : [80,90,70,90,75,100,90]
+		}
+	]
+};
+var interestData = {
+	labels : ["Computer Vision","Web","Guitar","Violin","Tennis","Embedded System","AR/VR","Internet of Things"],
+	datasets : [
+		{
+			fillColor : "rgba(255,183,77,.5)",
+			strokeColor : "rgba(220,220,220,1)",
+			data : [90,70,70,60,80,80,90,70]
+		}
+	]
+};
+
+
+
+//Get the context of the Radar Chart canvas element we want to select
+var ctx = document.getElementById("skill-chart").getContext("2d");
+var mySkillChart = new Chart(ctx).Radar(skillData,radarOptions);
+ctx = document.getElementById("interest-chart").getContext("2d");
+mySkillChart = new Chart(ctx).Radar(interestData,radarOptions);
