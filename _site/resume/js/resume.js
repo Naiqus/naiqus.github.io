@@ -53,7 +53,7 @@ var radarOptions = {
     scaleShowLine : true,
     angleShowLineOut : false,
 	scaleFontSize : 12,
-    pointLabelFontFamily : "monospace",
+    pointLabelFontFamily : "Lekton",
 	pointLabelFontStyle : "bold",	
 	pointLabelFontSize : 15,
 	pointLabelFontColor : "#444444",
