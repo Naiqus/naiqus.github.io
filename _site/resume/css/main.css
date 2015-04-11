@@ -1,3 +1,5 @@
+@import "//fast.fonts.net/cssapi/2462b0c2-eec3-4964-b7dd-97eb72fc7c20.css";
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -139,7 +141,8 @@ a:focus {
     -o-box-sizing:      border-box;
     box-sizing:         border-box;
 
-    font-family: 'PT Serif', georgia, serif;
+/*    font-family: 'PT Serif', georgia, serif;*/
+    font-family: "arial",Georgia,Times,"Times New Roman","Microsoft YaHei New","Microsoft Yahei","微软雅黑",宋体,SimSun,华文细黑,STXihei,黑体,SimHei,serif;
     font-size: 1.1em;
     line-height: 1.5;
     overflow: hidden;
@@ -331,8 +334,8 @@ a:focus {
 
 .info-entry h2{
     display: inline-block;
-    font-family: "Minion W01",Georgia,Times,"Times New Roman","Microsoft YaHei New","Microsoft Yahei","微软雅黑",宋体,SimSun,华文细黑,STXihei,黑体,SimHei,serif;
-    font-size: 350%;
+    font-family: "arial",Georgia,Times,"Times New Roman","Microsoft YaHei New","Microsoft Yahei","微软雅黑",宋体,SimSun,华文细黑,STXihei,黑体,SimHei,serif;
+    font-size: 340%;
     letter-spacing: -1px;
     padding-top: 40px;
     font-weight: 600;
@@ -340,8 +343,8 @@ a:focus {
 
 .description{
     display: inline-block;
-    font-family: "Minion W01",Georgia,Times,"Times New Roman","Microsoft YaHei New","Microsoft Yahei","微软雅黑",宋体,SimSun,华文细黑,STXihei,黑体,SimHei,serif;
-    font-size: 150%;
+    font-family: "arial",Georgia,Times,"Times New Roman","Microsoft YaHei New","Microsoft Yahei","微软雅黑",宋体,SimSun,华文细黑,STXihei,黑体,SimHei,serif;
+    font-size: 120%;
     padding-top: 0px;
     padding-bottom: 5px;
     padding-left: 10px;
@@ -351,14 +354,17 @@ a:focus {
 .info-attr{
     float: left;
     padding-left: 10px;
-    font-size: 90%;
+    font-size: 80%;
+    font-family: "Arial";
+    font-weight:normal;
 }
 .info-data{
     float: left;
     padding-left: 10px;
     padding-right: 10px;
     border-right: 1px solid grey;
-    font-size: 90%;
+    font-size: 80%;
+    font-weight: 100;
 }
 
 .avatar {
@@ -367,10 +373,11 @@ a:focus {
     -webkit-box-sizing: border-box; 
     box-sizing: border-box; 
     float: left;
-    padding: 40px 40px;
+    padding: 50px 50px;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     border-radius: 50%;
+
     
 }
 
@@ -602,6 +609,9 @@ width: 40%;
   line-height: 1em    ;
   vertical-align: middle;
   color: #fff;
+  font-family: "Proxima N W01","Proxima Nova","Century Gothic",CenturyGothic,"Microsoft YaHei New","Microsoft Yahei","微软雅黑",宋体,SimSun,华文细黑,STXihei,黑体,SimHei,sans-serif;
+  text-transform: uppercase;
+  font-weight: 600;
 }
 
 .direction-l .time-wrapper {
