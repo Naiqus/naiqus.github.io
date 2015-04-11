@@ -142,24 +142,33 @@ a:focus {
     box-sizing:         border-box;
 
 /*    font-family: 'PT Serif', georgia, serif;*/
-    font-family: "arial",Georgia,Times,"Times New Roman","Microsoft YaHei New","Microsoft Yahei","微软雅黑",宋体,SimSun,华文细黑,STXihei,黑体,SimHei,serif;
-    font-size: 1.1em;
+    font-family: "monospace",Georgia,Times,"Times New Roman","Microsoft YaHei New","Microsoft Yahei","微软雅黑",宋体,SimSun,华文细黑,STXihei,黑体,SimHei,serif;
+    font-size: 1.0em;
     line-height: 1.5;
     overflow: hidden;
 }
 
 #welcome {
-    font-family: 'Cutive', serif;
-    font-size: 40px;
+/*    font-family: 'Arial', serif;*/
+    font-family:monospace;
+    font-size: 190%;
     color: #ededed;
     transition: background-color 200ms ease-out;
 }
 
-#welcome span {
-    font-size: 70px;
-    font-style: italic;
+
+#welcome .tile{
+    background-color: #020202;
+    padding: 0px 0px;
 }
 
+#welcome .column1 {
+    font-size: 100%;
+    font-weight: 600;
+    float: left;
+    text-align: center;
+    padding: none;
+}
 
 #welcome .welcome-msg{
     display: block;
@@ -169,6 +178,8 @@ a:focus {
     padding-bottom: 50px;
 
 }
+
+
 
 @-webkit-keyframes 'caret'{
     0%, 100%{opacity:1}
@@ -334,8 +345,8 @@ a:focus {
 
 .info-entry h2{
     display: inline-block;
-    font-family: "arial",Georgia,Times,"Times New Roman","Microsoft YaHei New","Microsoft Yahei","微软雅黑",宋体,SimSun,华文细黑,STXihei,黑体,SimHei,serif;
-    font-size: 340%;
+    font-family: "monospace",Georgia,Times,"Times New Roman","Microsoft YaHei New","Microsoft Yahei","微软雅黑",宋体,SimSun,华文细黑,STXihei,黑体,SimHei,serif;
+    font-size: 360%;
     letter-spacing: -1px;
     padding-top: 40px;
     font-weight: 600;
@@ -343,8 +354,8 @@ a:focus {
 
 .description{
     display: inline-block;
-    font-family: "arial",Georgia,Times,"Times New Roman","Microsoft YaHei New","Microsoft Yahei","微软雅黑",宋体,SimSun,华文细黑,STXihei,黑体,SimHei,serif;
-    font-size: 120%;
+    font-family: "monospace",Georgia,Times,"Times New Roman","Microsoft YaHei New","Microsoft Yahei","微软雅黑",宋体,SimSun,华文细黑,STXihei,黑体,SimHei,serif;
+    font-size: 140%;
     padding-top: 0px;
     padding-bottom: 5px;
     padding-left: 10px;
@@ -354,8 +365,7 @@ a:focus {
 .info-attr{
     float: left;
     padding-left: 10px;
-    font-size: 80%;
-    font-family: "Arial";
+    font-size: 90%;
     font-weight:normal;
 }
 .info-data{
@@ -363,7 +373,7 @@ a:focus {
     padding-left: 10px;
     padding-right: 10px;
     border-right: 1px solid grey;
-    font-size: 80%;
+    font-size: 90%;
     font-weight: 100;
 }
 
@@ -640,7 +650,7 @@ width: 40%;
   margin: 1em 1em 0 1em;
   padding: 1em;
   z-index: 15;
-  font-size: 85%;
+  font-size: 90%;
 }
 
 .sub-content {

@@ -1,12 +1,12 @@
 if ("ontouchstart" in document.documentElement) {
     document.querySelector(".hint").innerHTML = "<p>Tap on the left or right to navigate</p>";
 }
-var welcomeMsg = "Naiqus:<span>Welcome!</span>       <br></br>I am <b>Suqian Zhang</b>. Thanks for checking out my Résumé. <b>:)</b><br></br>\
+var welcomeMsg = "Naiqus: Thanks for checking out my Résumé. <b>:)</b><br></br>\
     Please <b>scroll down gently</b> or use <i>arrow keys/space key</i> to navigate.";
 
 // typing bot welcome msg
 var theater = new TheaterJS({ erase: false, autoplay: true});
-theater.describe("Naiqus",{speed: 2, accuracy: .8, invincibility: 4},".welcome-msg");
+theater.describe("Naiqus",{speed: 1.0, accuracy: .7, invincibility: 2},".welcome-msg");
 //add class
 theater.on("say:start, erase:start", function (eventName) {
                         var self    = this,
@@ -14,7 +14,7 @@ theater.on("say:start, erase:start", function (eventName) {
                         self.utils.addClass(current, "saying");
                     });
 theater.write(welcomeMsg,1500);
-    //make it look
+
     
 
 //arrange resume slide vertical position according to the element above.
@@ -53,7 +53,7 @@ var radarOptions = {
     scaleShowLine : true,
     angleShowLineOut : false,
 	scaleFontSize : 12,
-    pointLabelFontFamily : "Arial",
+    pointLabelFontFamily : "monospace",
 	pointLabelFontStyle : "bold",	
 	pointLabelFontSize : 15,
 	pointLabelFontColor : "#444444",
