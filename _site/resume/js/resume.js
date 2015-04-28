@@ -56,7 +56,7 @@ var radarOptions = {
     pointLabelFontFamily : "Lekton",
 	pointLabelFontStyle : "bold",	
 	pointLabelFontSize : 15,
-	pointLabelFontColor : "#444444",
+	pointLabelFontColor : "#000",
 	animation : true
 };
 //skill chart
