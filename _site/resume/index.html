@@ -4,6 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=1024" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="icon" 
+      type="image/png" 
+      href="favicon.png">
     <title>Personal Resume - Suqian Zhang</title>
     
     <meta name="description" content="This is my personal interactive Resume" />
@@ -59,7 +62,7 @@
         </div>
         <div id="about" class="tile column4"> 
             <div class="tile-content">
-                I am a self-starter and a highly driven person who is always looking for a new challenge. I consider myself a problem solver who is able to find creative solutions that may not be obvious to others. I have had success managing projects to complete tasks both independently and working in group settings.              
+                I am a self-starter and a highly driven person who is always looking for a new challenge. I love solving problems and trying to find creative solutions that may not be obvious to others. Completing tasks independently and working in group settings are both a pleasure for me.              
             </div>
         </div>
         
@@ -204,58 +207,75 @@
             </div>
         </div>
     </div>
-    <!--    Projects -->
+    <!--    Projects 1-->
     
-    <div id="projects" class="step resume" data-x="0" data-y="100"  data-scale="1">
+    <div id="projects1" class="step resume projects" data-x="0" data-y="100"  data-scale="1">
       <div class="title">
           <span>PROJECTS</span>
       </div>
       <div id="project1" class="tile column1">
-        <a href="#">
+        <a href="https://github.com/Naiqus/LaserGame" target="_blank">
           <div class="figure">
-              <img src="/src/LaserGame.jpg" />
+              <img src="src/LaserGame.jpg" />
               <div class="figcaption">
                   <h2>Wireless Laser Shooting Game</h2>
-                  <p></p>
+                <p>Based on Crossbow's TelosB mote. <br /><br />Gun: mote + laser diode(from a cheap laser pointer). Target: mote + servo(for different difficulties). All components are wireless connected(Radio frequency). Periphrals are 3D printed.</p>
               </div>
             <div class="figbutton">View on Github</div>
 
           </div>
 	     </a>
         </div>
-      <div id="project1" class="tile column1">
-        <a href="#">
+      <div class="tile column1">
+        <a href="https://github.com/Naiqus/LeapKeyController" target="_blank">
 
           <div class="figure">
               <img src="src/LeapKey.jpg" />
 
               <div class="figcaption">
                   <h2>LeapKey Chrome Extension</h2>
-                  <p>Soko radicchio bunya nuts gram dulse.</p>
+                  <p>It is a Chrome Extension for Leap Motion controller. <br /><br /> It could recognize simple gestures and map it into key-down events. It enables gestrue control of most of web games.</p>
               </div>
-            <div class="figbutton">View</div>
+            <div class="figbutton">View on Github</div>
 
           </div>
 	     </a>
         </div>
-      <div id="project1" class="tile column1">
-        <a href="#" class="b">
+      <div class="tile column1">
+        <a href="#" class="nolink">
 
           <div class="figure">
-              <img src="http://tympanus.net/Tutorials/ShapeHoverEffectSVG/img/2.png" />
+              <img src="src/ResumeProject.png" />
 
               <div class="figcaption">
-                  <h2>Eclipse GUI</h2>
-                  <p>Soko radicchio bunya nuts gram dulse.</p>
+                  <h2>Online resume</h2>
+                  <p>The one you are looking at now ;). <br /><br /> It is Handcrafted and designed by myself. All credits go to impress.js, theater.js and Chart.js.</p>
               </div>
-            <div class="figbutton">View</div>
+
+          </div>
+	     </a>   
+    </div>
+  </div>
+<!--    Projects 2-->
+    <div id="projects2" class="step resume projects" data-x="0" data-y="100"  data-scale="1">
+      <div id="project4" class="tile column1">
+        <a href="https://learn.adafruit.com/diy-wearable-pi-near-eye-kopin-video-glasses/overview" class="nolink" target="_blank">
+          <div class="figure">
+              <img src="src/BananaGlass.jpg" />
+              <div class="figcaption">
+                  <h2>Banana Glass</h2>
+                <p>A home-made smart glass, powered by a Banana Pro single board computer, running Android 4.2.2, Google Now enabled. <br /><br /> The idea and design comes from "Adafruit". I will add a camera and program some Apps concerned with Computer Vision and Augmented Reality for it. (It is basically my <del>Toy</del> Android test bench for popular Computer Vision Algorithms)</p>
+              </div>
 
           </div>
 	     </a>
         </div>
     </div>
 
+</div>
 
+<div class="footer">
+    <p>© 2015 Suqian Zhang.</p>
 </div>
 
 
@@ -271,6 +291,16 @@
 <script src="js/resume.js"></script>
 <script type="application/javascript">
     impress().init();    
+</script>
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-24975605-2', 'auto');
+ga('send', 'pageview');
+
 </script>
 
 </body>

@@ -674,7 +674,7 @@ width: 40%;
 
 /* Common style */
 
-#projects a {
+.projects a {
   float:left;
   color: #333;
   text-decoration: none;
@@ -684,29 +684,29 @@ width: 40%;
 
 
 }
-#projects a,
-#projects a .figure,
-#projects a .figcaption,
-#projects a .figure img,
-#projects a .figure .figbutton {
+.projects a,
+.projects a .figure,
+.projects a .figcaption,
+.projects a .figure img,
+.projects a .figure .figbutton {
 	border-radius: 3px;
 }
 
-#projects a .figure {
+.projects a .figure {
   position: relative;
   overflow: hidden;
   margin: 5px;
   background: #333;
 }
 
-#projects a .figure img {
+.projects a .figure img {
   position: relative;
   display: block;
   width: 100%;
   opacity: 1;
 }
 
-#projects a .figcaption {
+.projects a .figcaption {
   top: 0;
   z-index: 11;
   padding: 10px;
@@ -717,7 +717,7 @@ width: 40%;
   background: #FFFFFF;
 }
 
-#projects a .figcaption h2 {
+.projects a .figcaption h2 {
 	margin: 0 0 20px 0;
 	color: #EF6C00;
 	text-transform: uppercase;
@@ -726,16 +726,17 @@ width: 40%;
 	font-size: 90%;
 }
 
-#projects a .figcaption p {
+.projects a .figcaption p {
   position: absolute;
   font-weight: 300;
   padding: 0 10px;
   color: #757575;
   opacity: 0;
-  line-height:normal;  
+  line-height:normal;
+  font-size: 80%;
 }
 
-#projects a .figure .figbutton {
+.projects a .figure .figbutton {
   background: #EF6C00;
   letter-spacing: 1px;
   text-align: center;
@@ -753,45 +754,60 @@ width: 40%;
 }
 
 /* Hover effects */
-#projects a:hover .figure img {
+.projects a:hover .figure img {
 	opacity: 0.7;
 }
 
-#projects a:hover .figcaption {
+.projects a:hover .figcaption {
 	/* border-bottom-right-radius: 0; */
 	/* border-bottom-left-radius: 0; */
-	height: 401px;
+	height: 402px;
 }
 
-#projects a:hover .figcaption h2 {
+.projects .nolink:hover .figcaption {
+	/* border-bottom-right-radius: 0; */
+	/* border-bottom-left-radius: 0; */
+	height: 100%;
+}
+
+.projects a:hover .figcaption h2 {
 	margin: 40px 0 20px 0;
 }
-#projects a:hover .figcaption p {
+.projects a:hover .figcaption p {
 	margin-top: 0;
 }
 
-#projects a:hover .figcaption p {
+.projects a:hover .figcaption p {
 	opacity: 1;
 }
 
-#projects a:hover .figure .figbutton {
+.projects a:hover .figure .figbutton {
 	border-top-right-radius: 0;
 	border-top-left-radius: 0;
 	opacity: 1;
+}
+
+.footer {
+  color: #FFF;
+  position: fixed;
+  bottom: 20px;
+  right: 10px;
+  font-size: 90%;
+  
 }
 /* Media Queries */
 /* Let's redefine the width of each anchor and the margins */
 
 @media screen and (max-width: 58em) {
-	#projects a {
+	.projects a {
 		width: 33.333%;
 	}
 
-	#projects a:nth-child(odd) {
+	.projects a:nth-child(odd) {
 		margin: 0;
 	}
 
-	#projects a:nth-child(3n-1) {
+	.projects a:nth-child(3n-1) {
 		margin: 30px 0 -30px 0;
 	}
 }
@@ -799,11 +815,11 @@ width: 40%;
 @media screen and (max-width: 45em) {}
 
 @media screen and (max-width: 27em) {
-	#projects {
+	.projects {
 			max-width: 250px;
 	}
 
-	#projects a {
+	.projects a {
 			width: 100%;
 	}
 }

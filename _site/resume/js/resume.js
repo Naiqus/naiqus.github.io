@@ -1,12 +1,12 @@
 if ("ontouchstart" in document.documentElement) {
     document.querySelector(".hint").innerHTML = "<p>Tap on the left or right to navigate</p>";
 }
-var welcomeMsg = "Naiqus: Thanks for checking out my Résumé. <b>:)</b><br></br>\
+var welcomeMsg = "Naiqus:<span>Welcome!</span>       <br></br>I am <b>Suqian Zhang</b>. Thanks for checking out my Résumé. <b>:)</b><br></br>\
     Please <b>scroll down gently</b> or use <i>arrow keys/space key</i> to navigate.";
 
 // typing bot welcome msg
 var theater = new TheaterJS({ erase: false, autoplay: true});
-theater.describe("Naiqus",{speed: 1.0, accuracy: .7, invincibility: 2},".welcome-msg");
+theater.describe("Naiqus",{speed: 2, accuracy: .8, invincibility: 4},".welcome-msg");
 //add class
 theater.on("say:start, erase:start", function (eventName) {
                         var self    = this,
@@ -14,7 +14,7 @@ theater.on("say:start, erase:start", function (eventName) {
                         self.utils.addClass(current, "saying");
                     });
 theater.write(welcomeMsg,1500);
-
+    //make it look
     
 
 //arrange resume slide vertical position according to the element above.
@@ -50,15 +50,12 @@ for (i = 1; i < resumeSnippets.length; i = i + 1) {
 
 //Config Chart.js
 var radarOptions = {
-    scaleShowLine : true,
-    angleShowLineOut : false,
-	scaleFontSize : 12,
-    pointLabelFontFamily : "Lekton",
-	pointLabelFontStyle : "bold",	
-	pointLabelFontSize : 15,
-	pointLabelFontColor : "#000",
+	scaleFontSize : 13,
+	pointLabelFontStyle : "normal",	
+	pointLabelFontSize : 13,
+	pointLabelFontColor : "#444444",
 	animation : true
-};
+}
 //skill chart
 
 // Radar Data
@@ -66,7 +63,7 @@ var skillData = {
 	labels : ["Java","Linux","JavaScript","English","German","Chinese","C/C++"],
 	datasets : [
 		{
-			fillColor : "rgba(100,177,242,.3)",
+			fillColor : "rgba(79,195,247,.5)",
 			strokeColor : "rgba(220,220,220,1)",
 			data : [80,90,70,90,75,100,90]
 		}
@@ -76,7 +73,7 @@ var interestData = {
 	labels : ["Computer Vision","Web","Guitar","Violin","Tennis","Embedded System","AR/VR","Internet of Things"],
 	datasets : [
 		{
-			fillColor : "rgba(255,183,77,.3)",
+			fillColor : "rgba(255,183,77,.5)",
 			strokeColor : "rgba(220,220,220,1)",
 			data : [90,70,70,60,80,80,90,70]
 		}
