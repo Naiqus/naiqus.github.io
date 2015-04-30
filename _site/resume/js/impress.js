@@ -729,6 +729,11 @@ var waitedPrev = false;
             }
         }, false);
         
+      
+        // My patch
+        //prevent touch scroll
+        document.ontouchmove = function(e){ e.preventDefault(); }
+      
         // Trigger impress action (next or prev) on keyup.
         
         // Supported keys are:

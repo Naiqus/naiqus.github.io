@@ -1,9 +1,10 @@
-if ("ontouchstart" in document.documentElement) {
-    document.querySelector(".hint").innerHTML = "<p>Tap on the left or right to navigate</p>";
-}
 var welcomeMsg = "Naiqus:<span>Welcome!</span>       <br></br>I am <b>Suqian Zhang</b>. Thanks for checking out my Résumé. <b>:)</b><br></br>\
     Please <b>scroll down gently</b> or use <i>arrow keys/space key</i> to navigate.";
 
+if ("ontouchstart" in document.documentElement) {
+    welcomeMsg = "Naiqus:<span>Welcome!</span>       <br></br>I am <b>Suqian Zhang</b>. Thanks for checking out my Résumé. <b>:)</b><br></br>\
+    Please <b>slide up and down</b> to navigate.";
+}
 // typing bot welcome msg
 var theater = new TheaterJS({ erase: false, autoplay: true});
 theater.describe("Naiqus",{speed: 2, accuracy: .8, invincibility: 4},".welcome-msg");
