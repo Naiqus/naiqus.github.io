@@ -819,23 +819,23 @@ var waitedPrev = false;
         
         // touch handler to detect taps on the left and right side of the screen
         // based on awesome work of @hakimel: https://github.com/hakimel/reveal.js
-        document.addEventListener("touchstart", function ( event ) {
-            if (event.touches.length === 1) {
-                var x = event.touches[0].clientX,
-                    width = window.innerWidth * 0.3,
-                    result = null;
-                    
-                if ( x < width ) {
-                    result = api.prev();
-                } else if ( x > window.innerWidth - width ) {
-                    result = api.next();
-                }
-                
-                if (result) {
-                    event.preventDefault();
-                }
-            }
-        }, false);
+//        document.addEventListener("touchstart", function ( event ) {
+//            if (event.touches.length === 1) {
+//                var x = event.touches[0].clientX,
+//                    width = window.innerWidth * 0.3,
+//                    result = null;
+//                    
+//                if ( x < width ) {
+//                    result = api.prev();
+//                } else if ( x > window.innerWidth - width ) {
+//                    result = api.next();
+//                }
+//                
+//                if (result) {
+//                    event.preventDefault();
+//                }
+//            }
+//        }, false);
         
         
         
@@ -911,6 +911,49 @@ var waitedPrev = false;
             api.goto( document.querySelector(".step.active"), 500 );
         }, 250), false);
         
+      
+        //My Patch
+        // Touchscreen scroll up and down
+        var startX,
+        startY,
+        dist,
+        threshold = 150, //required min distance traveled to be considered swipe
+        allowedTime = 1500, // maximum time allowed to travel that distance
+        elapsedTime,
+        startTime;
+        
+        function handleswipe(isdownswipe, isupswipe){
+          if (isdownswipe)
+              api.next();
+          else if(isupswipe){
+             api.prev();
+          }
+        }
+
+        document.addEventListener('touchstart', function(e){
+            var touchobj = e.changedTouches[0]
+            dist = 0
+            startX = touchobj.pageX
+            startY = touchobj.pageY
+            startTime = new Date().getTime() // record time when finger first makes contact with surface
+            e.preventDefault()
+        }, false);
+
+        document.addEventListener('touchmove', function(e){
+            e.preventDefault() // prevent scrolling when inside DIV
+        }, false);
+
+        document.addEventListener('touchend', function(e){
+            var touchobj = e.changedTouches[0]
+            dist = touchobj.pageY - startY // get total dist traveled by finger while in contact with surface
+            elapsedTime = new Date().getTime() - startTime // get time elapsed
+            // check that elapsed time is within specified, vertical dist traveled >= threshold, and vertical dist traveled <= 100
+            var swipeupBol = (elapsedTime <= allowedTime && dist >= threshold && Math.abs(touchobj.pageX - startX) <= 100);
+          var swipedownBol = (elapsedTime <= allowedTime && dist <= -1*threshold && Math.abs(touchobj.pageX - startX) <= 100);
+            handleswipe(swipedownBol,swipeupBol);
+            e.preventDefault()
+        }, false);
+             
     }, false);
         
 })(document, window);
