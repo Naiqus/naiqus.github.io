@@ -1,9 +1,9 @@
-var welcomeMsg = "Naiqus:<span>Welcome!</span>       <br></br>I am <b>Suqian Zhang</b>. Thanks for checking out my Résumé. <b>:)</b><br></br>\
+var welcomeMsg = "Naiqus:<span>Welcome!</span>       <br></br>Thanks for checking out my Résumé. <b>:)</b><br></br>\
     Please <b>scroll down gently</b> or use <i>arrow keys/space key</i> to navigate.";
 
 if ("ontouchstart" in document.documentElement) {
-    welcomeMsg = "Naiqus:<span>Welcome!</span>       <br></br>I am <b>Suqian Zhang</b>. Thanks for checking out my Résumé. <b>:)</b><br></br>\
-    Please <b>slide up and down</b> to navigate.";
+    welcomeMsg = "Naiqus:<span>Welcome!</span>       <br></br>Thanks for checking out my Résumé. <b>:)</b><br></br>\
+    Please <i>slide up and down</i> to navigate.";
 }
 // typing bot welcome msg
 var theater = new TheaterJS({ erase: false, autoplay: true});

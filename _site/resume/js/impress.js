@@ -181,18 +181,31 @@ var waitedPrev = false;
                            
                           // and `classList` and `dataset` APIs
                            ( body.classList ) &&
-                           ( body.dataset ) &&
+                           ( body.dataset ) ;
                            
                           // but some mobile devices need to be blacklisted,
                           // because their CSS 3D support or hardware is not
                           // good enough to run impress.js properly, sorry...
-                           ( ua.search(/(iphone)|(ipod)|(android)/) === -1 );
-    
+  
+    //My patch  if device is Andorid phone/iphone, give a hint about better exprience
+  
+    var impressPoorlySupported = (window.innerWidth <= 800 || window.innerHeight <= 600);
+//    
     if (!impressSupported) {
         // we can't be sure that `classList` is supported
         body.className += " impress-not-supported ";
-    } else {
+        var html = '<p>Your browser <b>doesn\'t support the features required</b> by this resume, so you are presented with a simplified version.</p>';
+        html += '<p>For the best experience please use the latest <b>Chrome</b>, <b>Safari</b> or <b>Firefox</b> browser.</p>';
+        document.getElementById("fallback-message").innerHTML = html;
+    } else if (impressPoorlySupported){
+        body.className += " impress-poorly-supported ";
         body.classList.remove("impress-not-supported");
+        var html = '<p>Your screen may be to small for this resume</p>';
+        html += '<p>For the best experience please use a tablet or open it with a desktop browser.</p>';
+        document.getElementById("fallback-message").innerHTML = html;
+    } else {
+        body.classList.remove("impress-not-supported")
+        body.classList.remove("impress-poorly-supported");
         body.classList.add("impress-supported");
     }
     
@@ -230,6 +243,7 @@ var waitedPrev = false;
         // it may not be a perfect solution but we return early and avoid
         // running code that may use features not implemented in the browser.
         if (!impressSupported) {
+            document.ontouchmove = function(e){ return true; }
             return {
                 init: empty,
                 goto: empty,
@@ -817,26 +831,6 @@ var waitedPrev = false;
             }
         }, false);
         
-        // touch handler to detect taps on the left and right side of the screen
-        // based on awesome work of @hakimel: https://github.com/hakimel/reveal.js
-//        document.addEventListener("touchstart", function ( event ) {
-//            if (event.touches.length === 1) {
-//                var x = event.touches[0].clientX,
-//                    width = window.innerWidth * 0.3,
-//                    result = null;
-//                    
-//                if ( x < width ) {
-//                    result = api.prev();
-//                } else if ( x > window.innerWidth - width ) {
-//                    result = api.next();
-//                }
-//                
-//                if (result) {
-//                    event.preventDefault();
-//                }
-//            }
-//        }, false);
-        
         
         
         // now a Mouse Wheel event handler
@@ -917,7 +911,7 @@ var waitedPrev = false;
         var startX,
         startY,
         dist,
-        threshold = 150, //required min distance traveled to be considered swipe
+        threshold = 50, //required min distance traveled to be considered swipe
         allowedTime = 1500, // maximum time allowed to travel that distance
         elapsedTime,
         startTime;
