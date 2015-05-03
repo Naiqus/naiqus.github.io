@@ -85,7 +85,7 @@ i, em { font-style: italic }
 .fallback-message {
     line-height: 1.3;
 
-    width: 80%;
+    width: 90%;
     padding: 10px 10px 0;
     margin: 20px auto;
 
@@ -602,8 +602,8 @@ transition: all 0.7s ease-in-out;
 
 .desc {
   position: relative;
-  margin: 1em 0 0 0;
-  padding: 1em;
+  margin: .5em 0 0 0;
+  padding: 0em;
   background: #fafafa;
   -webkit-box-shadow: 1 0 1px rgba(0,0,0,0.20);
   -moz-box-shadow: 0 1 1px rgba(0,0,0,0.20);
@@ -614,8 +614,8 @@ transition: all 0.7s ease-in-out;
 .direction-l .desc,
 .direction-r .desc {
   position: relative;
-  margin: 1em 1em 0 1em;
-  padding: 1em;
+  margin: .5em 1em 0 1em;
+  padding: 0em;
   z-index: 15;
   font-size: 90%;
 }
@@ -927,9 +927,6 @@ transition: all 0.7s ease-in-out;
     padding: 5px 10px;
   }
 
-  .direction-r .desc {
-    margin: 1em 0 0 0.75em;
-  }
   
   .projects a {
     float:left;
