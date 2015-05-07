@@ -3,7 +3,7 @@ var welcomeMsg = "Naiqus:<span>Welcome!</span>       <br></br>Thanks for checkin
 
 if ("ontouchstart" in document.documentElement) {
     welcomeMsg = "Naiqus:<span>Welcome!</span>       <br></br>Thanks for checking out my Résumé. <b>:)</b><br></br>\
-    Please <i>slide up and down</i> to navigate.";
+    Please <b>slide up and down</b> to navigate.";
 }
 // typing bot welcome msg
 var theater = new TheaterJS({ erase: false, autoplay: true});

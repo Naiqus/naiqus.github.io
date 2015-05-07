@@ -190,7 +190,7 @@ var waitedPrev = false;
     //My patch  if device is Andorid phone/iphone, give a hint about better exprience
   
     var impressPoorlySupported = (window.innerWidth <= 800 || window.innerHeight <= 600);
-//    
+    
     if (!impressSupported) {
         // we can't be sure that `classList` is supported
         body.className += " impress-not-supported ";

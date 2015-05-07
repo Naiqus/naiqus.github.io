@@ -793,13 +793,10 @@ transition: all 0.7s ease-in-out;
 }
 
 .footer {
-  color: #FFF;
   position: fixed;
   bottom: 20px;
-  right: 10px;
+  right: 50px;
   font-size: 90%;
-  z-index: -1;
-  overflow: hidden;
 }
 
 
