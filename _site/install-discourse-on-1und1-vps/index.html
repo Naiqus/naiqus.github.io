@@ -1,0 +1,671 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Install Discourse on 1und1 Virtual Server L Centos 6 x64 &#8211; Wake up, Naiqus!</title>
+<meta name="description" content="his post is a slightly modified version from a step by step tutorial. I've encountered a few problems following that guide since the extremely cheap server I use has a different configuration by 1und1. Some adjustments are added here in order to avoid the problems I met back then.">
+<meta name="keywords" content="">
+
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="Install Discourse on 1und1 Virtual Server L Centos 6 x64">
+<meta name="twitter:description" content="his post is a slightly modified version from a step by step tutorial. I've encountered a few problems following that guide since the extremely cheap server I use has a different configuration by 1und1. Some adjustments are added here in order to avoid the problems I met back then.">
+<meta name="twitter:site" content="@naiqus">
+<meta name="twitter:creator" content="@naiqus">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://naiqus.github.io/images/lamp.jpg">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Install Discourse on 1und1 Virtual Server L Centos 6 x64">
+<meta property="og:description" content="his post is a slightly modified version from a step by step tutorial. I've encountered a few problems following that guide since the extremely cheap server I use has a different configuration by 1und1. Some adjustments are added here in order to avoid the problems I met back then.">
+<meta property="og:url" content="http://naiqus.github.io/install-discourse-on-1und1-vps/">
+<meta property="og:site_name" content="Wake up, Naiqus!">
+
+
+
+
+
+<link rel="canonical" href="http://naiqus.github.io/install-discourse-on-1und1-vps/">
+<link href="http://naiqus.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Wake up, Naiqus! Feed">
+<link rel="author" href="http://plus.google.com/+sootsan?rel=author">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://naiqus.github.io/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+	<script src="http://naiqus.github.io/assets/js/vendor/html5shiv.min.js"></script>
+	<script src="http://naiqus.github.io/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="http://naiqus.github.io/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+<link href='//fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700%7CPT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://naiqus.github.io/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://naiqus.github.io/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://naiqus.github.io/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://naiqus.github.io/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://naiqus.github.io/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://naiqus.github.io/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body class="post">
+
+<!--[if lt IE 9]><div class="browser-upgrade alert alert-info">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div><![endif]-->
+
+<div class="navigation-wrapper">
+	<div class="site-name">
+		<a href="http://naiqus.github.io">Wake up, Naiqus!</a>
+	</div><!-- /.site-name -->
+	<div class="top-navigation">
+		<nav role="navigation" id="site-nav" class="nav">
+		    <ul>
+		        
+					    
+					        
+					    
+					    <li><a href="http://naiqus.github.io/resume/" >Resume</a></li>
+					  
+					    
+					        
+					    
+					    <li><a href="http://naiqus.github.io/about/" >About</a></li>
+					  
+					    
+					        
+					    
+					    <li><a href="http://naiqus.github.io/posts/" >All Posts</a></li>
+					  
+		    </ul>
+		</nav>
+	</div><!-- /.top-navigation -->
+</div><!-- /.navigation-wrapper -->
+
+
+  <div class="image-wrap">
+  <img src=
+    
+      "http://naiqus.github.io/images/lamp.jpg"
+    
+  alt="Install Discourse on 1und1 Virtual Server L Centos 6 x64 feature image">
+  
+  </div><!-- /.image-wrap -->
+
+
+<div id="main" role="main">
+  <div class="article-author-side">
+    
+
+
+
+	<img src="http://naiqus.github.io/images/mao.jpg" class="bio-photo" alt="Naiqus bio photo">
+
+<h3>Naiqus</h3>
+<p>Wake up man, wake up!!!</p>
+
+<a href="http://twitter.com/naiqus" class="author-social" target="_blank"><i class="fa fa-fw fa-twitter-square"></i> Twitter</a>
+<a href="http://facebook.com/suqian.zhang" class="author-social" target="_blank"><i class="fa fa-fw fa-facebook-square"></i> Facebook</a>
+<a href="http://plus.google.com/+sootsan" class="author-social" target="_blank"><i class="fa fa-fw fa-google-plus-square"></i> Google+</a>
+
+
+
+<a href="http://github.com/naiqus" class="author-social" target="_blank"><i class="fa fa-fw fa-github"></i> Github</a>
+
+
+
+
+
+
+
+
+  </div>
+  <article class="post">
+    <div class="headline-wrap">
+      
+        <h1><a href="http://naiqus.github.io/install-discourse-on-1und1-vps/" rel="bookmark" title="Install Discourse on 1und1 Virtual Server L Centos 6 x64">Install Discourse on 1und1 Virtual Server L Centos 6 x64</a></h1>
+      
+    </div><!--/ .headline-wrap -->
+    <div class="article-wrap">
+      <blockquote>
+  <p>This post is a slightly modified version from a step by step tutorial <a href="https://www.digitalocean.com/community/tutorials/how-to-install-discourse-on-a-centos-6-4-x64-vps">here</a>. I’ve encountered a few problems following that guide since the extremely cheap server I use has a different configuration by 1und1. Some adjustments are added here in order to avoid the problems I met back then.</p>
+</blockquote>
+
+<hr />
+<section id="table-of-contents" class="toc">
+  <header>
+    <h3>Overview</h3>
+  </header>
+<div id="drawer">
+<ul id="markdown-toc">
+  <li><a href="#step-1-os-configuration">Step 1: OS Configuration</a>    <ul>
+      <li><a href="#add-swap-space">Add Swap Space</a></li>
+      <li><a href="#create-a-local-non-root-user">Create a local, non-root user</a></li>
+      <li><a href="#create-a-non-root-user-that-will-run-discourse">Create a non-root user that will run Discourse</a></li>
+      <li><a href="#add-the-epel-repository">Add the EPEL repository</a></li>
+      <li><a href="#install-required-packages">Install required packages</a></li>
+      <li><a href="#install-and-start-redis">Install and start Redis</a></li>
+    </ul>
+  </li>
+  <li><a href="#step-2-install-ngnix">Step 2: Install ngnix</a>    <ul>
+      <li><a href="#add-repository">Add repository</a></li>
+      <li><a href="#disable-centos-repository">Disable CentOS repository</a></li>
+      <li><a href="#install-the-postgresql-repository">Install the PostgreSQL repository</a></li>
+      <li><a href="#grant-permissions-to-users">Grant permissions to users</a></li>
+    </ul>
+  </li>
+  <li><a href="#step-4-install-rvm-and-ruby">Step 4: Install rvm and Ruby</a>    <ul>
+      <li><a href="#install-rvm">Install rvm</a></li>
+      <li><a href="#verify-packages-rvm-requires-are-installed">Verify packages rvm requires are installed</a></li>
+      <li><a href="#install-ruby">Install ruby</a></li>
+      <li><a href="#tweak-ruby-configuration">Tweak ruby configuration</a></li>
+    </ul>
+  </li>
+  <li><a href="#step-5-install-and-configure-discourse">Step 5: Install and Configure Discourse</a>    <ul>
+      <li><a href="#build-discourse">Build Discourse</a></li>
+      <li><a href="#configure-discourse">Configure Discourse</a></li>
+      <li><a href="#create-database">Create database</a></li>
+      <li><a href="#fix-permissions">Fix permissions</a></li>
+      <li><a href="#run-discourse">Run Discourse</a></li>
+    </ul>
+  </li>
+  <li><a href="#step-7-configure-ngnix">Step 7: Configure ngnix</a>    <ul>
+      <li><a href="#base-ngnix-configuration">Base ngnix configuration</a></li>
+      <li><a href="#configure-nginx-for-discourse">Configure nginx for Discourse</a></li>
+      <li><a href="#change-servername-to-your-hostname">Change server_name to your hostname.</a></li>
+    </ul>
+  </li>
+  <li><a href="#step-8-use-discourse">Step 8: Use Discourse!</a>    <ul>
+      <li><a href="#create-your-discourse-user">Create your Discourse user</a></li>
+      <li><a href="#grant-yourself-administrative-priveleges">Grant yourself administrative priveleges</a></li>
+    </ul>
+  </li>
+  <li><a href="#some-useful-commands-for-maintenance">Some useful commands for maintenance</a>    <ul>
+      <li><a href="#start-discourse">Start discourse</a></li>
+      <li><a href="#simple-script-to-update">Simple script to update</a></li>
+    </ul>
+  </li>
+</ul>
+
+  </div>
+</section>
+<!-- /#table-of-contents -->
+
+<h2 id="step-1-os-configuration">Step 1: OS Configuration</h2>
+
+<p>here are a handful of prerequisites for running Discourse; this tutorial will assume a fresh Centos 6 VPS.</p>
+
+<h3 id="add-swap-space">Add Swap Space</h3>
+
+<p>If you’re running a VPS with less than 2 GB of RAM, you’ll need to enable swap on your VPS. If you do not do so, some build steps are likely to fail.</p>
+
+<p>This tutorial has instructions on enabling swap for CentOS 6. For smaller VPS, add at least 1 GB of swap space.</p>
+
+<h3 id="create-a-local-non-root-user">Create a local, non-root user</h3>
+
+<p>Most steps will be run as a non-root user with sudo access. <a href="https://www.digitalocean.com/community/tutorials/how-to-add-and-delete-users-on-ubuntu-12-04-and-centos-6">This tutorial</a> will run you through creating a user account and granting it sudo power.</p>
+
+<h3 id="create-a-non-root-user-that-will-run-discourse">Create a non-root user that will run Discourse</h3>
+
+<p>You’ll also need a user account which will run Discourse. It’s best for this to be a different account from your own. discourse would be a good choice.</p>
+
+<p>You can create the sudo user by opening the sudoers file with this command:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">sudo /usr/sbin/visudo</span></code></pre></div>
+
+<p>Adding the user’s name and the same permissions as root under the the user privilege specification will grant them the sudo privileges.</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x"># User privilege specification</span>
+<span class="x">root    ALL=(ALL:ALL) ALL </span>
+<span class="x">newuser	ALL=(ALL:ALL) ALL</span></code></pre></div>
+
+<h3 id="add-the-epel-repository">Add the EPEL repository</h3>
+
+<p>EPEL stands for Extra Packages for Enterprise Linux, and it has some packages we’ll need to install that are not part of the base CentOS repositories.</p>
+
+<p>Log in as your local user and run:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">sudo su -c &#39;rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm&#39;</span></code></pre></div>
+
+<h3 id="install-required-packages">Install required packages</h3>
+
+<p>These are pre-requisites for Discourse or its pre-requisites.</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">sudo yum install gcc-c++ patch readline readline-devel zlib zlib-devel libyaml-devel libffi-devel openssl-devel make bzip2 autoconf automake libtool bison iconv-devel ruby-devel libxml2 libxml2-devel libxslt libxslt-devel git</span></code></pre></div>
+
+<h3 id="install-and-start-redis">Install and start Redis</h3>
+
+<p>Redis is an open-source key value data store used by Discourse.</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">sudo yum install redis.x86_64</span>
+<span class="x">sudo chkconfig --add redis</span>
+<span class="x">sudo chkconfig --level 345 redis on</span>
+<span class="x">sudo /etc/init.d/redis start</span></code></pre></div>
+
+<h2 id="step-2-install-ngnix">Step 2: Install ngnix</h2>
+
+<p>Ngnix is a lightweight web server and reverse proxy that will be used to reverse proxy connections to Discourse.</p>
+
+<h3 id="add-repository">Add repository</h3>
+
+<p>ngnix is not in the central CentOS repositories, so you will have to add their repository for yum to be able to install ngnix.</p>
+
+<p>Create a text file /etc/yum.repos.d/nginx.repo:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">sudo vi /etc/yum.repos.d/nginx.repo</span></code></pre></div>
+
+<p>Paste in this content:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">[nginx]</span>
+<span class="x">name=nginx repo</span>
+<span class="x">baseurl=http://nginx.org/packages/centos/6/$basearch/</span>
+<span class="x">gpgcheck=0</span>
+<span class="x">enabled=1</span></code></pre></div>
+
+<p>Once that’s installed, you need to refresh the yum package list and then install ngnix.</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">sudo yum upgrade</span>
+<span class="x">sudo yum install nginx.x86_64</span>
+<span class="x">Step 3: Install PostgreSQL</span></code></pre></div>
+
+<p>Discourse uses PostgreSQL for its data backend. While the EPEL contains packages for PostgreSQL, it’s fairly outdated. This will install a newer package from PostgreSQL’s repository.</p>
+
+<h3 id="disable-centos-repository">Disable CentOS repository</h3>
+
+<p>First we’ll tell yum to not look at packages from the core CentOS repository. To do this, edit the file /etc/yum.repos.d/CentOS-Base.repo.</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">sudo vi /etc/yum.repos.d/CentOS-Base.repo</span></code></pre></div>
+
+<p>Add the line:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">exclude=postgresql*</span></code></pre></div>
+
+<p>under the [base] and [updates] sections of this file.</p>
+
+<h3 id="install-the-postgresql-repository">Install the PostgreSQL repository</h3>
+
+<p>Now we’ll register PostgreSQL’s repository with yum.</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">sudo curl -O http://yum.postgresql.org/9.1/redhat/rhel-6-i386/pgdg-centos91-9.1-4.noarch.rpm</span>
+<span class="x">sudo rpm -ivh pgdg-centos91-9.1-4.noarch.rpm </span>
+<span class="x">Install the PostgreSQL server</span></code></pre></div>
+
+<p>This will install the server and some development packages needed by Discourse, start the server, initialize the database, and set it to start on reboot.</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">sudo yum install postgresql91-server.x86_64 postgresql91-contrib.x86_64 postgresql91-devel.x86_64</span>
+<span class="x">sudo service postgresql-9.1 initdb</span>
+<span class="x">sudo service postgresql-9.1 start</span>
+<span class="x">sudo chkconfig postgresql-9.1 on</span></code></pre></div>
+
+<h3 id="grant-permissions-to-users">Grant permissions to users</h3>
+
+<p>Now tell PostgreSQL about our users and give them permission to access the database.</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">sudo -u postgres createuser -s root</span>
+<span class="x">sudo -u postgres createuser -s discourse</span></code></pre></div>
+
+<h2 id="step-4-install-rvm-and-ruby">Step 4: Install rvm and Ruby</h2>
+
+<p>Ruby and rvm will be installed in single-user context for the discourse user.</p>
+
+<h3 id="install-rvm">Install rvm</h3>
+
+<p>Become the discourse user and install the stable branch of rvm:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">sudo su - discourse</span>
+<span class="x">\curl -s -S -L https://get.rvm.io | bash -s stable</span></code></pre></div>
+
+<p>rvm will add some environment setup to the login scripts for the discourse user; to make sure these are set it’s easiest to log out then back in.</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">exit</span>
+<span class="x">sudo su - discourse</span></code></pre></div>
+
+<h3 id="verify-packages-rvm-requires-are-installed">Verify packages rvm requires are installed</h3>
+
+<p>This will make sure the environment is set up correctly and rvm is ready to work. Again, as the discourse user, run:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">rvm --autolibs=read-fail requirements</span></code></pre></div>
+
+<p>This should return that no additional packages are required by rvm.</p>
+
+<h3 id="install-ruby">Install ruby</h3>
+
+<p>As the discourse user, install a local ruby environment and bundler:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">rvm install 2.2.2</span>
+<span class="x">$ source /home/discourse/.rvm/scripts/rvm</span>
+<span class="x">rvm use 2.2.2 --default </span>
+<span class="x">gem install bundler</span></code></pre></div>
+
+<h3 id="tweak-ruby-configuration">Tweak ruby configuration</h3>
+
+<p>By default, the gem builder will not be able to find the support libraries and binaries for the system’s PostgreSQL server. In order for this gem to build, this will tell bundle to pass commandline arguments when it builds the PostgresSQL library.</p>
+
+<p>Still as the discourse user, run:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">bundle config build.pg --with-pgsql-lib=/usr/pgsql-9.1/lib --with-pg-config=/usr/pgsql-9.1/bin/pg_config</span></code></pre></div>
+
+<h2 id="step-5-install-and-configure-discourse">Step 5: Install and Configure Discourse</h2>
+
+<p>Now the system is ready to build and run Discourse.</p>
+
+<h3 id="build-discourse">Build Discourse</h3>
+
+<p>As the discourse user, pull down the Discourse source using git. This will clone the Discourse git tree to a sub-folder discourse:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">git clone git://github.com/discourse/discourse.git discourse</span></code></pre></div>
+
+<p>Once that has copied the source locally, build Discourse:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">cd discourse</span>
+<span class="x">bundle install --deployment --without test</span></code></pre></div>
+
+<p>If you encounter problem in this step, try this:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">bundle install --no-deployment </span>
+<span class="x">gem install ember-source -v=1.0.0.rc6.2 </span>
+<span class="x">bundle</span></code></pre></div>
+
+<h3 id="configure-discourse">Configure Discourse</h3>
+
+<p>Copy the example configuration files so Discourse will find them:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">cd config</span>
+<span class="x">cp database.yml.production-sample database.yml</span>
+<span class="x">cp redis.yml.sample redis.yml</span>
+<span class="x">cp discourse.pill.sample discourse.pill</span>
+<span class="x">cp environments/production.rb.sample environments/production.rb</span></code></pre></div>
+
+<p>You’ll need to edit database.yml. Change the host_names line to your server’s hostname.</p>
+
+<h3 id="create-database">Create database</h3>
+
+<p>Return to the discourse directory, and as the discourse user run:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">cd ~/discourse</span>
+<span class="x">createdb discourse</span>
+<span class="x">RUBY_GC_MALLOC_LIMIT=90000000 RAILS_ENV=production rake db:migrate</span>
+<span class="x">RUBY_GC_MALLOC_LIMIT=90000000 RAILS_ENV=production rake assets:precompile</span></code></pre></div>
+
+<p>The precompile step can take several minutes without printing any output to the screen, so it may appear like the process has hung.</p>
+
+<h3 id="fix-permissions">Fix permissions</h3>
+
+<p>By default the webserver will not be able to access the discourse directory. To grant more broad permissions, run this as the discourse user:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">cd ~</span>
+<span class="x">chmod og+rx /home/discourse</span>
+<span class="x">Install and configure bluepill</span></code></pre></div>
+
+<p>Bluepill is a process monitoring tool that Discourse uses to monitor itself. Install and configure it to start on boot:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">gem install bluepill</span>
+<span class="x">echo &#39;alias bluepill=&quot;NOEXEC_DISABLE=1 bluepill --no-privileged -c ~/.bluepill&quot;&#39; &gt;&gt; ~/.bash_profile</span>
+<span class="x">rvm wrapper $(rvm current) bootup bluepill</span>
+<span class="x">rvm wrapper $(rvm current) bootup bundle</span></code></pre></div>
+
+<h3 id="run-discourse">Run Discourse</h3>
+
+<p>Discourse is now ready to start up. To start Discourse, run:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">$ source /home/discourse/.rvm/scripts/rvm</span></code></pre></div>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">RUBY_GC_MALLOC_LIMIT=90000000 RAILS_ROOT=/home/discourse/discourse RAILS_ENV=production UM_WEBS=2 bluepill --no-privileged -c ~/.bluepill load /home/discourse/discourse/config/discourse.pill</span></code></pre></div>
+
+<p>You should also configure Discourse to start at bootup by adding this to the discourse user’s crontab. Open up your crontab for editing:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">crontab -e</span></code></pre></div>
+
+<p>And paste the following line into the editor that pops up:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">@reboot RUBY_GC_MALLOC_LIMIT=90000000 RAILS_ROOT=/home/discourse/discourse RAILS_ENV=production NUM_WEBS=2 /home/discourse/.rvm/bin/bootup_bluepill --no-privileged -c ~/.bluepill load /home/discourse/discourse/config/discourse.pill</span></code></pre></div>
+
+<p>Discourse is now running, but ngnix needs to be configured to forward requests to the running Discourse server before it will answer requests sent to your hostname.</p>
+
+<h2 id="step-7-configure-ngnix">Step 7: Configure ngnix</h2>
+
+<p>Now configure ngnix to point to the Discourse instance.</p>
+
+<p>Log back in and execute these commands as the local user, not as discourse.</p>
+
+<h3 id="base-ngnix-configuration">Base ngnix configuration</h3>
+
+<p>There’s a small change you’ll need to make to the configuration. Open the /etc/nginx/nginx.conf file:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">sudo vi /etc/nginx/nginx.conf</span></code></pre></div>
+
+<p>Find the http section of the file and add the following line:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">server_names_hash_bucket_size 64;</span></code></pre></div>
+
+<h3 id="configure-nginx-for-discourse">Configure nginx for Discourse</h3>
+
+<p>Discourse comes with an example nginx configuration file. Copy the example Discourse ngnix configuration to where ngnix expects it:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">sudo cp /home/discourse/discourse/config/nginx.sample.conf /etc/nginx/conf.d/discourse.conf</span></code></pre></div>
+
+<p>There are a few changes that need to be made to this file. Open the </p>
+
+<p>/etc/nginx/conf.d/discourse.conf’ file:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">sudo vi /etc/nginx/conf.d/discourse.conf</span></code></pre></div>
+
+<h3 id="change-servername-to-your-hostname">Change server_name to your hostname.</h3>
+
+<p>Change the socket paths to reflect where Discourse is installed. They should look like this:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">upstream discourse { </span>
+<span class="x">   server unix:/home/discourse/discourse/tmp/sockets/thin.0.sock; </span>
+<span class="x">   server unix:/home/discourse/discourse/tmp/sockets/thin.1.sock; </span>
+<span class="x">   server unix:/home/discourse/discourse/tmp/sockets/thin.2.sock; </span>
+<span class="x">   server unix:/home/discourse/discourse/tmp/sockets/thin.3.sock; </span>
+<span class="x"> } </span>
+<span class="x"> proxy_cache_path /var/nginx/cache keys_zone=one:512k max_size=200m;</span></code></pre></div>
+
+<p>Change the base path in the file. Look for a line with a path /var/www/discourse/public and replace this with our correct path, /home/discourse/discourse/public.</p>
+
+<p>Now stop httpd to free the 80 port and restart ngnix to pick up the configuration changes:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">sudo /etc/init.d/nginx stop</span>
+<span class="x">sudo fuser -k 80/tcp</span>
+<span class="x">sudo /etc/init.d/nginx start</span></code></pre></div>
+
+<p>The stop command may fail if ngnix wasn’t currently running, but the start command should succeed.</p>
+
+<p>auto start nginx after boot:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">chkconfig nginx on</span></code></pre></div>
+
+<h2 id="step-8-use-discourse">Step 8: Use Discourse!</h2>
+
+<p>Discourse is now running and responding to requests at your hostname. The last thing you’ll need to do is set up an admin account to give you permission to administrate the Discourse instance.</p>
+
+<h3 id="create-your-discourse-user">Create your Discourse user</h3>
+
+<p>Open your Discourse website by navigating to your hostname in your webbrowser. Create a user account for yourself and make note of the email address with which you sign up.</p>
+
+<h3 id="grant-yourself-administrative-priveleges">Grant yourself administrative priveleges</h3>
+
+<p>Return back to your shell. Become the discourse user and bring up a rails console connected to the Discourse instance:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">cd ~/discourse</span>
+<span class="x">RAILS_ENV=production bundle exec rails c</span></code></pre></div>
+
+<p>This will drop you into a Rails console where you can run commands. These commands will grant you administrative access; replace the email address with the email address you signed up with:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">me = User.find_by_username_or_email(&#39;myemailaddress@me.com&#39;)</span>
+<span class="x">me.activate</span>
+<span class="x">me.admin = true</span>
+<span class="x">me.save</span></code></pre></div>
+
+<p>You can also set this user as the default contact, as well:</p>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">SiteSetting.site_contact_username = me.username</span></code></pre></div>
+
+<p>Type exit to quit the Rails console.</p>
+
+<p>Verify you are now an administrator</p>
+
+<p>Return back to your Discourse instance in your webbrowser. If you’re not logged in as the account you signed up for, log back in. You will now be able to configure your Discourse instance to your liking.</p>
+
+<p>Congratulations! You’ve installed Discourse. Huzzah!</p>
+
+<hr />
+
+<h2 id="some-useful-commands-for-maintenance">Some useful commands for maintenance</h2>
+
+<h3 id="start-discourse">Start discourse</h3>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">RUBY_GC_MALLOC_LIMIT=90000000 RAILS_ROOT=/home/discourse/discourse RAILS_ENV=production NUM_WEBS=2 /home/discourse/.rvm/bin/bootup_bluepill --no-privileged -c ~/.bluepill load /home/discourse/discourse/config/discourse.pill</span></code></pre></div>
+
+<h3 id="simple-script-to-update">Simple script to update</h3>
+
+<div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">#!/bin/bash</span>
+<span class="x">#Backup first, set the path to store backups </span>
+<span class="x">DATESTAMP=$(TZ=UTC date +%F-%T)</span>
+<span class="x">pg_dump --no-owner --clean discourse | gzip -c &gt; ~/discourse-db-$DATESTAMP.sql.gz</span>
+<span class="x">tar cfz ~/discourse-dir-$DATESTAMP.tar.gz -C /home/discourse discourse</span>
+<span class="x"># Update Discourse to master branch</span>
+<span class="x">git checkout master</span>
+<span class="x">git pull origin master</span>
+<span class="x">git fetch --tags</span>
+<span class="x">bundle install --without test --deployment</span>
+<span class="x">RUBY_GC_MALLOC_LIMIT=90000000 RAILS_ENV=production bundle exec rake db:migrate</span>
+<span class="x">RUBY_GC_MALLOC_LIMIT=90000000 RAILS_ENV=production bundle exec rake assets:precompile</span>
+<span class="x">RUBY_GC_MALLOC_LIMIT=90000000 RAILS_ROOT=/home/discourse/discourse RAILS_ENV=production NUM_WEBS=2 /home/discourse/.rvm/bin/bootup_bluepill --no-privileged -c ~/.bluepill load /home/discourse/discourse/config/discourse.pill</span></code></pre></div>
+
+<p>Error fetching message: Error connecting to Redis on localhost:6379 (Errno::ECONNREFUSED)</p>
+
+<p>sudo service redis restart</p>
+
+
+      <hr />
+      <footer role="contentinfo">
+        <div class="article-author-bottom">
+          
+
+
+
+	<img src="http://naiqus.github.io/images/mao.jpg" class="bio-photo" alt="Naiqus bio photo">
+
+<h3>Naiqus</h3>
+<p>Wake up man, wake up!!!</p>
+
+<a href="http://twitter.com/naiqus" class="author-social" target="_blank"><i class="fa fa-fw fa-twitter-square"></i> Twitter</a>
+<a href="http://facebook.com/suqian.zhang" class="author-social" target="_blank"><i class="fa fa-fw fa-facebook-square"></i> Facebook</a>
+<a href="http://plus.google.com/+sootsan" class="author-social" target="_blank"><i class="fa fa-fw fa-google-plus-square"></i> Google+</a>
+
+
+
+<a href="http://github.com/naiqus" class="author-social" target="_blank"><i class="fa fa-fw fa-github"></i> Github</a>
+
+
+
+
+
+
+
+
+        </div>
+        <p class="byline"><strong>Install Discourse on 1und1 Virtual Server L Centos 6 x64</strong> was published on <time datetime="2015-06-18T22:24:00+02:00">June 18, 2015</time>.</p>
+      </footer>
+    </div><!-- /.article-wrap -->
+  
+    <section id="disqus_thread"></section><!-- /#disqus_thread -->
+  
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrap">
+  <div class="related-articles">
+  <h4>You might also enjoy <small class="pull-right">(<a href="http://naiqus.github.io/posts/">View all posts</a>)</small></h4>
+    <ul>
+    
+      <li><a href="http://naiqus.github.io/using-discourse-api-java-in-android-studio/" title="Using Discourse-API-Java in Android Studio">Using Discourse-API-Java in Android Studio</a></li>
+    
+      <li><a href="http://naiqus.github.io/wechat-mp-for-discourse-development/" title="Wechat MP for Discourse Forum">Wechat MP for Discourse Forum</a></li>
+    
+      <li><a href="http://naiqus.github.io/eclipse-grafiti-notes/" title="Eclipse Grafiti Learning Notes">Eclipse Grafiti Learning Notes</a></li>
+    
+    </ul>
+    <hr />
+  </div><!-- /.related-articles -->
+  <footer>
+    
+
+<span>&copy; 2015 Naiqus.</span>
+
+  </footer>
+</div><!-- /.footer-wrap -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://naiqus.github.io/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://naiqus.github.io/assets/js/scripts.min.js"></script>
+
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+  var _gaq = _gaq || [];
+  var pluginUrl = 
+ '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+  _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+  _gaq.push(['_setAccount', 'UA-24975605-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+  
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'naiqus'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+	        
+
+</body>
+</html>
