@@ -172,6 +172,9 @@
   </li>
   <li><a href="#step-2-install-ngnix">Step 2: Install ngnix</a>    <ul>
       <li><a href="#add-repository">Add repository</a></li>
+    </ul>
+  </li>
+  <li><a href="#step-3-install-postgresql">Step 3: Install PostgreSQL</a>    <ul>
       <li><a href="#disable-centos-repository">Disable CentOS repository</a></li>
       <li><a href="#install-the-postgresql-repository">Install the PostgreSQL repository</a></li>
       <li><a href="#grant-permissions-to-users">Grant permissions to users</a></li>
@@ -288,8 +291,9 @@
 <p>Once that’s installed, you need to refresh the yum package list and then install ngnix.</p>
 
 <div class="highlight"><pre><code class="language-php" data-lang="php"><span class="x">sudo yum upgrade</span>
-<span class="x">sudo yum install nginx.x86_64</span>
-<span class="x">Step 3: Install PostgreSQL</span></code></pre></div>
+<span class="x">sudo yum install nginx.x86_64</span></code></pre></div>
+
+<h2 id="step-3-install-postgresql">Step 3: Install PostgreSQL</h2>
 
 <p>Discourse uses PostgreSQL for its data backend. While the EPEL contains packages for PostgreSQL, it’s fairly outdated. This will install a newer package from PostgreSQL’s repository.</p>
 

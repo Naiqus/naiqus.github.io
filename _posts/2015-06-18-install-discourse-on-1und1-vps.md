@@ -115,9 +115,9 @@ Once that's installed, you need to refresh the yum package list and then install
 {% highlight php %}
 sudo yum upgrade
 sudo yum install nginx.x86_64
-Step 3: Install PostgreSQL
 {% endhighlight %}
 
+##Step 3: Install PostgreSQL
 
 Discourse uses PostgreSQL for its data backend. While the EPEL contains packages for PostgreSQL, it's fairly outdated. This will install a newer package from PostgreSQL's repository.
 

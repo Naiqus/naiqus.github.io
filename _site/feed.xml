@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://naiqus.github.io/feed.xml" />
 <link rel="alternate" type="text/html" href="http://naiqus.github.io" />
-<updated>2015-06-18T23:52:06+02:00</updated>
+<updated>2015-06-19T01:01:06+02:00</updated>
 <id>http://naiqus.github.io/</id>
 <author>
   <name>Naiqus</name>
@@ -48,6 +48,9 @@
   &lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#step-2-install-ngnix&quot;&gt;Step 2: Install ngnix&lt;/a&gt;    &lt;ul&gt;
       &lt;li&gt;&lt;a href=&quot;#add-repository&quot;&gt;Add repository&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#step-3-install-postgresql&quot;&gt;Step 3: Install PostgreSQL&lt;/a&gt;    &lt;ul&gt;
       &lt;li&gt;&lt;a href=&quot;#disable-centos-repository&quot;&gt;Disable CentOS repository&lt;/a&gt;&lt;/li&gt;
       &lt;li&gt;&lt;a href=&quot;#install-the-postgresql-repository&quot;&gt;Install the PostgreSQL repository&lt;/a&gt;&lt;/li&gt;
       &lt;li&gt;&lt;a href=&quot;#grant-permissions-to-users&quot;&gt;Grant permissions to users&lt;/a&gt;&lt;/li&gt;
@@ -164,8 +167,9 @@
 &lt;p&gt;Once that’s installed, you need to refresh the yum package list and then install ngnix.&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;x&quot;&gt;sudo yum upgrade&lt;/span&gt;
-&lt;span class=&quot;x&quot;&gt;sudo yum install nginx.x86_64&lt;/span&gt;
-&lt;span class=&quot;x&quot;&gt;Step 3: Install PostgreSQL&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;span class=&quot;x&quot;&gt;sudo yum install nginx.x86_64&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;step-3-install-postgresql&quot;&gt;Step 3: Install PostgreSQL&lt;/h2&gt;
 
 &lt;p&gt;Discourse uses PostgreSQL for its data backend. While the EPEL contains packages for PostgreSQL, it’s fairly outdated. This will install a newer package from PostgreSQL’s repository.&lt;/p&gt;
 
