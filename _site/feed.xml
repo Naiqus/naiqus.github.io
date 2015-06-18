@@ -4,7 +4,7 @@
 <generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="http://naiqus.github.io/feed.xml" />
 <link rel="alternate" type="text/html" href="http://naiqus.github.io" />
-<updated>2015-06-19T01:01:06+02:00</updated>
+<updated>2015-06-19T01:10:40+02:00</updated>
 <id>http://naiqus.github.io/</id>
 <author>
   <name>Naiqus</name>
@@ -27,7 +27,7 @@
     
   </author>
   <content type="html">&lt;blockquote&gt;
-  &lt;p&gt;This post is a slightly modified version from a step by step tutorial &lt;a href=&quot;https://www.digitalocean.com/community/tutorials/how-to-install-discourse-on-a-centos-6-4-x64-vps&quot;&gt;here&lt;/a&gt;. I’ve encountered a few problems following that guide since the extremely cheap server I use has a different configuration by 1und1. Some adjustments are added here in order to avoid the problems I met back then.&lt;/p&gt;
+  &lt;p&gt;This post is adapted from a step by step tutorial &lt;a href=&quot;https://www.digitalocean.com/community/tutorials/how-to-install-discourse-on-a-centos-6-4-x64-vps&quot;&gt;here&lt;/a&gt;. I’ve encountered a few problems following that guide to install discourse on my 1und1 server. The server is almost free for students and has a few constrains on the configuration. So I made some adjustments here to avoid the problems I met back then.&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;hr /&gt;

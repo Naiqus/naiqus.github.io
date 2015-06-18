@@ -3,7 +3,7 @@ layout: post
 title: "Install Discourse on 1und1 Virtual Server L Centos 6 x64"
 modified:
 categories: 
-excerpt: "his post is a slightly modified version from a step by step tutorial. I've encountered a few problems following that guide since the extremely cheap server I use has a different configuration by 1und1. Some adjustments are added here in order to avoid the problems I met back then."
+excerpt: "This is a step by step tutorial from DigitalOcean. I've made a few adjustments on it so we could install discourse on the extremely cheap server from 1und1 which is extremely cheap."
 tags: []
 comments: true
 image:
@@ -11,7 +11,7 @@ image:
 date: 2015-06-18T22:24:00+02:00
 ---
 
-> This post is a slightly modified version from a step by step tutorial [here](https://www.digitalocean.com/community/tutorials/how-to-install-discourse-on-a-centos-6-4-x64-vps). I've encountered a few problems following that guide since the extremely cheap server I use has a different configuration by 1und1. Some adjustments are added here in order to avoid the problems I met back then.
+> This post is adapted from a step by step tutorial [here](https://www.digitalocean.com/community/tutorials/how-to-install-discourse-on-a-centos-6-4-x64-vps). I've encountered a few problems following that guide to install discourse on my 1und1 server. The server is almost free for students and has a few constrains on the configuration. So I made some adjustments here to avoid the problems I met back then.
 
 ---
 <section id="table-of-contents" class="toc">
