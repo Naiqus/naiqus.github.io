@@ -583,12 +583,12 @@ transition: all 0.7s ease-in-out;
   display: block;
   position: relative;
   margin: 4px 0 0 0;
-  z-index: 14;
+/*  z-index: 14;*/
   line-height: 1em;
   vertical-align: middle;
   color: #fff;
   text-transform: uppercase;
-  font-weight: 800;"
+  font-weight: 800;
 }
 
 .direction-l .time-wrapper {
@@ -614,7 +614,7 @@ transition: all 0.7s ease-in-out;
 .direction-l .desc,
 .direction-r .desc {
   position: relative;
-  margin: .5em 1em 0 1em;
+/*  margin: .7em 1em 0 1em;*/
   padding: 0em;
   z-index: 15;
   font-size: 90%;
@@ -875,7 +875,7 @@ transition: all 0.7s ease-in-out;
   .li-left{
     float:left !important;
     clear:left !important;
-    margin-top: 5%;
+    margin-top: 3%;
     
 }
 
@@ -921,6 +921,7 @@ transition: all 0.7s ease-in-out;
   }
 
   .time {
+    display:inline-block;
     padding: 5px 10px;
   }
 
