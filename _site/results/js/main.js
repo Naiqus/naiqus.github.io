@@ -2,7 +2,10 @@ google.load("visualization", "1.1", {packages:['table','corechart','line']});
 
 var dists = [0.1, 0.3, 0.5, 0.7, 0.9, 1.1, 1.3, 1.5];
 var angles = [0,10,20,30,40,50,60,70,80];
-var data;
+
+
+var data_roll_dist_distErr_rotErr;
+
 //var tableName = "167MneM1hnWPIv7N7OwrAz9gXMzxJHl8HA0TFXsI3";
 var tableName = "16nSIjgiXTTXYX8d7dVI29ZIsCQlr4CN0ixQP6SGc";
 
@@ -10,15 +13,9 @@ function initialize() {
   var opts = {sendMethod: 'auto'};
   
   
-  var query_dist_distErr = new google.visualization.Query('http://www.google.com/fusiontables/gvizdata?tq=', opts);
+  var query_roll_dist_distErr_rotErr = new google.visualization.Query('http://www.google.com/fusiontables/gvizdata?tq=', opts);
 
-  var query_roll_distErr = new google.visualization.Query('http://www.google.com/fusiontables/gvizdata?tq=', opts);
-  
-  var query_dist_rotationErr = new google.visualization.Query('http://www.google.com/fusiontables/gvizdata?tq=', opts);
-  
-  var query_roll_rotationErr = new google.visualization.Query('http://www.google.com/fusiontables/gvizdata?tq=', opts);
 
-  
   
 // 0 Roll
 // 1 Pitch
@@ -30,37 +27,47 @@ function initialize() {
 // 7 RotationVariance
 // 8 FPS
 //  queryAll.setQuery("SELECT Roll, Pitch, Dist, DistErr, DistErr, DistVariance, RotationErr, RotationVariance, FPS FROM 167MneM1hnWPIv7N7OwrAz9gXMzxJHl8HA0TFXsI3 WHERE Layout = 'Single' ");
-  query_roll_distErr.setQuery("SELECT Roll, Dist, DistErr FROM "+tableName+" WHERE Layout = 'Single' AND Pitch = 10");
   
-  query_dist_distErr.setQuery("SELECT Dist, Roll, DistErr FROM "+tableName+" WHERE Layout = 'Single' AND Pitch = 10");
   
-  query_dist_rotationErr.setQuery("SELECT Dist, Roll, RotationErr FROM "+tableName+" WHERE Layout = 'Single' AND Pitch = 10");
+  query_roll_dist_distErr_rotErr.setQuery("SELECT Roll, Dist, DistErr, RotationErr FROM "+tableName+" WHERE Layout = 'Single' AND Pitch = 0");
   
-   query_roll_rotationErr.setQuery("SELECT Roll, Dist, RotationErr FROM "+tableName+" WHERE Layout = 'Single' AND Pitch = 10");
-  
-//http://www.google.com/fusiontables/gvizdata?tq=SELECT Roll, DistErr FROM 167MneM1hnWPIv7N7OwrAz9gXMzxJHl8HA0TFXsI3 WHERE Pitch = 0 AND Layout = 'Single' AND Dist = 0.3
-  query_roll_distErr.send(drawChart_roll_distErr);
-  query_dist_distErr.send(drawChart_dist_distErr);
-  query_dist_rotationErr.send(drawChart_dist_rotationErr);
-  query_roll_rotationErr.send(drawChart_roll_rotationErr);
+
+  query_roll_dist_distErr_rotErr.send(response_roll_dist_distErr_rotErr);
 }
 
-//  Draw each charts========================================= 
 
-//Dist, Roll, DistErr
-function drawChart_dist_distErr(response){
+function response_roll_dist_distErr_rotErr(response){
+  
   if (response.isError()) {
     alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
     return;
   }
-  var table = response.getDataTable();
-  table.sort(0);
   
+  
+  data_roll_dist_distErr_rotErr = response.getDataTable();
+  data_roll_dist_distErr_rotErr.sort(0);
+  
+  //Call each draw charts functions
+  drawChart_dist_distErr();
+  drawChart_roll_distErr();
+  drawChart_dist_rotationErr();
+  drawChart_roll_rotationErr();
+}
+
+
+//  Draw each charts========================================= 
+
+// 0Roll, 1Dist, 2DistErr, 3RotationErr
+function drawChart_dist_distErr(){
+
+  var table = new google.visualization.DataView(data_roll_dist_distErr_rotErr);
+  
+  // Dist, Roll, DistErr
+  table.setColumns([1,0,2]);
   var testTable = joinTable(table, angles,"°", 1);
   
   //var chart = new google.charts.Line(document.getElementById('test_angle_DistError'));
   var chart = new google.visualization.LineChart(document.getElementById('single_dist_distError'));
-  
   var options = {
     title: 'Distance - Distance Error',
     width: '100%',
@@ -84,34 +91,16 @@ function drawChart_dist_distErr(response){
   };
   
   chart.draw(testTable, options);
-  
 }
 
 
-//SELECT Roll, Dist, DistErr
-function drawChart_roll_distErr(response){
-  if (response.isError()) {
-    alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
-    return;
-  }
-  data = response.getDataTable();
-  data.sort(0);
+// 0Roll, 1Dist, 2DistErr, 3RotationErr
+function drawChart_roll_distErr(){
 
-// For Each Charts
-  var table = new google.visualization.DataView(data);
+  var table = new google.visualization.DataView(data_roll_dist_distErr_rotErr);
 
-//  //SELECT Roll, Dist, DistErr
-//  table.setRows(data.getFilteredRows(
-//    [
-//      {
-//        column: 1, 
-//        minValue: 0, 
-//        maxValue: 0
-//      }
-//    ]
-//  ));
-//  
-//  table.setColumns([0,2,3]);
+// SELECT Roll, Dist, DistErr
+  table.setColumns([0,1,2]);
   
   var testTable = joinTable(table, dists," m", 1);
   
@@ -139,20 +128,17 @@ function drawChart_roll_distErr(response){
     }
 
   };
-  
   chart.draw(testTable, options);
   //chart.draw(testTable, google.charts.Line.convertOptions(options));
 }
 
+// 0Roll, 1Dist, 2DistErr, 3RotationErr
+function drawChart_dist_rotationErr(){
+  
+  var table = new google.visualization.DataView(data_roll_dist_distErr_rotErr);
 
-//Dist, Roll, Rotation
-function drawChart_dist_rotationErr(response){
-  if (response.isError()) {
-    alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
-    return;
-  }
-  var table = response.getDataTable();
-  table.sort(0);
+// SELECT Dist, Roll, RotationErr
+  table.setColumns([1,0,3]);
   
   var testTable = joinTable(table, angles,"°", 1);
   
@@ -184,18 +170,13 @@ function drawChart_dist_rotationErr(response){
   chart.draw(testTable, options);
 }
 
+// 0Roll, 1Dist, 2DistErr, 3RotationErr
+function drawChart_roll_rotationErr(){
 
-//SELECT Roll, Dist, RotationErr
-function drawChart_roll_rotationErr(response){
-  if (response.isError()) {
-    alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
-    return;
-  }
-  data = response.getDataTable();
-  data.sort(0);
+   var table = new google.visualization.DataView(data_roll_dist_distErr_rotErr);
 
-// For Each Charts
-  var table = new google.visualization.DataView(data);
+// SELECT Roll, Dist, RotationErr
+  table.setColumns([0,1,3]);
 
   var testTable = joinTable(table, dists," m", 1);
   
