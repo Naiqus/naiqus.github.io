@@ -12,23 +12,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript" >
-      google.load("visualization", "1.1", {packages:['table','corechart','line']});
-      // Raw Data
-      function drawRawData() {
-        google.visualization.drawChart({
-          "containerId": "raw_data_div",
-          "dataSourceUrl": "//www.google.com/fusiontables/gvizdata?tq=",
-          "query":"SELECT 'Dist', 'Roll', 'Pitch', 'Yaw', 'DistErr', 'DistVariance', 'RollErr', 'PitchErr', 'YawErr', 'RotationErr', 'RotationVariance', 'FPS', 'DR', 'Layout' FROM " +
-                  "167MneM1hnWPIv7N7OwrAz9gXMzxJHl8HA0TFXsI3",
-          "refreshInterval": 120,
-          "chartType": "Table",
-          "options": {showRowNumber: true, width: '100%', height: '100%'}
-       });
-      }
-      
-      google.setOnLoadCallback(drawRawData);
-    </script>
+    <script type="text/javascript" src="js/index.js"></script>
   </head>
 
   <body>
@@ -58,15 +42,33 @@
     </nav>
 
     <div class="container">
-
-      <div class="results">
-        
+      
 <!--        Contents starts from here-->
-        <div id="raw_data_div"></div>
-        
-        
-<!--      Contents stop from here-->
+      <div class="results">
+      
+        <div class="col-md-12" id="diff_layout_div">
+        <h2>Different Layouts</h2>
+          <div class="col-md-8" id="dists-distError"></div>
+          <div class="col-md-8" id="dists-rotationError"></div>
+          <div class="col-md-8" id="dists-detectionRate"></div>
+          <div class="col-md-8" id="dists-rotationVariance"></div>
+          <div class="col-md-8" id="dists-distVariance"></div>
+          <div class="col-md-8" id="fps"></div>
+
+
+        </div>
+
+        <div class="col-md-12" id="simulation_experiment_div">
+        <h2>Simulations vs. Experiments</h2>
+          <div id="diff_layout_div"></div>
+
+
+        </div>
+      
+      
       </div>
+      
+<!--      Contents stop from here-->     
     </div><!-- /.container -->
     
     <!--    Javascript-->
