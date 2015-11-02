@@ -6,17 +6,19 @@ var angles = [0,15,30,45,60,75];
 //var angles_old = [0,10,20,30,40,50,60,70,80];
 
 
-var data_roll_dist_distErr_rotErr;
+var data_roll_dist_transErr_distErr_rotErr;
 var data_roll_pitch_distErr_rotErr;
-
-var tableName = "167MneM1hnWPIv7N7OwrAz9gXMzxJHl8HA0TFXsI3";
+// 4th default board detector
+//var tableName = "1KZOI0H94do7hR8bq583FMIhCkeydxrPNeC_V3jkU";
+var tableName = "1x_gmtjFKJUeHETqjwn2olnhEGxkQ-oG00Y2ofYV-";
+//var tableName = "1G2ZQ2UmBUo8ymOwmRTyag9Kqtb0tIpovLONOSX-e";
 //var tableName_old = "16nSIjgiXTTXYX8d7dVI29ZIsCQlr4CN0ixQP6SGc";
 
 function initialize() {
   var opts = {sendMethod: 'auto'};
   
   
-  var query_roll_dist_distErr_rotErr = new google.visualization.Query('http://www.google.com/fusiontables/gvizdata?tq=', opts);
+  var query_roll_dist_transErr_distErr_rotErr = new google.visualization.Query('http://www.google.com/fusiontables/gvizdata?tq=', opts);
   var query_roll_pitch_distErr_rotErr = new google.visualization.Query('http://www.google.com/fusiontables/gvizdata?tq=', opts);
 
 
@@ -33,17 +35,21 @@ function initialize() {
 //  queryAll.setQuery("SELECT Roll, Pitch, Dist, DistErr, DistErr, DistVariance, RotationErr, RotationVariance, FPS FROM 167MneM1hnWPIv7N7OwrAz9gXMzxJHl8HA0TFXsI3 WHERE Layout = 'Single' ");
   
   
-  query_roll_dist_distErr_rotErr.setQuery("SELECT Pitch, Dist, DistErr, RotationErr FROM "+tableName+" WHERE Layout = 'Cube' AND Roll = 0");
+//query_roll_dist_transErr_distErr_rotErr.setQuery("SELECT Pitch, Dist, DistErr, RotationErr, TransformErr FROM "+tableName+" WHERE Layout = 'Cube' AND Roll = 15");
+  
+query_roll_dist_transErr_distErr_rotErr.setQuery("SELECT Roll, Dist, average(DistErr), average(RotationErr), average(TransformErr) FROM "+tableName+" WHERE Layout = 'Cube-OneTag' GROUP BY Roll, Dist");
+  
+//query_roll_dist_transErr_distErr_rotErr.setQuery("SELECT Pitch, Dist, average(DistErr), average(RotationErr), average(TransformErr) FROM "+tableName+" WHERE Layout = 'Cube' AND Roll < 60 GROUP BY Pitch, Dist");
   
     query_roll_pitch_distErr_rotErr.setQuery("SELECT Pitch, Roll, DistErr, RotationErr FROM "+tableName+" WHERE Layout = 'Cube' AND Dist = 0.45");
   
 
-  query_roll_dist_distErr_rotErr.send(response_roll_dist_distErr_rotErr);
+  query_roll_dist_transErr_distErr_rotErr.send(response_roll_dist_transErr_distErr_rotErr);
   query_roll_pitch_distErr_rotErr.send(response_roll_pitch_distErr_rotErr);
 }
 
 
-function response_roll_dist_distErr_rotErr(response){
+function response_roll_dist_transErr_distErr_rotErr(response){
   
   if (response.isError()) {
     alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
@@ -51,10 +57,11 @@ function response_roll_dist_distErr_rotErr(response){
   }
   
   
-  data_roll_dist_distErr_rotErr = response.getDataTable();
-  data_roll_dist_distErr_rotErr.sort(0);
+  data_roll_dist_transErr_distErr_rotErr = set0toNull(response.getDataTable());
+  data_roll_dist_transErr_distErr_rotErr.sort(0);
   
   //Call each draw charts functions
+  drawChart_dist_transErr();
   drawChart_dist_distErr();
   drawChart_roll_distErr();
   drawChart_dist_rotationErr();
@@ -76,10 +83,55 @@ function response_roll_pitch_distErr_rotErr(response){
 
 //  Draw each charts========================================= 
 
+// 0Roll, 1Dist, 2DistErr, 3RotationErr, 4 TransfomErr
+function drawChart_dist_transErr(){
+
+  var table = new google.visualization.DataView(data_roll_dist_transErr_distErr_rotErr);
+  
+  // Dist, Roll, DistErr
+  table.setColumns([1,0,4]);
+  var testTable = joinTable(table, angles,"°", 1);
+  
+  //var chart = new google.charts.Line(document.getElementById('test_angle_DistError'));
+  var chart = new google.visualization.LineChart(document.getElementById('cube_dists-transError'));
+  var options = {
+    title: 'Distance - Transform Error',
+    width: '100%',
+    height: '390',
+    hAxis:{
+      title: 'Distance from camera to tag (m)',
+      gridlines: {
+        count: 6
+      }
+    },
+    vAxis: {
+      title: 'Transform Error (pixel)',
+      format: 'decimal',
+      minValue: '0',
+      viewWindow: {
+        min: 0,
+        max: 20
+      }
+    },
+    pointSize: 8,
+    series: {
+          0: { pointShape: 'circle' },
+          1: { pointShape: 'triangle' },
+          2: { pointShape: 'square' },
+          3: { pointShape: 'diamond' },
+          4: { pointShape: 'star' },
+          5: { pointShape: 'polygon' }
+    }
+  };
+  
+  chart.draw(testTable, options);
+}
+
+
 // 0Roll, 1Dist, 2DistErr, 3RotationErr
 function drawChart_dist_distErr(){
 
-  var table = new google.visualization.DataView(data_roll_dist_distErr_rotErr);
+  var table = new google.visualization.DataView(data_roll_dist_transErr_distErr_rotErr);
   
   // Dist, Roll, DistErr
   table.setColumns([1,0,2]);
@@ -105,6 +157,15 @@ function drawChart_dist_distErr(){
         min: 0,
         max: 0.1
       }
+    },
+    pointSize: 8,
+    series: {
+          0: { pointShape: 'circle' },
+          1: { pointShape: 'triangle' },
+          2: { pointShape: 'square' },
+          3: { pointShape: 'diamond' },
+          4: { pointShape: 'star' },
+          5: { pointShape: 'polygon' }
     }
 
   };
@@ -116,7 +177,7 @@ function drawChart_dist_distErr(){
 // 0Roll, 1Dist, 2DistErr, 3RotationErr
 function drawChart_roll_distErr(){
 
-  var table = new google.visualization.DataView(data_roll_dist_distErr_rotErr);
+  var table = new google.visualization.DataView(data_roll_dist_transErr_distErr_rotErr);
 
 // SELECT Roll, Dist, DistErr
   table.setColumns([0,1,2]);
@@ -144,6 +205,15 @@ function drawChart_roll_distErr(){
         min: 0,
         max: 0.1
       }
+    },
+    pointSize: 8,
+    series: {
+          0: { pointShape: 'circle' },
+          1: { pointShape: 'triangle' },
+          2: { pointShape: 'square' },
+          3: { pointShape: 'diamond' },
+          4: { pointShape: 'star' },
+          5: { pointShape: 'polygon' }
     }
 
   };
@@ -154,7 +224,7 @@ function drawChart_roll_distErr(){
 // 0Roll, 1Dist, 2DistErr, 3RotationErr
 function drawChart_dist_rotationErr(){
   
-  var table = new google.visualization.DataView(data_roll_dist_distErr_rotErr);
+  var table = new google.visualization.DataView(data_roll_dist_transErr_distErr_rotErr);
 
 // SELECT Dist, Roll, RotationErr
   table.setColumns([1,0,3]);
@@ -182,6 +252,15 @@ function drawChart_dist_rotationErr(){
         min: 0,
         max: 5
       }
+    },
+    pointSize: 8,
+    series: {
+          0: { pointShape: 'circle' },
+          1: { pointShape: 'triangle' },
+          2: { pointShape: 'square' },
+          3: { pointShape: 'diamond' },
+          4: { pointShape: 'star' },
+          5: { pointShape: 'polygon' }
     }
 
   };
@@ -192,7 +271,7 @@ function drawChart_dist_rotationErr(){
 // 0Roll, 1Dist, 2DistErr, 3RotationErr
 function drawChart_roll_rotationErr(){
 
-   var table = new google.visualization.DataView(data_roll_dist_distErr_rotErr);
+   var table = new google.visualization.DataView(data_roll_dist_transErr_distErr_rotErr);
 
 // SELECT Roll, Dist, RotationErr
   table.setColumns([0,1,3]);
@@ -220,6 +299,15 @@ function drawChart_roll_rotationErr(){
         min: 0,
         max: 3.5
       }
+    },
+    pointSize: 8,
+    series: {
+          0: { pointShape: 'circle' },
+          1: { pointShape: 'triangle' },
+          2: { pointShape: 'square' },
+          3: { pointShape: 'diamond' },
+          4: { pointShape: 'star' },
+          5: { pointShape: 'polygon' }
     }
   };
   
@@ -337,6 +425,26 @@ function joinTable(table, array, unit, column){
   }
   
   return newtable;
+}
+
+function set0toNull(table){
+  var rowLen = table.getNumberOfRows();
+  var colLen = table.getNumberOfColumns();
+  
+  for(var col = 0; col < colLen; col++){
+    var columnLabel = table.getColumnLabel(col);
+    if(columnLabel == "Roll" ||
+    columnLabel == "Pitch" ||
+    columnLabel == "Dist")
+      continue;
+    for(var row = 0; row < rowLen; row++){
+      if(table.getValue(row,col) == 0)
+        table.setCell(row,col,null);
+    }
+  }
+  
+  return table;
+  
 }
 
 google.setOnLoadCallback(initialize);

@@ -5,13 +5,16 @@ var data_panel2x2;
 var data_panel3x3;
 var data_chess2x2;
 var data_chess3x3;
+var data_cube;
 
 var datas = [];
 
 
-var layouts = ["Single","Chess2x2","Panel2x2","Chess3x3","Panel3x3"];
+var layouts = ["Single","Chess2x2","Panel2x2","Chess3x3","Panel3x3","Cube"];
 
-var tableName = "167MneM1hnWPIv7N7OwrAz9gXMzxJHl8HA0TFXsI3";
+//var tableName = "167MneM1hnWPIv7N7OwrAz9gXMzxJHl8HA0TFXsI3";
+var tableName = "1KZOI0H94do7hR8bq583FMIhCkeydxrPNeC_V3jkU";
+var cube_tableName = "1x_gmtjFKJUeHETqjwn2olnhEGxkQ-oG00Y2ofYV-";
 //var tableName_old = "16nSIjgiXTTXYX8d7dVI29ZIsCQlr4CN0ixQP6SGc";
 
 function initialize() {
@@ -23,18 +26,22 @@ function initialize() {
   var query_panel3x3 = new google.visualization.Query('http://www.google.com/fusiontables/gvizdata?tq=', opts);
   var query_chess2x2 = new google.visualization.Query('http://www.google.com/fusiontables/gvizdata?tq=', opts);
   var query_chess3x3 = new google.visualization.Query('http://www.google.com/fusiontables/gvizdata?tq=', opts);
+  var query_cube = new google.visualization.Query('http://www.google.com/fusiontables/gvizdata?tq=', opts);
 
   
 // 0        1             2                 3           4    5
 //DistErr, RotationErr, RotationVariance, DistVariance, FPS, DR
   
-    query_single.setQuery("SELECT Dist, AVERAGE(DistErr), AVERAGE(RotationErr), AVERAGE(RotationVariance), AVERAGE(DistVariance), AVERAGE(FPS),AVERAGE(DR)  FROM "+tableName+" WHERE Layout = 'Single' GROUP BY Dist");
+ var setectItems = "SELECT Dist, AVERAGE(DistErr), AVERAGE(RotationErr), AVERAGE(TransformErr), AVERAGE(DistVariance), AVERAGE(FPS),AVERAGE(DR) From ";
+  var AndGroup = " GROUP BY Dist";
   
-    query_panel2x2.setQuery("SELECT Dist, AVERAGE(DistErr), AVERAGE(RotationErr), AVERAGE(RotationVariance), AVERAGE(DistVariance), AVERAGE(FPS),AVERAGE(DR)  FROM "+tableName+" WHERE Layout = 'Panel2x2' GROUP BY Dist");
-    query_panel3x3.setQuery("SELECT Dist, AVERAGE(DistErr), AVERAGE(RotationErr), AVERAGE(RotationVariance), AVERAGE(DistVariance), AVERAGE(FPS),AVERAGE(DR)  FROM "+tableName+" WHERE Layout = 'Panel3x3' GROUP BY Dist");
-    query_chess2x2.setQuery("SELECT Dist, AVERAGE(DistErr), AVERAGE(RotationErr), AVERAGE(RotationVariance), AVERAGE(DistVariance), AVERAGE(FPS),AVERAGE(DR)  FROM "+tableName+" WHERE Layout = 'Chess2x2' GROUP BY Dist");
-    query_chess2x2.setQuery("SELECT Dist, AVERAGE(DistErr), AVERAGE(RotationErr), AVERAGE(RotationVariance), AVERAGE(DistVariance), AVERAGE(FPS),AVERAGE(DR)  FROM "+tableName+" WHERE Layout = 'Chess2x2' GROUP BY Dist");
-    query_chess3x3.setQuery("SELECT Dist, AVERAGE(DistErr), AVERAGE(RotationErr), AVERAGE(RotationVariance), AVERAGE(DistVariance), AVERAGE(FPS),AVERAGE(DR)  FROM "+tableName+" WHERE Layout = 'Chess3x3' GROUP BY Dist");
+    query_single.setQuery(setectItems+tableName+" WHERE Layout = 'Single'"+ AndGroup);
+  
+    query_panel2x2.setQuery(setectItems+tableName+" WHERE Layout = 'Panel2x2'"+ AndGroup);
+    query_panel3x3.setQuery(setectItems+tableName+" WHERE Layout = 'Panel3x3'"+ AndGroup);
+    query_chess2x2.setQuery(setectItems+tableName+" WHERE Layout = 'Chess2x2'"+ AndGroup);
+    query_chess3x3.setQuery(setectItems+tableName+" WHERE Layout = 'Chess3x3'"+ AndGroup);
+  query_cube.setQuery(setectItems+cube_tableName+" WHERE Layout = 'Cube-OneTag'"+ AndGroup);
   
 
   query_single.send(response_single);
@@ -42,6 +49,7 @@ function initialize() {
   query_panel3x3.send(response_panel3x3);
   query_chess2x2.send(response_chess2x2);
   query_chess3x3.send(response_chess3x3);
+  query_cube.send(response_cube);
 }
 
 
@@ -53,7 +61,7 @@ function response_single(response){
   }
   
   
-  data_single = response.getDataTable();
+  data_single = set0toNull(response.getDataTable());
   data_single.sort(0);
 
 }
@@ -66,7 +74,7 @@ function response_panel2x2(response){
   }
   
   
-  data_panel2x2 = response.getDataTable();
+  data_panel2x2 = set0toNull(response.getDataTable());
   data_panel2x2.sort(0);
 
 }
@@ -79,7 +87,7 @@ function response_panel3x3(response){
   }
   
   
-  data_panel3x3 = response.getDataTable();
+  data_panel3x3 = set0toNull(response.getDataTable());
   data_panel3x3.sort(0);
 
 }
@@ -91,7 +99,7 @@ function response_chess2x2(response){
     return;
   }
   
-  data_chess2x2 = response.getDataTable();
+  data_chess2x2 = set0toNull(response.getDataTable());
   data_chess2x2.sort(0);
 
 }
@@ -104,14 +112,30 @@ function response_chess3x3(response){
   }
   
   
-  data_chess3x3 = response.getDataTable();
+  data_chess3x3 = set0toNull(response.getDataTable());
   data_chess3x3.sort(0);
   
-  datas =  [data_single,data_chess2x2,data_panel2x2,data_chess3x3,data_panel3x3];
+
+
+}
+
+function response_cube(response){
+  
+  if (response.isError()) {
+    alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+    return;
+  }
+  
+  
+  data_cube = set0toNull(response.getDataTable());
+  data_cube.sort(0);
+  
+  datas =  [data_single,data_chess2x2,data_panel2x2,data_chess3x3,data_panel3x3,data_cube];
   
   drawCharts();
 
 }
+
 
 //  Draw each charts========================================= 
 
@@ -142,6 +166,15 @@ function drawCharts(){
         min: 0,
         max: 0.1
       }
+    },
+    pointSize: 8,
+    series: {
+          0: { pointShape: 'circle' },
+          1: { pointShape: 'triangle' },
+          2: { pointShape: 'square' },
+          3: { pointShape: 'diamond' },
+          4: { pointShape: 'star' },
+          5: { pointShape: 'polygon' }
     }
 
   };
@@ -173,7 +206,17 @@ function drawCharts(){
         min: 0,
         max: 10
       }
+    },
+    pointSize: 8,
+    series: {
+          0: { pointShape: 'circle' },
+          1: { pointShape: 'triangle' },
+          2: { pointShape: 'square' },
+          3: { pointShape: 'diamond' },
+          4: { pointShape: 'star' },
+          5: { pointShape: 'polygon' }
     }
+
 
   };
   
@@ -202,19 +245,29 @@ function drawCharts(){
         min: 0,
         max: 1
       }
+    },
+    pointSize: 8,
+    series: {
+          0: { pointShape: 'circle' },
+          1: { pointShape: 'triangle' },
+          2: { pointShape: 'square' },
+          3: { pointShape: 'diamond' },
+          4: { pointShape: 'star' },
+          5: { pointShape: 'polygon' }
     }
+
 
   };
   
   chart.draw(testTable, options);
   
-     // dist dist variance =====================================
+// dist dist TransformErr =====================================
   testTable = joinTable(datas, layouts, 3);
   
   //var chart = new google.charts.Line(document.getElementById('test_angle_DistError'));
-  chart = new google.visualization.LineChart(document.getElementById('dists-rotationVariance'));
+  chart = new google.visualization.LineChart(document.getElementById('dists-transformErr'));
   options = {
-    title: 'Distance - Avg. Rotation Deviation',
+    title: 'Distance - Avg. Transform Error (pixel)',
     width: '100%',
     height: '520',
     hAxis:{
@@ -226,12 +279,18 @@ function drawCharts(){
     vAxis: {
       title: 'Avg. Rotation Deviation (m)',
       format: 'decimal',
-      minValue: '0',
-      viewWindow: {
-        min: 0,
-        max: 0.003
-      }
+      minValue: '0'
+    },
+    pointSize: 8,
+    series: {
+          0: { pointShape: 'circle' },
+          1: { pointShape: 'triangle' },
+          2: { pointShape: 'square' },
+          3: { pointShape: 'diamond' },
+          4: { pointShape: 'star' },
+          5: { pointShape: 'polygon' }
     }
+
 
   };
   
@@ -277,6 +336,28 @@ function joinTable(tables, array, column){
   }
   
   return newtable;
+}
+
+
+function set0toNull(table){
+  var rowLen = table.getNumberOfRows();
+  var colLen = table.getNumberOfColumns();
+  
+  for(var col = 0; col < colLen; col++){
+    var columnLabel = table.getColumnLabel(col);
+    if(columnLabel == "Roll" ||
+    columnLabel == "Pitch" ||
+    columnLabel == "Dist")
+      continue;
+    for(var row = 0; row < rowLen; row++){
+      if(table.getValue(row,col) == 0 ||
+        table.getValue(row,col) > 20)
+        table.setCell(row,col,null);
+    }
+  }
+  
+  return table;
+  
 }
 
 google.setOnLoadCallback(initialize);
